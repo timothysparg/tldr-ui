@@ -332,6 +332,9 @@ Make the switch today!
 .Full Circle with Jake Blauvelt
 video::300817511[vimeo,640,360,align=left]
 
+.Naturally with Jake Blauvelt
+video::fUvDykQUgMk[youtube,640,360,align=center]
+
 [#english+中文]
 == English + 中文
 
