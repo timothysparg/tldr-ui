@@ -56,6 +56,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => (done) =>
                   accum[name.slice(5)] = val
                   return accum
                 }, {})
+              uiModel.page.description = doc.getAttribute('description')
               uiModel.page.layout = doc.getAttribute('page-layout', 'default')
               uiModel.page.title = doc.getDocumentTitle()
               uiModel.page.contents = Buffer.from(doc.convert())
