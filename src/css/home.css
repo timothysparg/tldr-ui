@@ -1,0 +1,26 @@
+/*! layout: home */
+
+.home .body {
+  justify-content: center;
+}
+
+.home .nav-container {
+  display: none;
+}
+
+.home .main {
+  padding-left: 0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home .article {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home-content {
+  padding: 2rem;
+  text-align: center;
+}

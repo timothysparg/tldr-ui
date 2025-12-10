@@ -16,6 +16,9 @@
       </button>
     </div>
     <div id="topbar-nav" class="navbar-menu">
+      {{#if (eq page.layout 'home')}}
+      {{!-- home page: no primary nav items --}}
+      {{else}}
       <div class="navbar-end">
         <a class="navbar-item" href="#">Home</a>
         <div class="navbar-item has-dropdown is-hoverable">
@@ -40,6 +43,7 @@
           </span>
         </div>
       </div>
+      {{/if}}
     </div>
   </nav>
 </header>

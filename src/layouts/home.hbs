@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head defaultPageTitle='Antora UI Default'}}
+</head>
+
+<body class="home{{#with (or page.attributes.role page.role)}} {{{this}}}{{/with}}">
+    {{> header}}
+    <div class="body">
+        <main class="article">
+            <div class="home-content doc">
+                {{{page.contents}}}
+            </div>
+        </main>
+    </div>
+    {{> footer}}
+</body>
+
+</html>
