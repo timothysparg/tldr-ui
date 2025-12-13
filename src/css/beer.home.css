@@ -1,0 +1,76 @@
+body.beer-home {
+  font-family: var(--beer-font-family-base);
+  color: var(--on-background);
+  background: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--tertiary) 12%, transparent), transparent 38%),
+    var(--surface);
+  min-height: 100vh;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+body.beer-home.dark {
+  background: radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 30%),
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--tertiary) 20%, transparent), transparent 36%),
+    var(--surface);
+  color: var(--on-background);
+}
+
+body.beer-home h1,
+body.beer-home h2,
+body.beer-home h3,
+body.beer-home h4,
+body.beer-home h5,
+body.beer-home h6 {
+  font-family: var(--beer-font-family-display);
+  letter-spacing: 0.01em;
+  color: var(--on-background);
+}
+
+body.beer-home.dark h1,
+body.beer-home.dark h2,
+body.beer-home.dark h3,
+body.beer-home.dark h4,
+body.beer-home.dark h5,
+body.beer-home.dark h6 {
+  color: var(--on-background);
+}
+
+body.beer-home .page article {
+  background: var(--surface-container-high);
+  box-shadow: var(--elevate2);
+  border: 1px solid var(--outline-variant);
+}
+
+body.beer-home.dark .page article {
+  background: var(--surface-container-high);
+  border-color: var(--outline-variant);
+  box-shadow: var(--elevate2);
+}
+
+body.beer-home .blog-title.primary-text {
+  color: var(--primary);
+}
+
+body.beer-home .wave:hover {
+  transform: translateY(-4px);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--elevate3);
+}
+
+body.beer-home .theme-img {
+  display: block;
+}
+
+body.beer-home .theme-img.dark {
+  display: none;
+}
+
+body.beer-home.dark .theme-img.light,
+body.dark .theme-img.light {
+  display: none;
+}
+
+body.beer-home.dark .theme-img.dark,
+body.dark .theme-img.dark {
+  display: block;
+}

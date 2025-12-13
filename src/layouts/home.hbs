@@ -1,55 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="google" content="notranslate">
-  <title>TL;DR</title>
-  <script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/beercss@3.12.11/dist/cdn/beer.min.css" rel="stylesheet">
-  <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.12.11/dist/cdn/beer.min.js"></script>
-  <script type="module"
-    src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.2/dist/cdn/material-dynamic-colors.min.js"></script>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:wght@400;700&family=Special+Elite&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="{{{uiRootPath}}}/css/site.css">
+  {{> beer.head}}
 </head>
 
-<body>
-  <nav class="left">
-    <a>
-      <i>home</i>
-    </a>
-    <a>
-      <i>code</i>
-    </a>
-    <a>
-      <i>book</i>
-    </a>
-    <div class="max"></div>
-    <button class="border circle">
-      <i id="light_mode">brightness_auto</i>
-      <script>
-        me().on("click", ev => {
-          console.log(`in: ${me("body").classList}`);
-          if (me("#light_mode").textContent === "dark_mode") {
-            me("body").classRemove("dark");
-            me("body").classAdd("light");
-            me("#light_mode").textContent = "light_mode";
-          } else if (me("#light_mode").textContent === "light_mode") {
-            me("body").classRemove("light");
-            me("#light_mode").textContent = "brightness_auto";
-          } else {
-            me("body").classAdd('dark');
-            me("#light_mode").textContent = "dark_mode";
-          }
-        });
-      </script>
-    </button>
-  </nav>
+<body class="beer-home">
+  {{> beer.nav}}
 
   <main class="responsive">
     <div class="grid">
@@ -110,7 +67,7 @@
       </div>
     </section>
   </main>
-
+  {{> footer-scripts}}
 </body>
 
 </html>
