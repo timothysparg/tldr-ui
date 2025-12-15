@@ -40,31 +40,28 @@
     <section class="responsive">
       <h2>Featured</h2>
       <div class="large-space"></div>
+      {{#with (articles site)}}
+      {{#if this}}
       <div class="grid">
+        {{#each this}}
         <div class="s12 m6 l6">
           <article class="round no-elevate no-padding wave" style="position: relative">
-            <a href="posts/figma-m3-design-kit.html" class="absolute left top right bottom" style="z-index: 1"></a>
+            <a href="{{{./url}}}" class="absolute left top right bottom" style="z-index: 1"></a>
             <img class="responsive large"
-              src="https://lh3.googleusercontent.com/3rF796oZVGbGTqIOBAk4TMP5Ymq6EMXWBowNZT7hT4WWqMjjvB5fHvyEFOVqUAyG44xer2-TGx5-1VohPmKxW3qLmXy6cH7vveTe3mPsBQyKRVqRwXU=w960">
+              src="https://lh3.googleusercontent.com/3rF796oZVGbGTqIOBAk4TMP5Ymq6EMXWBowNZT7hT4WWqMjjvB5fHvyEFOVqUAyG44xer2-TGx5-1VohPmKxW3qLmXy6cH7vveTe3mPsBQyKRVqRwXU=w960"
+              alt="{{title}}">
             <div class="large-padding">
-              <h6>Updated: Figma M3 Design Kit</h6>
-              <p>Quickly create design mockups and prototypes with the latest Material 3 Expressive components and
-                styles</p>
+              <h6>{{title}}</h6>
+              <p>{{summary}}</p>
             </div>
           </article>
         </div>
-        <div class="s12 m6 l6">
-          <article class="round no-elevate no-padding wave" style="position: relative">
-            <a href="posts/motion-physics.html" class="absolute left top right bottom" style="z-index: 1"></a>
-            <img class="responsive large"
-              src="https://lh3.googleusercontent.com/Ml2dmf1pT0jpg1P-1E35doGcAftKWfo7rKMC9cQbXg0qz_C8jIAM37DFRt9osJHMe2eDlGJoswFhrTc13sZUx1mHEcirrI7zoQDk0Ph4IVVcQnfbaBbC=w960">
-            <div class="large-padding">
-              <h6>New: Motion physics</h6>
-              <p>Easier-to-implement motion system for more customizable transitions—powered by tokens</p>
-            </div>
-          </article>
-        </div>
+        {{/each}}
       </div>
+      {{else}}
+      <p>No posts available yet.</p>
+      {{/if}}
+      {{/with}}
     </section>
   </main>
   {{> footer-scripts}}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{> beer.head}}
+</head>
+
+<body class="beer-article">
+  {{> beer.nav}}
+
+  <main class="responsive">
+    <article class="round no-elevate large-padding beer-article-card">
+      {{#with page.title}}
+      <h1>{{{this}}}</h1>
+      {{/with}}
+      {{{page.contents}}}
+    </article>
+  </main>
+  {{> footer-scripts}}
+</body>
+
+</html>

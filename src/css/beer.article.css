@@ -1,0 +1,118 @@
+body.beer-article {
+  font-family: var(--beer-font-family-base);
+  background: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--tertiary) 12%, transparent), transparent 38%),
+    var(--surface);
+  color: var(--on-background);
+  min-height: 100vh;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+body.beer-article.dark {
+  background: radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 30%),
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--tertiary) 20%, transparent), transparent 36%),
+    var(--surface);
+}
+
+body.beer-article h1,
+body.beer-article h2,
+body.beer-article h3,
+body.beer-article h4,
+body.beer-article h5,
+body.beer-article h6 {
+  font-family: var(--beer-font-family-display);
+  letter-spacing: 0.01em;
+}
+
+.beer-article .beer-article-card {
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--elevate2);
+  color: var(--on-surface);
+}
+
+body.dark.beer-article .beer-article-card {
+  background: var(--surface-container-high);
+}
+
+.beer-article .beer-article-card h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--on-background);
+}
+
+.beer-article .beer-article-card p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.beer-article .beer-article-card pre,
+.beer-article .beer-article-card code {
+  font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
+}
+
+.beer-article .beer-article-card pre {
+  background: var(--surface-container-highest);
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.beer-article .beer-article-card code {
+  background: color-mix(in srgb, var(--outline-variant) 20%, transparent);
+  padding: 0.1em 0.35em;
+  border-radius: 8px;
+}
+
+.beer-article .beer-article-card .listingblock pre {
+  margin: 0.5rem 0 1rem;
+}
+
+.beer-article .beer-article-card .admonitionblock {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 16px;
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-container-highest);
+  align-items: flex-start;
+}
+
+.beer-article .beer-article-card .admonitionblock table {
+  border-collapse: collapse;
+}
+
+.beer-article .beer-article-card .admonitionblock .icon {
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 64px;
+  text-align: center;
+}
+
+.beer-article .beer-article-card .admonitionblock .content {
+  margin: 0;
+}
+
+.beer-article .beer-article-card .colist td {
+  padding: 0.25rem 0.5rem;
+}
+
+.beer-article .beer-article-card .colist .conum {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  border-radius: 999px;
+  padding: 0 0.5em;
+  display: inline-block;
+}
+
+.beer-article .beer-article-card table {
+  border-collapse: collapse;
+}
+
+.beer-article .beer-article-card table td,
+.beer-article .beer-article-card table th {
+  border: 1px solid var(--outline-variant);
+  padding: 0.5rem 0.75rem;
+}
