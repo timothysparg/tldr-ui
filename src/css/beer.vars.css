@@ -51,6 +51,16 @@ body.light {
   --beer-font-family-display: "Special Elite", "Caveat", cursive;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--beer-font-family-display);
+  letter-spacing: 0.01em;
+}
+
 body.dark {
   --primary: #d0bcff;
   --on-primary: #371e73;

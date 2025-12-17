@@ -1,0 +1,21 @@
+:root,
+body.light {
+  --beer-bg: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--tertiary) 12%, transparent), transparent 38%),
+    var(--surface);
+}
+
+body.dark {
+  --beer-bg: radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 30%),
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--tertiary) 20%, transparent), transparent 36%),
+    var(--surface);
+}
+
+body.beer-home,
+body.beer-article {
+  font-family: var(--beer-font-family-base);
+  color: var(--on-background);
+  background: var(--beer-bg);
+  min-height: 100vh;
+  transition: background 0.2s ease, color 0.2s ease;
+}
