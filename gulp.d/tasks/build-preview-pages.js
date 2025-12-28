@@ -61,6 +61,8 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => (done) =>
                   accum[name.slice(5)] = val
                   return accum
                 }, {})
+              const revdate = doc.getAttribute('revdate') || doc.getAttribute('date')
+              if (revdate) pageAttributes.revdate = revdate
               uiModel.page.attributes = pageAttributes
               uiModel.page.description = doc.getAttribute('description')
               uiModel.page.layout = doc.getAttribute('page-layout', 'default')

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{> beer.head}}
+</head>
+
+<body class="beer-default article{{#with (or page.attributes.role page.role)}} {{{this}}}{{/with}}">
+  {{> beer.nav}}
+
+  <main class="responsive beer-default-layout">
+    {{> toc}}
+    <div class="beer-default-main">
+      <article class="round no-elevate large-padding beer-default-card doc">
+        {{#with page.title}}
+        <h1 class="page">{{{this}}}</h1>
+        {{/with}}
+        {{{page.contents}}}
+        {{> pagination}}
+      </article>
+    </div>
+  </main>
+  {{> footer-scripts}}
+</body>
+
+</html>

@@ -5,6 +5,88 @@
   color: var(--on-surface);
 }
 
+.beer-article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .beer-article-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .beer-article-toc {
+    position: static;
+    order: 2;
+  }
+}
+
+.beer-article-header {
+  margin-bottom: 1.5rem;
+}
+
+.beer-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--on-surface-variant);
+}
+
+.beer-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.beer-meta-item i {
+  font-size: 0.95em;
+}
+
+.beer-article-toc {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-radius: 16px;
+  padding: 1rem;
+  max-height: calc(100vh - 4rem);
+  overflow: auto;
+}
+
+.beer-article-toc h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.beer-article-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.beer-article-toc li {
+  margin: 0.25rem 0;
+}
+
+.beer-article-toc li[data-level="3"] {
+  margin-left: 1rem;
+}
+
+.beer-article-toc a {
+  color: var(--on-surface);
+  text-decoration: none;
+}
+
+.beer-article-toc a:hover,
+.beer-article-toc a.is-active {
+  color: var(--primary);
+}
+
 body.dark.beer-article .beer-article-card {
   background: var(--surface-container-high);
 }
