@@ -132,30 +132,92 @@ body.dark.beer-article .beer-article-card {
   text-decoration: underline;
 }
 
-.beer-article .beer-article-card .admonitionblock {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 16px;
+.beer-article .doc .admonitionblock {
+  margin: 1.25rem 0;
+}
+
+.beer-article .doc .admonitionblock > table {
   border: 1px solid var(--outline-variant);
-  background: var(--surface-container-highest);
-  align-items: flex-start;
+  border-radius: 16px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface-container);
+  box-shadow: var(--elevate1, none);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
 }
 
-.beer-article .beer-article-card .admonitionblock table {
-  border-collapse: collapse;
+.beer-article .doc .admonitionblock td.content {
+  background: transparent;
+  padding: 1rem 1.25rem 1rem;
 }
 
-.beer-article .beer-article-card .admonitionblock .icon {
-  font-weight: 700;
-  color: var(--primary);
-  min-width: 64px;
-  text-align: center;
+.beer-article .doc .admonitionblock td.icon i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 1rem;
+  height: 2rem;
+  width: 2rem;
 }
 
-.beer-article .beer-article-card .admonitionblock .content {
-  margin: 0;
+.beer-article .doc .admonitionblock td.icon i.icon-note {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-tip {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-warning,
+.beer-article .doc .admonitionblock td.icon i.icon-caution {
+  background: var(--error-container);
+  color: var(--on-error-container);
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-important {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.beer-article .doc .admonitionblock td.icon {
+  padding: 1rem 0 1rem 1rem;
+  vertical-align: top;
+  width: 1%;
+}
+
+.beer-article .doc .admonitionblock td.icon i::after {
+  content: none;
+}
+
+.beer-article .doc .admonitionblock td.icon i::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  line-height: 1;
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-note::before {
+  content: "\f05a";
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-tip::before {
+  content: "\f0eb";
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-warning::before {
+  content: "\f071";
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-caution::before {
+  content: "\f06a";
+}
+
+.beer-article .doc .admonitionblock td.icon i.icon-important::before {
+  content: "\f12a";
 }
 
 .beer-article .beer-article-card .colist td {
