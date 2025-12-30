@@ -56,7 +56,7 @@ Term Two:: Definition for term two.
 
 === Tables
 
-[%header,%footer]
+[.stripes%header%footer]
 |===
 |Column A |Column B |Column C
 

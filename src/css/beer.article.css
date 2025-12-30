@@ -125,6 +125,13 @@ body.dark.beer-article .beer-article-card {
   margin: 0.5rem 0 1rem;
 }
 
+.beer-article .doc p a,
+.beer-article .doc li a,
+.beer-article .doc td a,
+.beer-article .doc dd a {
+  text-decoration: underline;
+}
+
 .beer-article .beer-article-card .admonitionblock {
   display: flex;
   gap: 1rem;
@@ -161,14 +168,4 @@ body.dark.beer-article .beer-article-card {
   border-radius: 999px;
   padding: 0 0.5em;
   display: inline-block;
-}
-
-.beer-article .beer-article-card table {
-  border-collapse: collapse;
-}
-
-.beer-article .beer-article-card table td,
-.beer-article .beer-article-card table th {
-  border: 1px solid var(--outline-variant);
-  padding: 0.5rem 0.75rem;
 }

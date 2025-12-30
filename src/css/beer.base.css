@@ -19,3 +19,28 @@ body.beer-article {
   min-height: 100vh;
   transition: background 0.2s ease, color 0.2s ease;
 }
+
+.beer-article .doc i.fa {
+  font-style: normal;
+}
+
+.beer-article .doc ul.checklist {
+  list-style-type: none;
+  padding-left: 1.75rem;
+}
+
+.beer-article .doc ul.checklist p > i.fa-check-square-o:first-child,
+.beer-article .doc ul.checklist p > i.fa-square-o:first-child {
+  display: inline-flex;
+  justify-content: center;
+  width: 1.25rem;
+  margin-left: -1.25rem;
+}
+
+.beer-article .doc ul.checklist i.fa-check-square-o::before {
+  content: "\2713";
+}
+
+.beer-article .doc ul.checklist i.fa-square-o::before {
+  content: "\274f";
+}
