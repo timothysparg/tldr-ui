@@ -1,49 +1,49 @@
 /* Global Styles */
-:root {
+body.beer-home {
   --font: "Inter";
   --heading-font: "Special Elite", cursive;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body.beer-home h1,
+body.beer-home h2,
+body.beer-home h3,
+body.beer-home h4,
+body.beer-home h5,
+body.beer-home h6 {
   font-family: var(--heading-font);
 }
 
-.theme-img {
+body.beer-home .theme-img {
   display: none;
 }
 
 /* Explicit Light */
-body.light .theme-img.light {
+body.beer-home.light .theme-img.light {
   display: block;
 }
 
-body.light .theme-img.dark {
+body.beer-home.light .theme-img.dark {
   display: none;
 }
 
 /* Explicit Dark */
-body.dark .theme-img.dark {
+body.beer-home.dark .theme-img.dark {
   display: block;
 }
 
-body.dark .theme-img.light {
+body.beer-home.dark .theme-img.light {
   display: none;
 }
 
 /* Auto (no class) */
 @media (prefers-color-scheme: light) {
-  body:not(.light):not(.dark) .theme-img.light {
+  body.beer-home:not(.light):not(.dark) .theme-img.light {
     display: block;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  body:not(.light):not(.dark) .theme-img.dark {
+  body.beer-home:not(.light):not(.dark) .theme-img.dark {
     display: block;
   }
 }
@@ -51,7 +51,7 @@ body.dark .theme-img.light {
 /* BASE COMPONENT 
    --------------------------------------------------
 */
-.gh-admonition {
+body.beer-home .gh-admonition {
   position: relative;
   margin-bottom: 24px;
   border-radius: 12px;
@@ -72,11 +72,11 @@ body.dark .theme-img.light {
   transition: transform 0.2s ease;
 }
 
-.gh-admonition:hover {
+body.beer-home .gh-admonition:hover {
   transform: translateX(4px);
 }
 
-.gh-admonition .content {
+body.beer-home .gh-admonition .content {
   flex: 1;
   font-size: 15px;
   line-height: 1.6;
@@ -87,7 +87,7 @@ body.dark .theme-img.light {
   justify-content: center;
 }
 
-.gh-admonition .title {
+body.beer-home .gh-admonition .title {
   font-weight: 700;
   margin-bottom: 4px;
   display: block;
@@ -100,7 +100,7 @@ body.dark .theme-img.light {
 /* AVATAR CONTAINER & SHAPES 
    --------------------------------------------------
 */
-.avatar-container {
+body.beer-home .avatar-container {
   flex-shrink: 0;
   width: 64px;
   height: 64px;
@@ -114,7 +114,7 @@ body.dark .theme-img.light {
   align-self: flex-start;
 }
 
-.avatar-container img {
+body.beer-home .avatar-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -122,23 +122,23 @@ body.dark .theme-img.light {
 }
 
 /* SHAPES */
-.shape-circle {
+body.beer-home .shape-circle {
   border-radius: 50%;
 }
 
-.shape-leaf {
+body.beer-home .shape-leaf {
   border-radius: 4px 50% 50% 50%;
 }
 
-.shape-squircle {
+body.beer-home .shape-squircle {
   border-radius: 16px;
 }
 
-.shape-arch {
+body.beer-home .shape-arch {
   border-radius: 50% 50% 8px 8px;
 }
 
-.shape-beveled {
+body.beer-home .shape-beveled {
   clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
   box-shadow: none;
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.1));
@@ -147,63 +147,63 @@ body.dark .theme-img.light {
 /* THEMES 
    Defining the Color Variable (--theme-color) for each type 
 */
-.theme-note {
+body.beer-home .theme-note {
   --theme-color: #0969da;
   background-color: #ddf4ff;
 }
 
-.theme-tip {
+body.beer-home .theme-tip {
   --theme-color: #1a7f37;
   background-color: #dafbe1;
 }
 
-.theme-important {
+body.beer-home .theme-important {
   --theme-color: #8250df;
   background-color: #f6f8fa;
 }
 
-.theme-warning {
+body.beer-home .theme-warning {
   --theme-color: #9a6700;
   background-color: #fff8c5;
 }
 
-.theme-caution {
+body.beer-home .theme-caution {
   --theme-color: #d1242f;
   background-color: #ffebe9;
 }
 
 /* Dark Mode Adjustments */
-body.dark .gh-admonition {
+body.beer-home.dark .gh-admonition {
   background: #1a1a1a;
 }
 
-body.dark .theme-note {
+body.beer-home.dark .theme-note {
   --theme-color: #58a6ff;
   background-color: rgba(56, 139, 253, 0.15);
 }
 
-body.dark .theme-tip {
+body.beer-home.dark .theme-tip {
   --theme-color: #3fb950;
   background-color: rgba(46, 160, 67, 0.15);
 }
 
-body.dark .theme-important {
+body.beer-home.dark .theme-important {
   --theme-color: #a371f7;
   background-color: rgba(137, 87, 229, 0.15);
 }
 
-body.dark .theme-warning {
+body.beer-home.dark .theme-warning {
   --theme-color: #d29922;
   background-color: rgba(187, 128, 9, 0.15);
 }
 
-body.dark .theme-caution {
+body.beer-home.dark .theme-caution {
   --theme-color: #f85149;
   background-color: rgba(248, 81, 73, 0.15);
 }
 
 /* Code Blocks & Copy Button */
-.code-block-container {
+body.beer-home .code-block-container {
   position: relative;
   margin-bottom: 24px;
   border-radius: 12px;
@@ -213,13 +213,13 @@ body.dark .theme-caution {
 }
 
 /* Ensure pre doesn't have default margins that mess up positioning */
-.code-block-container pre {
+body.beer-home .code-block-container pre {
   margin: 0;
   padding: 20px;
   border-radius: 12px;
 }
 
-.copy-btn {
+body.beer-home .copy-btn {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -237,22 +237,22 @@ body.dark .theme-caution {
   /* Hidden by default */
 }
 
-.code-block-container:hover .copy-btn {
+body.beer-home .code-block-container:hover .copy-btn {
   opacity: 1;
   /* Show on hover */
 }
 
-.copy-btn:hover {
+body.beer-home .copy-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   color: var(--primary, #6750a4);
 }
 
-.copy-btn i {
+body.beer-home .copy-btn i {
   font-size: 20px;
 }
 
 /* Code Callouts - Improved Visibility */
-.conum {
+body.beer-home .conum {
   display: inline-block;
   color: var(--on-primary, #ffffff) !important;
   background-color: var(--primary, #6750a4);
@@ -274,18 +274,18 @@ body.dark .theme-caution {
   top: -1px;
 }
 
-.colist table {
+body.beer-home .colist table {
   margin: 0;
   border: none;
 }
 
-.colist td {
+body.beer-home .colist td {
   padding: 0.25rem 0.5rem;
   border: none;
   vertical-align: top;
 }
 
-.colist td:first-child {
+body.beer-home .colist td:first-child {
   width: 2.5rem;
   text-align: right;
 }

@@ -1,6 +1,5 @@
 = git filter-repo: The text that never was
 :page-role: article
-:page-layout: beer.article
 :revdate: 2020-08-15
 :page-tags: git, filter-repo, fishshell
 :page-draft: true
