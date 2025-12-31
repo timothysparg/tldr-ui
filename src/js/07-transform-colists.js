@@ -1,7 +1,7 @@
 ;(function () {
   'use strict'
 
-  var isBeerArticle = document.body.classList.contains('beer-article')
+  var isBeerArticle = document.body.classList.contains('article')
 
   if (!isBeerArticle) return
 

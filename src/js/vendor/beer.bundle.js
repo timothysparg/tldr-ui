@@ -2,10 +2,10 @@
   'use strict'
 
   function init () {
-    var article = document.querySelector('article.beer-article-card')
+    var article = document.querySelector('article.article-card')
     if (!article) return
 
-    var toc = document.querySelector('.beer-article-toc')
+    var toc = document.querySelector('.article-toc')
     if (toc) {
       var headings = [].slice.call(article.querySelectorAll('h2[id], h3[id]'))
       if (!headings.length) {
@@ -22,7 +22,7 @@
           item.appendChild(link)
           list.appendChild(item)
         })
-        var body = toc.querySelector('.beer-article-toc-body')
+        var body = toc.querySelector('.article-toc-body')
         if (body) body.appendChild(list)
       }
     }

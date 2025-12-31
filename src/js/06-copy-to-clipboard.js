@@ -6,7 +6,7 @@
   var TRAILING_SPACE_RX = / +$/gm
 
   var supportsCopy = window.navigator.clipboard
-  var isBeerArticle = document.body.classList.contains('beer-article')
+  var isBeerArticle = document.body.classList.contains('article')
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
     var code, language, lang, copy, toast, toolbox, header, content, block, title
     if (pre.classList.contains('highlight')) {
@@ -44,10 +44,10 @@
       content = pre.parentNode
       block = pre.closest('.listingblock, .literalblock')
       title = block && block.querySelector(':scope > .title')
-      if (content && !content.querySelector('.beer-code-header')) {
-        ;(header = document.createElement('div')).className = 'beer-code-header'
+      if (content && !content.querySelector('.code-header')) {
+        ;(header = document.createElement('div')).className = 'code-header'
         if (title) {
-          title.classList.add('beer-code-filename')
+          title.classList.add('code-filename')
           header.appendChild(title)
         }
         header.appendChild(toolbox)

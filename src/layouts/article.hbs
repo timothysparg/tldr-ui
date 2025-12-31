@@ -5,29 +5,29 @@
   {{> head}}
 </head>
 
-<body class="beer-article">
+<body class="article">
   {{> nav}}
 
-  <main class="responsive beer-article-layout">
-    <div class="beer-article-main">
-      <article class="round no-elevate large-padding beer-article-card doc">
-        <header class="beer-article-header">
+  <main class="responsive article-layout">
+    <div class="article-main">
+      <article class="round no-elevate large-padding article-card doc">
+        <header class="article-header">
           {{#with page.title}}
           <h1>{{{this}}}</h1>
           {{/with}}
-          <div class="beer-article-meta">
+          <div class="article-meta">
             {{#if page.attributes.revdate}}
-            <span class="beer-meta-item">
+            <span class="meta-item">
               <i class="fas fa-calendar"></i>
               <span>{{page.attributes.revdate}}</span>
             </span>
             {{/if}}
-            <span class="beer-meta-item">
+            <span class="meta-item">
               <i class="fas fa-clock"></i>
               <span data-reading-time></span>
             </span>
             {{#if page.attributes.tags}}
-            <span class="beer-meta-item beer-meta-tags">
+            <span class="meta-item meta-tags">
               <i class="fas fa-tag"></i>
               <span>{{page.attributes.tags}}</span>
             </span>
@@ -37,9 +37,9 @@
         {{{page.contents}}}
       </article>
     </div>
-    <aside class="beer-article-toc" aria-label="On this page">
+    <aside class="article-toc" aria-label="On this page">
       <h3>On this page</h3>
-      <div class="beer-article-toc-body"></div>
+      <div class="article-toc-body"></div>
     </aside>
   </main>
   {{> footer-scripts}}

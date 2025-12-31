@@ -6,8 +6,8 @@
 :root {
   /* Typography */
   --font: "Inter", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
-  --beer-font-family-base: var(--font);
-  --beer-font-family-display: "Special Elite", "Caveat", cursive;
+  --font-family-base: var(--font);
+  --font-family-display: "Special Elite", "Caveat", cursive;
   --monospace-font-weight-bold: 700;
 
   /* Base sizing */
@@ -67,7 +67,7 @@ body.light {
   --surface-container-highest: #e6e0e9;
   --active: rgb(103 80 164 / 12%);
   --overlay: rgb(28 27 31 / 8%);
-  --beer-bg:
+  --bg:
     radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
     radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--tertiary) 12%, transparent), transparent 38%),
     var(--surface);
@@ -79,7 +79,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--beer-font-family-display);
+  font-family: var(--font-family-display);
   letter-spacing: 0.01em;
 }
 
@@ -121,7 +121,7 @@ body.dark {
   --surface-container-highest: #36343b;
   --active: rgb(208 188 255 / 12%);
   --overlay: rgb(230 225 230 / 8%);
-  --beer-bg:
+  --bg:
     radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 30%),
     radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--tertiary) 20%, transparent), transparent 36%),
     var(--surface);
@@ -131,20 +131,20 @@ body.dark {
    BASE STYLES
    ============================================ */
 
-body.beer-home,
-body.beer-article {
+body.home,
+body {
   min-height: 100vh;
   color: var(--on-background);
-  font-family: var(--beer-font-family-base);
-  background: var(--beer-bg);
+  font-family: var(--font-family-base);
+  background: var(--bg);
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.beer-article .doc i.fa {
+.doc i.fa {
   font-style: normal;
 }
 
-.beer-article .doc ul.checklist {
+.doc ul.checklist {
   padding-left: 1.75rem;
   list-style-type: none;
 
@@ -170,31 +170,31 @@ body.beer-article {
    HOME PAGE STYLES
    ============================================ */
 
-body.beer-home .page article {
+body.home .page article {
   background: var(--surface-container-high);
   border: 1px solid var(--outline-variant);
   box-shadow: var(--elevate2);
 }
 
-body.beer-home.dark .page article {
+body.home.dark .page article {
   background: var(--surface-container-high);
   border-color: var(--outline-variant);
   box-shadow: var(--elevate2);
 }
 
-body.beer-home .blog-title.primary-text {
+body.home .blog-title.primary-text {
   color: var(--primary);
 }
 
 @media (hover: hover) {
-  body.beer-home .wave:hover {
+  body.home .wave:hover {
     box-shadow: var(--elevate3);
     transform: translateY(-4px);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 }
 
-body.beer-home .theme-img {
+body.home .theme-img {
   display: block;
 
   &.dark {
@@ -202,12 +202,12 @@ body.beer-home .theme-img {
   }
 }
 
-body.beer-home.dark .theme-img.light,
+body.home.dark .theme-img.light,
 body.dark .theme-img.light {
   display: none;
 }
 
-body.beer-home.dark .theme-img.dark,
+body.home.dark .theme-img.dark,
 body.dark .theme-img.dark {
   display: block;
 }
@@ -216,14 +216,14 @@ body.dark .theme-img.dark {
    ARTICLE PAGE STYLES
    ============================================ */
 
-.beer-article .beer-article-card {
+.article-card {
   color: var(--on-surface);
   background: var(--surface-container);
   border: 1px solid var(--outline-variant);
   box-shadow: var(--elevate2);
 }
 
-.beer-article-layout {
+.article-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 260px;
   gap: 2rem;
@@ -235,17 +235,17 @@ body.dark .theme-img.dark {
 }
 
 @media (width <= 960px) {
-  .beer-article-toc {
+  .article-toc {
     position: static;
     order: 2;
   }
 }
 
-.beer-article-header {
+.article-header {
   margin-bottom: 1.5rem;
 }
 
-.beer-article-meta {
+.article-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
@@ -253,7 +253,7 @@ body.dark .theme-img.dark {
   font-size: 0.85rem;
 }
 
-.beer-meta-item {
+.meta-item {
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 0.5rem;
@@ -264,7 +264,7 @@ body.dark .theme-img.dark {
   }
 }
 
-.beer-article-toc {
+.article-toc {
   position: sticky;
   top: 2rem;
   align-self: start;
@@ -313,44 +313,44 @@ body.dark .theme-img.dark {
   }
 }
 
-body.dark.beer-article .beer-article-card {
+body.dark.article-card {
   background: var(--surface-container-high);
 }
 
-.beer-article .beer-article-card h1 {
+.article-card h1 {
   margin-top: 0;
   margin-bottom: 1rem;
   color: var(--on-background);
 }
 
-.beer-article .beer-article-card p {
+.article-card p {
   margin-bottom: 1rem;
   line-height: 1.6;
 }
 
-.beer-article .beer-article-card pre,
-.beer-article .beer-article-card code {
-  font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
+.article-card pre,
+.article-card code {
+  font-family: var(--font-family-mono, 'Roboto Mono', monospace);
 }
 
-.beer-article .beer-article-card .listingblock pre {
+.article-card .listingblock pre {
   margin: 0.5rem 0 1rem;
 }
 
-.beer-article .doc p code,
-.beer-article .doc li code,
-.beer-article .doc td code,
-.beer-article .doc dd code {
+.doc p code,
+.doc li code,
+.doc td code,
+.doc dd code {
   padding: 0.1em 0.35em;
   background: color-mix(in srgb, var(--outline-variant) 20%, transparent);
   border-radius: 0.4em;
 }
 
-.beer-article .doc pre {
+.doc pre {
   border-radius: 0.5rem;
 }
 
-.beer-article .doc .source-toolbox .copy-button {
+.doc .source-toolbox .copy-button {
   min-width: auto;
   min-height: auto;
   padding: 0;
@@ -360,7 +360,7 @@ body.dark.beer-article .beer-article-card {
   box-shadow: none;
 }
 
-.beer-article .doc .beer-code-header {
+.doc .code-header {
   display: flex;
   flex-wrap: nowrap;
   gap: 0.75rem;
@@ -427,19 +427,19 @@ body.dark.beer-article .beer-article-card {
   }
 }
 
-.beer-article .doc .beer-code-filename {
+.doc .code-filename {
   margin: 0;
   color: #5c6370;
   font-size: 0.75rem;
-  font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
+  font-family: var(--font-family-mono, 'Roboto Mono', monospace);
   font-style: italic;
 }
 
-.beer-article .doc .beer-code-header .copy-toast {
+.doc .code-header .copy-toast {
   display: none;
 }
 
-.beer-article .doc pre.highlight {
+.doc pre.highlight {
   padding: 0;
   background: #282a36;
   border: 1px solid rgb(255 255 255 / 10%);
@@ -454,8 +454,8 @@ body.dark.beer-article .beer-article-card {
   }
 }
 
-.beer-article .doc .listingblock pre:not(.highlight),
-.beer-article .doc .literalblock pre {
+.doc .listingblock pre:not(.highlight),
+.doc .literalblock pre {
   padding: 1.5rem;
   color: #f8f8f2;
   line-height: 2.2;
@@ -464,12 +464,12 @@ body.dark.beer-article .beer-article-card {
   box-shadow: none;
 }
 
-.beer-article .doc .conum[data-value] {
+.doc .conum[data-value] {
   width: auto;
   height: auto;
   color: #f43f5e;
   font-size: 0.85em;
-  font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
+  font-family: var(--font-family-mono, 'Roboto Mono', monospace);
   font-style: normal;
   line-height: 1.4;
   text-align: left;
@@ -490,7 +490,7 @@ body.dark.beer-article .beer-article-card {
   }
 }
 
-.beer-article .doc kbd {
+.doc kbd {
   display: inline-block;
   padding: 0.2em 0.45em;
   font-size: 0.75rem;
@@ -503,7 +503,7 @@ body.dark.beer-article .beer-article-card {
   box-shadow: 0 1px 0 var(--outline-variant);
 }
 
-.beer-article .doc .keyseq {
+.doc .keyseq {
   font-size: 1rem;
   line-height: 1;
 
@@ -520,26 +520,26 @@ body.dark.beer-article .beer-article-card {
   }
 }
 
-.beer-article .doc .menuseq,
-.beer-article .doc .path {
+.doc .menuseq,
+.doc .path {
   hyphens: none;
 }
 
-.beer-article .doc .menuseq i.caret::before {
+.doc .menuseq i.caret::before {
   font-weight: 600;
   font-size: 1.1em;
   line-height: calc(1 / 1.1);
   content: "\203a";
 }
 
-.beer-article .doc p a,
-.beer-article .doc li a,
-.beer-article .doc td a,
-.beer-article .doc dd a {
+.doc p a,
+.doc li a,
+.doc td a,
+.doc dd a {
   text-decoration: underline;
 }
 
-.beer-article .doc .admonitionblock {
+.doc .admonitionblock {
   margin: 1.25rem 0;
 
   & > table {
@@ -633,13 +633,13 @@ body.dark.beer-article .beer-article-card {
 }
 
 /* Code blocks with BeerCSS styling */
-.beer-article .doc .listingblock,
-.beer-article .doc .literalblock {
+.doc .listingblock,
+.doc .literalblock {
   margin: 1.5rem 0;
 }
 
 /* Add article-like container for code blocks with callouts */
-.beer-article .doc .listingblock.has-callouts {
+.doc .listingblock.has-callouts {
   overflow: hidden;
   background: var(--surface-container-low);
   border-radius: 16px;
@@ -659,7 +659,7 @@ body.dark.beer-article .beer-article-card {
 /* Code header (with language chip and copy button) */
 
 /* Source language chip styling */
-.beer-article .doc .source-lang {
+.doc .source-lang {
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 0.5rem;
@@ -673,7 +673,7 @@ body.dark.beer-article .beer-article-card {
 }
 
 /* Divider between code and callouts */
-.beer-article .doc .divider.margin {
+.doc .divider.margin {
   height: 1px;
   margin: 1rem 0;
   background: var(--outline-variant);
@@ -681,7 +681,7 @@ body.dark.beer-article .beer-article-card {
 }
 
 /* BeerCSS List-based Colist Styling */
-.beer-article .doc .colist {
+.doc .colist {
   margin: 0;
   padding: 0;
 
