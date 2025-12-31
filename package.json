@@ -36,7 +36,6 @@
     "gulp-eslint": "~6.0",
     "gulp-imagemin": "~6.2",
     "gulp-postcss": "~8.0",
-    "gulp-stylelint": "^13.0.0",
     "gulp-uglify": "~3.0",
     "handlebars": "~4.7",
     "highlight.js": "9.18.3",
@@ -52,6 +51,7 @@
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-plugin-defensive-css": "^1.0.4",
+    "stylelint-use-nesting": "^4.1.0",
     "vinyl-fs": "~3.0"
   }
 }

@@ -1,7 +1,8 @@
 {
   "extends": "stylelint-config-standard",
   "plugins": [
-    "stylelint-plugin-defensive-css"
+    "stylelint-plugin-defensive-css",
+    "stylelint-use-nesting"
   ],
   "rules": {
     "comment-empty-line-before": null,
@@ -12,6 +13,7 @@
         "message": "Expected class selector to be kebab-case (except hljs- classes)"
       }
     ],
+    "csstools/use-nesting": "always",
     "plugin/use-defensive-css": [
       true,
       {

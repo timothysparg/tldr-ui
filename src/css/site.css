@@ -145,23 +145,23 @@ body.beer-article {
 .beer-article .doc ul.checklist {
   list-style-type: none;
   padding-left: 1.75rem;
-}
 
-.beer-article .doc ul.checklist p > i.fa-check-square-o:first-child,
-.beer-article .doc ul.checklist p > i.fa-square-o:first-child {
-  display: inline-flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  width: 1.25rem;
-  margin-left: -1.25rem;
-}
+  & p > i.fa-check-square-o:first-child,
+  & p > i.fa-square-o:first-child {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 1.25rem;
+    margin-left: -1.25rem;
+  }
 
-.beer-article .doc ul.checklist i.fa-check-square-o::before {
-  content: "\2713";
-}
+  & i.fa-check-square-o::before {
+    content: "\2713";
+  }
 
-.beer-article .doc ul.checklist i.fa-square-o::before {
-  content: "\274f";
+  & i.fa-square-o::before {
+    content: "\274f";
+  }
 }
 
 /* ============================================
@@ -194,10 +194,10 @@ body.beer-home .blog-title.primary-text {
 
 body.beer-home .theme-img {
   display: block;
-}
 
-body.beer-home .theme-img.dark {
-  display: none;
+  &.dark {
+    display: none;
+  }
 }
 
 body.beer-home.dark .theme-img.light,
@@ -226,13 +226,13 @@ body.dark .theme-img.dark {
   grid-template-columns: minmax(0, 1fr) 260px;
   gap: 2rem;
   align-items: start;
+
+  @media (width <= 960px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (width <= 960px) {
-  .beer-article-layout {
-    grid-template-columns: 1fr;
-  }
-
   .beer-article-toc {
     position: static;
     order: 2;
@@ -256,10 +256,10 @@ body.dark .theme-img.dark {
   flex-wrap: nowrap;
   align-items: center;
   gap: 0.5rem;
-}
 
-.beer-meta-item i {
-  font-size: 0.95em;
+  & i {
+    font-size: 0.95em;
+  }
 }
 
 .beer-article-toc {
@@ -274,41 +274,41 @@ body.dark .theme-img.dark {
   overflow: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
-}
 
-.beer-article-toc h3 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-}
-
-.beer-article-toc ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.beer-article-toc li {
-  margin: 0.25rem 0;
-}
-
-.beer-article-toc li[data-level="3"] {
-  margin-left: 1rem;
-}
-
-.beer-article-toc a {
-  color: var(--on-surface);
-  text-decoration: none;
-}
-
-@media (hover: hover) {
-  .beer-article-toc a:hover {
-    color: var(--primary);
+  & h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
   }
-}
 
-.beer-article-toc a.is-active {
-  color: var(--primary);
+  & ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  & li {
+    margin: 0.25rem 0;
+
+    &[data-level="3"] {
+      margin-left: 1rem;
+    }
+  }
+
+  & a {
+    color: var(--on-surface);
+    text-decoration: none;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--primary);
+      }
+    }
+
+    &.is-active {
+      color: var(--primary);
+    }
+  }
 }
 
 body.dark.beer-article .beer-article-card {
@@ -368,11 +368,61 @@ body.dark.beer-article .beer-article-card {
   flex-wrap: nowrap;
   gap: 0.75rem;
   padding: 0.6rem 0.9rem;
-}
 
-.beer-article .doc .beer-code-header + pre {
-  border-top: none;
-  border-radius: 0 0 12px 12px;
+  & + pre {
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+  }
+
+  & .source-toolbox {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-left: auto;
+    position: static;
+    visibility: visible;
+
+    & > :not(:last-child)::after {
+      content: "";
+      padding: 0;
+    }
+  }
+
+  & .source-lang {
+    background: color-mix(in srgb, var(--primary) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
+    border-radius: 999px;
+    color: var(--primary);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    text-transform: uppercase;
+  }
+
+  & .copy-button {
+    color: #abb2bf;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+
+    & .copy-icon {
+      font-size: 0.9rem;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    &.clicked {
+      color: #98c379;
+    }
+  }
 }
 
 .beer-article .doc .beer-code-filename {
@@ -381,56 +431,6 @@ body.dark.beer-article .beer-article-card {
   font-size: 0.75rem;
   font-style: italic;
   margin: 0;
-}
-
-.beer-article .doc .beer-code-header .source-toolbox {
-  align-items: center;
-  display: flex;
-  flex-wrap: nowrap;
-  margin-left: auto;
-  position: static;
-  visibility: visible;
-}
-
-.beer-article .doc .beer-code-header .source-toolbox > :not(:last-child)::after {
-  content: "";
-  padding: 0;
-}
-
-.beer-article .doc .beer-code-header .source-lang {
-  background: color-mix(in srgb, var(--primary) 18%, transparent);
-  border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
-  border-radius: 999px;
-  color: var(--primary);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 0.2rem 0.5rem;
-  text-transform: uppercase;
-}
-
-.beer-article .doc .beer-code-header .copy-button {
-  color: #abb2bf;
-  transition: all 0.2s ease;
-  font-size: 1rem;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.beer-article .doc .beer-code-header .copy-button .copy-icon {
-  font-size: 0.9rem;
-}
-
-@media (hover: hover) {
-  .beer-article .doc .beer-code-header .copy-button:hover {
-    color: #fff;
-  }
-}
-
-.beer-article .doc .beer-code-header .copy-button.clicked {
-  color: #98c379;
 }
 
 .beer-article .doc .beer-code-header .copy-toast {
@@ -442,14 +442,14 @@ body.dark.beer-article .beer-article-card {
   border: 1px solid rgb(255 255 255 / 10%);
   box-shadow: none;
   padding: 0;
-}
 
-.beer-article .doc pre.highlight > code {
-  display: block;
-  background: #282a36;
-  line-height: 2.2;
-  padding: 1.5rem;
-  color: #f8f8f2;
+  & > code {
+    display: block;
+    background: #282a36;
+    line-height: 2.2;
+    padding: 1.5rem;
+    color: #f8f8f2;
+  }
 }
 
 .beer-article .doc .listingblock pre:not(.highlight),
@@ -474,23 +474,24 @@ body.dark.beer-article .beer-article-card {
   line-height: 1.4;
   text-align: left;
   width: auto;
-}
 
-.beer-article .doc .conum[data-value]::before {
-  content: "〈";
-}
+  &::before {
+    content: "〈";
+  }
 
-.beer-article .doc .conum[data-value]::after {
-  content: attr(data-value) "〉";
-}
+  &::after {
+    content: attr(data-value) "〉";
+  }
 
-.beer-article .doc .conum[data-value] + b {
-  display: none;
+  & + b {
+    display: none;
+  }
 }
 
 .beer-article .doc kbd {
   display: inline-block;
   font-size: 0.75rem;
+  line-height: 1;
   background: var(--surface-container);
   border: 1px solid var(--outline-variant);
   border-radius: 0.3em;
@@ -500,25 +501,21 @@ body.dark.beer-article .beer-article-card {
   white-space: nowrap;
 }
 
-.beer-article .doc kbd,
 .beer-article .doc .keyseq {
   line-height: 1;
-}
-
-.beer-article .doc .keyseq {
   font-size: 1rem;
-}
 
-.beer-article .doc .keyseq kbd {
-  margin: 0 0.125em;
-}
+  & kbd {
+    margin: 0 0.125em;
 
-.beer-article .doc .keyseq kbd:first-child {
-  margin-left: 0;
-}
+    &:first-child {
+      margin-left: 0;
+    }
 
-.beer-article .doc .keyseq kbd:last-child {
-  margin-right: 0;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .beer-article .doc .menuseq,
@@ -542,91 +539,95 @@ body.dark.beer-article .beer-article-card {
 
 .beer-article .doc .admonitionblock {
   margin: 1.25rem 0;
-}
 
-.beer-article .doc .admonitionblock > table {
-  border: 1px solid var(--outline-variant);
-  border-radius: 16px;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: var(--surface-container);
-  box-shadow: var(--elevate1);
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
+  & > table {
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--surface-container);
+    box-shadow: var(--elevate1);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
 
-.beer-article .doc .admonitionblock td.content {
-  background: transparent;
-  padding: 1rem 1.25rem;
-}
+  & td.content {
+    background: transparent;
+    padding: 1rem 1.25rem;
+  }
 
-.beer-article .doc .admonitionblock td.icon i {
-  display: inline-flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  font-size: 1rem;
-  height: 2rem;
-  width: 2rem;
-}
+  & td.icon {
+    padding: 1rem 0 1rem 1rem;
+    vertical-align: top;
+    width: 1%;
 
-.beer-article .doc .admonitionblock td.icon i.icon-note {
-  background: var(--primary-container);
-  color: var(--on-primary-container);
-}
+    & i {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 1rem;
+      height: 2rem;
+      width: 2rem;
 
-.beer-article .doc .admonitionblock td.icon i.icon-tip {
-  background: var(--tertiary-container);
-  color: var(--on-tertiary-container);
-}
+      &.icon-note {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
 
-.beer-article .doc .admonitionblock td.icon i.icon-warning,
-.beer-article .doc .admonitionblock td.icon i.icon-caution {
-  background: var(--error-container);
-  color: var(--on-error-container);
-}
+        &::before {
+          content: "\f05a";
+        }
+      }
 
-.beer-article .doc .admonitionblock td.icon i.icon-important {
-  background: var(--primary);
-  color: var(--on-primary);
-}
+      &.icon-tip {
+        background: var(--tertiary-container);
+        color: var(--on-tertiary-container);
 
-.beer-article .doc .admonitionblock td.icon {
-  padding: 1rem 0 1rem 1rem;
-  vertical-align: top;
-  width: 1%;
-}
+        &::before {
+          content: "\f0eb";
+        }
+      }
 
-.beer-article .doc .admonitionblock td.icon i::after {
-  content: none;
-}
+      &.icon-warning {
+        background: var(--error-container);
+        color: var(--on-error-container);
 
-.beer-article .doc .admonitionblock td.icon i::before {
-  font-family: "Font Awesome 5 Free", sans-serif;
-  font-weight: 900;
-  line-height: 1;
-}
+        &::before {
+          content: "\f071";
+        }
+      }
 
-.beer-article .doc .admonitionblock td.icon i.icon-note::before {
-  content: "\f05a";
-}
+      &.icon-caution {
+        background: var(--error-container);
+        color: var(--on-error-container);
 
-.beer-article .doc .admonitionblock td.icon i.icon-tip::before {
-  content: "\f0eb";
-}
+        &::before {
+          content: "\f06a";
+        }
+      }
 
-.beer-article .doc .admonitionblock td.icon i.icon-warning::before {
-  content: "\f071";
-}
+      &.icon-important {
+        background: var(--primary);
+        color: var(--on-primary);
 
-.beer-article .doc .admonitionblock td.icon i.icon-caution::before {
-  content: "\f06a";
-}
+        &::before {
+          content: "\f12a";
+        }
+      }
 
-.beer-article .doc .admonitionblock td.icon i.icon-important::before {
-  content: "\f12a";
+      &::after {
+        content: none;
+      }
+
+      &::before {
+        font-family: "Font Awesome 5 Free", sans-serif;
+        font-weight: 900;
+        line-height: 1;
+      }
+    }
+  }
 }
 
 /* Code blocks with BeerCSS styling */
@@ -641,11 +642,16 @@ body.dark.beer-article .beer-article-card {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--elevate1);
-}
 
-.beer-article .doc .listingblock.has-callouts > .content {
-  background: var(--surface-container-low);
-  padding: 0;
+  & > .content {
+    background: var(--surface-container-low);
+    padding: 0;
+  }
+
+  & pre {
+    margin: 0;
+    border-radius: 0;
+  }
 }
 
 /* Code header (with language chip and copy button) */
@@ -664,12 +670,6 @@ body.dark.beer-article .beer-article-card {
   font-weight: 500;
 }
 
-/* Code content padding adjustment for blocks with callouts */
-.beer-article .doc .listingblock.has-callouts pre {
-  margin: 0;
-  border-radius: 0;
-}
-
 /* Divider between code and callouts */
 .beer-article .doc .divider.margin {
   margin: 1rem 0;
@@ -682,76 +682,76 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc .colist {
   margin: 0;
   padding: 0;
-}
 
-.beer-article .doc .colist ul.list {
-  list-style: none;
-  margin: 0;
-  padding: 0 1rem 1rem;
-  background: var(--surface-container-low);
-}
+  & ul.list {
+    list-style: none;
+    margin: 0;
+    padding: 0 1rem 1rem;
+    background: var(--surface-container-low);
 
-.beer-article .doc .colist ul.list li {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border: none;
-  background: transparent;
-}
+    & li {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border: none;
+      background: transparent;
 
-.beer-article .doc .colist ul.list li:not(:last-child) {
-  border-bottom: 1px solid var(--outline-variant);
-}
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--outline-variant);
+      }
 
-.beer-article .doc .colist ul.list li button.circle {
-  flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  min-width: 2.5rem;
-  border-radius: 50%;
-  background: var(--primary);
-  color: var(--on-primary);
-  border: none;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: default;
-  pointer-events: none;
-}
+      & button.circle {
+        flex-shrink: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        min-width: 2.5rem;
+        border-radius: 50%;
+        background: var(--primary);
+        color: var(--on-primary);
+        border: none;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: default;
+        pointer-events: none;
+      }
 
-.beer-article .doc .colist ul.list li .max {
-  flex: 1;
-  min-width: 0;
-}
+      & .max {
+        flex: 1;
+        min-width: 0;
 
-.beer-article .doc .colist ul.list li .max h6 {
-  margin: 0 0 0.25rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--on-surface);
-}
+        & h6 {
+          margin: 0 0 0.25rem;
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: var(--on-surface);
+        }
 
-.beer-article .doc .colist ul.list li .max .small-text {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--on-surface-variant);
-}
+        & .small-text {
+          font-size: 0.9rem;
+          line-height: 1.5;
+          color: var(--on-surface-variant);
 
-.beer-article .doc .colist ul.list li .max .small-text code {
-  font-size: 0.85rem;
-  padding: 0.15rem 0.4rem;
-  background: var(--surface-container-highest);
-  border-radius: 4px;
-}
+          & code {
+            font-size: 0.85rem;
+            padding: 0.15rem 0.4rem;
+            background: var(--surface-container-highest);
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+  }
 
-/* Remove old table-based colist styling for beer articles */
-.beer-article .doc .colist > table {
-  display: none;
+  /* Remove old table-based colist styling for beer articles */
+  & > table {
+    display: none;
+  }
 }
 
 /* ============================================
