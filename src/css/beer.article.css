@@ -258,6 +258,51 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc .conum[data-value] + b {
   display: none;
 }
+
+.beer-article .doc kbd {
+  display: inline-block;
+  font-size: 0.75rem;
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-radius: 0.3em;
+  box-shadow: 0 1px 0 var(--outline-variant);
+  padding: 0.2em 0.45em;
+  vertical-align: text-bottom;
+  white-space: nowrap;
+}
+
+.beer-article .doc kbd,
+.beer-article .doc .keyseq {
+  line-height: 1;
+}
+
+.beer-article .doc .keyseq {
+  font-size: 1rem;
+}
+
+.beer-article .doc .keyseq kbd {
+  margin: 0 0.125em;
+}
+
+.beer-article .doc .keyseq kbd:first-child {
+  margin-left: 0;
+}
+
+.beer-article .doc .keyseq kbd:last-child {
+  margin-right: 0;
+}
+
+.beer-article .doc .menuseq,
+.beer-article .doc .path {
+  hyphens: none;
+}
+
+.beer-article .doc .menuseq i.caret::before {
+  content: "\203a";
+  font-size: 1.1em;
+  font-weight: 600;
+  line-height: calc(1 / 1.1);
+}
 .beer-article .doc p a,
 .beer-article .doc li a,
 .beer-article .doc td a,
