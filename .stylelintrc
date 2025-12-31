@@ -1,7 +1,29 @@
 {
   "extends": "stylelint-config-standard",
+  "plugins": [
+    "stylelint-plugin-defensive-css"
+  ],
   "rules": {
     "comment-empty-line-before": null,
     "no-descending-specificity": null,
+    "selector-class-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$|^hljs-",
+      {
+        "message": "Expected class selector to be kebab-case (except hljs- classes)"
+      }
+    ],
+    "plugin/use-defensive-css": [
+      true,
+      {
+        "accidental-hover": true,
+        "background-repeat": true,
+        "custom-property-fallbacks": false,
+        "flex-wrapping": true,
+        "scroll-chaining": true,
+        "scrollbar-gutter": true,
+        "vendor-prefix-grouping": true,
+        "severity": "warning"
+      }
+    ]
   }
 }

@@ -40,22 +40,22 @@ body.light {
   --surface-container: #f3edf7;
   --surface-container-high: #ece6f0;
   --surface-container-highest: #e6e0e9;
-  --active: rgba(103, 80, 164, 0.12);
-  --overlay: rgba(28, 27, 31, 0.08);
+  --active: rgb(103 80 164 / 12%);
+  --overlay: rgb(28 27 31 / 8%);
   --font: "Inter", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
   --beer-font-family-base: var(--font);
   --size: 16px;
-  --elevate1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15);
-  --elevate2: 0 2px 6px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.15);
-  --elevate3: 0 4px 12px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.12);
+  --elevate1: 0 1px 2px rgb(0 0 0 / 30%), 0 1px 3px rgb(0 0 0 / 15%);
+  --elevate2: 0 2px 6px rgb(0 0 0 / 25%), 0 4px 8px rgb(0 0 0 / 15%);
+  --elevate3: 0 4px 12px rgb(0 0 0 / 20%), 0 8px 16px rgb(0 0 0 / 12%);
   --speed1: 75ms;
   --speed2: 150ms;
   --speed3: 225ms;
   --speed4: 300ms;
   --beer-font-family-display: "Special Elite", "Caveat", cursive;
   --beer-bg:
-    radial-gradient(circle at 20% 20%, color-mix(in sRGB, var(--primary) 12%, transparent), transparent 32%),
-    radial-gradient(circle at 80% 0%, color-mix(in sRGB, var(--tertiary) 12%, transparent), transparent 38%),
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--tertiary) 12%, transparent), transparent 38%),
     var(--surface);
 }
 
@@ -106,22 +106,22 @@ body.dark {
   --surface-container: #211f26;
   --surface-container-high: #2b2930;
   --surface-container-highest: #36343b;
-  --active: rgba(208, 188, 255, 0.12);
-  --overlay: rgba(230, 225, 230, 0.08);
+  --active: rgb(208 188 255 / 12%);
+  --overlay: rgb(230 225 230 / 8%);
   --font: "Inter", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
   --beer-font-family-base: var(--font);
   --size: 16px;
-  --elevate1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15);
-  --elevate2: 0 2px 6px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.15);
-  --elevate3: 0 4px 12px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.12);
+  --elevate1: 0 1px 2px rgb(0 0 0 / 30%), 0 1px 3px rgb(0 0 0 / 15%);
+  --elevate2: 0 2px 6px rgb(0 0 0 / 25%), 0 4px 8px rgb(0 0 0 / 15%);
+  --elevate3: 0 4px 12px rgb(0 0 0 / 20%), 0 8px 16px rgb(0 0 0 / 12%);
   --speed1: 75ms;
   --speed2: 150ms;
   --speed3: 225ms;
   --speed4: 300ms;
   --beer-font-family-display: "Special Elite", "Caveat", cursive;
   --beer-bg:
-    radial-gradient(circle at 12% 12%, color-mix(in sRGB, var(--primary) 20%, transparent), transparent 30%),
-    radial-gradient(circle at 88% 8%, color-mix(in sRGB, var(--tertiary) 20%, transparent), transparent 36%),
+    radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 30%),
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--tertiary) 20%, transparent), transparent 36%),
     var(--surface);
 }
 
@@ -150,6 +150,7 @@ body.beer-article {
 .beer-article .doc ul.checklist p > i.fa-check-square-o:first-child,
 .beer-article .doc ul.checklist p > i.fa-square-o:first-child {
   display: inline-flex;
+  flex-wrap: nowrap;
   justify-content: center;
   width: 1.25rem;
   margin-left: -1.25rem;
@@ -183,10 +184,12 @@ body.beer-home .blog-title.primary-text {
   color: var(--primary);
 }
 
-body.beer-home .wave:hover {
-  transform: translateY(-4px);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: var(--elevate3);
+@media (hover: hover) {
+  body.beer-home .wave:hover {
+    transform: translateY(-4px);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: var(--elevate3);
+  }
 }
 
 body.beer-home .theme-img {
@@ -225,7 +228,7 @@ body.dark .theme-img.dark {
   align-items: start;
 }
 
-@media (max-width: 960px) {
+@media (width <= 960px) {
   .beer-article-layout {
     grid-template-columns: 1fr;
   }
@@ -250,6 +253,7 @@ body.dark .theme-img.dark {
 
 .beer-meta-item {
   display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.5rem;
 }
@@ -268,6 +272,8 @@ body.dark .theme-img.dark {
   padding: 1rem;
   max-height: calc(100vh - 4rem);
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .beer-article-toc h3 {
@@ -295,7 +301,12 @@ body.dark .theme-img.dark {
   text-decoration: none;
 }
 
-.beer-article-toc a:hover,
+@media (hover: hover) {
+  .beer-article-toc a:hover {
+    color: var(--primary);
+  }
+}
+
 .beer-article-toc a.is-active {
   color: var(--primary);
 }
@@ -328,7 +339,7 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc li code,
 .beer-article .doc td code,
 .beer-article .doc dd code {
-  background: color-mix(in sRGB, var(--outline-variant) 20%, transparent);
+  background: color-mix(in srgb, var(--outline-variant) 20%, transparent);
   padding: 0.1em 0.35em;
   border-radius: 0.4em;
 }
@@ -350,10 +361,11 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc .beer-code-header {
   align-items: center;
   background: #21222c;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgb(255 255 255 / 5%);
   border-bottom: none;
   border-radius: 12px 12px 0 0;
   display: flex;
+  flex-wrap: nowrap;
   gap: 0.75rem;
   padding: 0.6rem 0.9rem;
 }
@@ -374,6 +386,7 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc .beer-code-header .source-toolbox {
   align-items: center;
   display: flex;
+  flex-wrap: nowrap;
   margin-left: auto;
   position: static;
   visibility: visible;
@@ -385,8 +398,8 @@ body.dark.beer-article .beer-article-card {
 }
 
 .beer-article .doc .beer-code-header .source-lang {
-  background: color-mix(in sRGB, var(--primary) 18%, transparent);
-  border: 1px solid color-mix(in sRGB, var(--primary) 40%, transparent);
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
   border-radius: 999px;
   color: var(--primary);
   font-size: 0.6rem;
@@ -401,6 +414,7 @@ body.dark.beer-article .beer-article-card {
   transition: all 0.2s ease;
   font-size: 1rem;
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
 }
@@ -409,8 +423,10 @@ body.dark.beer-article .beer-article-card {
   font-size: 0.9rem;
 }
 
-.beer-article .doc .beer-code-header .copy-button:hover {
-  color: #fff;
+@media (hover: hover) {
+  .beer-article .doc .beer-code-header .copy-button:hover {
+    color: #fff;
+  }
 }
 
 .beer-article .doc .beer-code-header .copy-button.clicked {
@@ -423,7 +439,7 @@ body.dark.beer-article .beer-article-card {
 
 .beer-article .doc pre.highlight {
   background: #282a36;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
   box-shadow: none;
   padding: 0;
 }
@@ -439,7 +455,7 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc .listingblock pre:not(.highlight),
 .beer-article .doc .literalblock pre {
   background: #282a36;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
   box-shadow: none;
   line-height: 2.2;
   padding: 1.5rem;
@@ -534,7 +550,7 @@ body.dark.beer-article .beer-article-card {
   border-collapse: separate;
   border-spacing: 0;
   background: var(--surface-container);
-  box-shadow: var(--elevate1, none);
+  box-shadow: var(--elevate1);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -542,11 +558,12 @@ body.dark.beer-article .beer-article-card {
 
 .beer-article .doc .admonitionblock td.content {
   background: transparent;
-  padding: 1rem 1.25rem 1rem;
+  padding: 1rem 1.25rem;
 }
 
 .beer-article .doc .admonitionblock td.icon i {
   display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
@@ -623,7 +640,7 @@ body.dark.beer-article .beer-article-card {
   background: var(--surface-container-low);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: var(--elevate1, 0 2px 4px rgba(0, 0, 0, 0.1));
+  box-shadow: var(--elevate1);
 }
 
 .beer-article .doc .listingblock.has-callouts > .content {
@@ -636,6 +653,7 @@ body.dark.beer-article .beer-article-card {
 /* Source language chip styling */
 .beer-article .doc .source-lang {
   display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem 0.75rem;
@@ -669,12 +687,13 @@ body.dark.beer-article .beer-article-card {
 .beer-article .doc .colist ul.list {
   list-style: none;
   margin: 0;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 1rem 1rem;
   background: var(--surface-container-low);
 }
 
 .beer-article .doc .colist ul.list li {
   display: flex;
+  flex-wrap: nowrap;
   align-items: flex-start;
   gap: 1rem;
   padding: 0.75rem 0;
@@ -696,6 +715,7 @@ body.dark.beer-article .beer-article-card {
   color: var(--on-primary);
   border: none;
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   font-weight: 600;
@@ -710,7 +730,7 @@ body.dark.beer-article .beer-article-card {
 }
 
 .beer-article .doc .colist ul.list li .max h6 {
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.25rem;
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--on-surface);
