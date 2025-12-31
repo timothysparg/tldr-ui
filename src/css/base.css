@@ -1,154 +1,46 @@
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+:root,
+body.light {
+  --beer-bg: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--tertiary) 12%, transparent), transparent 38%),
+    var(--surface);
 }
 
-html {
-  box-sizing: border-box;
-  font-size: var(--body-font-size);
-  height: 100%;
-  scroll-behavior: smooth;
+body.dark {
+  --beer-bg: radial-gradient(circle at 12% 12%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 30%),
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--tertiary) 20%, transparent), transparent 36%),
+    var(--surface);
 }
 
-@media screen and (min-width: 1024px) {
-  html {
-    font-size: var(--body-font-size--desktop);
-  }
+body.beer-home,
+body.beer-article {
+  font-family: var(--beer-font-family-base);
+  color: var(--on-background);
+  background: var(--beer-bg);
+  min-height: 100vh;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-body {
-  background: var(--body-background);
-  color: var(--body-font-color);
-  font-family: var(--body-font-family);
-  line-height: var(--body-line-height);
-  margin: 0;
-  tab-size: 4;
-  word-wrap: anywhere; /* aka overflow-wrap; used when hyphens are disabled or aren't sufficient */
-}
-
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-a:active {
-  background-color: none;
-}
-
-code,
-kbd,
-pre {
-  font-family: var(--monospace-font-family);
-}
-
-b,
-dt,
-strong,
-th {
-  font-weight: var(--body-font-weight-bold);
-}
-
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
-sup {
-  top: -0.5em;
-}
-
-em em { /* stylelint-disable-line */
+.beer-article .doc i.fa {
   font-style: normal;
 }
 
-strong strong { /* stylelint-disable-line */
-  font-weight: normal;
+.beer-article .doc ul.checklist {
+  list-style-type: none;
+  padding-left: 1.75rem;
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 1em;
-  line-height: var(--body-line-height);
-  margin: 0;
+.beer-article .doc ul.checklist p > i.fa-check-square-o:first-child,
+.beer-article .doc ul.checklist p > i.fa-square-o:first-child {
+  display: inline-flex;
+  justify-content: center;
+  width: 1.25rem;
+  margin-left: -1.25rem;
 }
 
-button::-moz-focus-inner {
-  border: none;
-  padding: 0;
+.beer-article .doc ul.checklist i.fa-check-square-o::before {
+  content: "\2713";
 }
 
-summary {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
-}
-
-table {
-  border-collapse: collapse;
-  word-wrap: normal; /* table widths aren't computed as expected when word-wrap is enabled */
-}
-
-object[type="image/svg+xml"]:not([width]) {
-  width: fit-content;
-}
-
-.hide,
-.is-hidden {
-  display: none !important;
-}
-
-::placeholder {
-  opacity: 0.5;
-}
-
-@media (pointer: fine) {
-  @supports (scrollbar-width: thin) {
-    html {
-      scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
-    }
-
-    body * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--scrollbar-thumb-color) transparent;
-    }
-  }
-
-  html::-webkit-scrollbar {
-    background-color: var(--scrollbar-track-color);
-    height: 12px;
-    width: 12px;
-  }
-
-  body ::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-clip: padding-box;
-    background-color: var(--scrollbar-thumb-color);
-    border: 3px solid transparent;
-    border-radius: 12px;
-  }
-
-  body ::-webkit-scrollbar-thumb {
-    border-width: 1.75px;
-    border-radius: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar_hover-thumb-color);
-  }
+.beer-article .doc ul.checklist i.fa-square-o::before {
+  content: "\274f";
 }

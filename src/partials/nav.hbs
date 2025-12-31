@@ -1,8 +1,34 @@
-<div class="nav-container"{{#if page.component}} data-component="{{page.component.name}}" data-version="{{page.version}}"{{/if}}>
-  <aside class="nav">
-    <div class="panels">
-{{> nav-menu}}
-{{> nav-explore}}
-    </div>
-  </aside>
-</div>
+<nav class="nav left">
+  <a href="{{{relativize (startPageUrl site.startPage)}}}">
+    <i>home</i>
+  </a>
+  {{!-- <a>
+    <i>code</i>
+  </a>
+  <a>
+    <i>book</i>
+  </a> --}}
+  <div class="max"></div>
+  <button class="circle transparent">
+    <i id="mode-icon">dark_mode</i>
+    <script>
+      me().on("click", async () => {
+        
+        const isDark = ui("mode") === "dark";
+        const next = isDark ? "light" : "dark";
+
+        // Apply mode
+        await ui("mode", next);
+
+        // Update Icon: If new mode is dark, show Sun (light_mode), else Moon
+        me("#mode-icon").innerText = next === "dark" ? "light_mode" : "dark_mode";
+      });
+
+      // 2. Init on Load: Ensure icon matches 'auto' or saved state immediately
+      onloadAdd(_ => {
+        const start = ui("mode");
+        me("#mode-icon").innerText = start === "dark" ? "light_mode" : "dark_mode";
+      })
+    </script>
+  </button>
+</nav>

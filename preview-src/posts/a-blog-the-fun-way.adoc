@@ -2,7 +2,7 @@
 :page-role: article
 :revdate: 2019-08-18
 :page-tags: hugo, docker, netlify
-:page-layout: beer.article
+:page-layout: article
 :icons: font
 :sourcedir: ./
 

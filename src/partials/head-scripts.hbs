@@ -1,7 +1,5 @@
-    {{#with site.keys.googleAnalytics}}
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{this}}"></script>
-    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','{{this}}')</script>
-    {{/with}}
-    {{!--
-    <script>var uiRootPath = '{{{uiRootPath}}}'</script>
-    --}}
+    <script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.12.11/dist/cdn/beer.min.js"></script>
+    <script type="module"
+      src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.2/dist/cdn/material-dynamic-colors.min.js"></script>
+    <script src="{{{uiRootPath}}}/js/vendor/beer.js"></script>
