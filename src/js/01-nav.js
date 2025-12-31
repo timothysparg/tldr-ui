@@ -75,7 +75,7 @@
         var targetNode = document.getElementById(hash.slice(1))
         if (targetNode) {
           var current = targetNode
-          var ceiling = document.querySelector('article.doc')
+          var ceiling = document.querySelector('article')
           while ((current = current.parentNode) && current !== ceiling) {
             var id = current.id
             // NOTE: look for section heading

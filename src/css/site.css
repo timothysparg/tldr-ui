@@ -140,11 +140,11 @@ body {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.doc i.fa {
+article i.fa {
   font-style: normal;
 }
 
-.doc ul.checklist {
+article ul.checklist {
   padding-left: 1.75rem;
   list-style-type: none;
 
@@ -170,13 +170,13 @@ body {
    HOME PAGE STYLES
    ============================================ */
 
-body.home .page article {
+body.home article {
   background: var(--surface-container-high);
   border: 1px solid var(--outline-variant);
   box-shadow: var(--elevate2);
 }
 
-body.home.dark .page article {
+body.home.dark article {
   background: var(--surface-container-high);
   border-color: var(--outline-variant);
   box-shadow: var(--elevate2);
@@ -337,20 +337,20 @@ body.dark.article-card {
   margin: 0.5rem 0 1rem;
 }
 
-.doc p code,
-.doc li code,
-.doc td code,
-.doc dd code {
+article p code,
+article li code,
+article td code,
+article dd code {
   padding: 0.1em 0.35em;
   background: color-mix(in srgb, var(--outline-variant) 20%, transparent);
   border-radius: 0.4em;
 }
 
-.doc pre {
+article pre {
   border-radius: 0.5rem;
 }
 
-.doc .source-toolbox .copy-button {
+article .source-toolbox .copy-button {
   min-width: auto;
   min-height: auto;
   padding: 0;
@@ -360,7 +360,7 @@ body.dark.article-card {
   box-shadow: none;
 }
 
-.doc .code-header {
+article .code-header {
   display: flex;
   flex-wrap: nowrap;
   gap: 0.75rem;
@@ -427,7 +427,7 @@ body.dark.article-card {
   }
 }
 
-.doc .code-filename {
+article .code-filename {
   margin: 0;
   color: #5c6370;
   font-size: 0.75rem;
@@ -435,11 +435,11 @@ body.dark.article-card {
   font-style: italic;
 }
 
-.doc .code-header .copy-toast {
+article .code-header .copy-toast {
   display: none;
 }
 
-.doc pre.highlight {
+article pre.highlight {
   padding: 0;
   background: #282a36;
   border: 1px solid rgb(255 255 255 / 10%);
@@ -454,8 +454,8 @@ body.dark.article-card {
   }
 }
 
-.doc .listingblock pre:not(.highlight),
-.doc .literalblock pre {
+article .listingblock pre:not(.highlight),
+article .literalblock pre {
   padding: 1.5rem;
   color: #f8f8f2;
   line-height: 2.2;
@@ -464,7 +464,7 @@ body.dark.article-card {
   box-shadow: none;
 }
 
-.doc .conum[data-value] {
+article .conum[data-value] {
   width: auto;
   height: auto;
   color: #f43f5e;
@@ -490,7 +490,7 @@ body.dark.article-card {
   }
 }
 
-.doc kbd {
+article kbd {
   display: inline-block;
   padding: 0.2em 0.45em;
   font-size: 0.75rem;
@@ -503,7 +503,7 @@ body.dark.article-card {
   box-shadow: 0 1px 0 var(--outline-variant);
 }
 
-.doc .keyseq {
+article .keyseq {
   font-size: 1rem;
   line-height: 1;
 
@@ -520,26 +520,26 @@ body.dark.article-card {
   }
 }
 
-.doc .menuseq,
-.doc .path {
+article .menuseq,
+article .path {
   hyphens: none;
 }
 
-.doc .menuseq i.caret::before {
+article .menuseq i.caret::before {
   font-weight: 600;
   font-size: 1.1em;
   line-height: calc(1 / 1.1);
   content: "\203a";
 }
 
-.doc p a,
-.doc li a,
-.doc td a,
-.doc dd a {
+article p a,
+article li a,
+article td a,
+article dd a {
   text-decoration: underline;
 }
 
-.doc .admonitionblock {
+article .admonitionblock {
   margin: 1.25rem 0;
 
   & > table {
@@ -633,13 +633,13 @@ body.dark.article-card {
 }
 
 /* Code blocks with BeerCSS styling */
-.doc .listingblock,
-.doc .literalblock {
+article .listingblock,
+article .literalblock {
   margin: 1.5rem 0;
 }
 
 /* Add article-like container for code blocks with callouts */
-.doc .listingblock.has-callouts {
+article .listingblock.has-callouts {
   overflow: hidden;
   background: var(--surface-container-low);
   border-radius: 16px;
@@ -659,7 +659,7 @@ body.dark.article-card {
 /* Code header (with language chip and copy button) */
 
 /* Source language chip styling */
-.doc .source-lang {
+article .source-lang {
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 0.5rem;
@@ -673,7 +673,7 @@ body.dark.article-card {
 }
 
 /* Divider between code and callouts */
-.doc .divider.margin {
+article .divider.margin {
   height: 1px;
   margin: 1rem 0;
   background: var(--outline-variant);
@@ -681,7 +681,7 @@ body.dark.article-card {
 }
 
 /* BeerCSS List-based Colist Styling */
-.doc .colist {
+article .colist {
   margin: 0;
   padding: 0;
 

@@ -1,7 +1,7 @@
 ;(function () {
   'use strict'
 
-  var article = document.querySelector('article.doc')
+  var article = document.querySelector('article')
   if (!article) return
   var toolbar = document.querySelector('.toolbar')
   var supportsScrollToOptions = 'scrollTo' in document.documentElement

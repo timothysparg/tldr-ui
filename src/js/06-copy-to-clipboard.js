@@ -7,7 +7,7 @@
 
   var supportsCopy = window.navigator.clipboard
   var isBeerArticle = document.body.classList.contains('article')
-  ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
+  ;[].slice.call(document.querySelectorAll('article pre.highlight, article .literalblock pre')).forEach(function (pre) {
     var code, language, lang, copy, toast, toolbox, header, content, block, title
     if (pre.classList.contains('highlight')) {
       code = pre.querySelector('code')

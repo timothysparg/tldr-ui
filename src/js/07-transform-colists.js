@@ -6,7 +6,7 @@
   if (!isBeerArticle) return
 
   // Find all colist elements (callout lists)
-  var colists = document.querySelectorAll('.doc .colist')
+  var colists = document.querySelectorAll('article .colist')
 
   colists.forEach(function (colist) {
     var table = colist.querySelector('table')
@@ -76,7 +76,7 @@
   })
 
   // Also wrap code blocks in proper article structure if needed
-  var codeBlocks = document.querySelectorAll('.doc .listingblock, .doc .literalblock')
+  var codeBlocks = document.querySelectorAll('article .listingblock, article .literalblock')
 
   codeBlocks.forEach(function (block) {
     // Check if this block has callouts following it
