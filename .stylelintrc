@@ -1,8 +1,16 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-rational-order"
+  ],
   "plugins": [
     "stylelint-plugin-defensive-css",
-    "stylelint-use-nesting"
+    "stylelint-use-nesting",
+    "stylelint-declaration-block-no-ignored-properties",
+    "stylelint-high-performance-animation",
+    "stylelint-value-no-unknown-custom-properties",
+    "stylelint-no-unsupported-browser-features",
+    "stylelint-gamut"
   ],
   "rules": {
     "comment-empty-line-before": null,
@@ -14,6 +22,26 @@
       }
     ],
     "csstools/use-nesting": "always",
+    "plugin/declaration-block-no-ignored-properties": true,
+    "plugin/no-unsupported-browser-features": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ],
+    "plugin/no-low-performance-animation-properties": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ],
+    "csstools/value-no-unknown-custom-properties": [
+      true,
+      {
+        "importFrom": ["src/css/site.css"]
+      }
+    ],
+    "gamut/color-no-out-gamut-range": true,
     "plugin/use-defensive-css": [
       true,
       {
