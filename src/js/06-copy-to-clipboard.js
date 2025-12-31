@@ -5,11 +5,7 @@
   var LINE_CONTINUATION_RX = /( ) *\\\n *|\\\n( ?) */g
   var TRAILING_SPACE_RX = / +$/gm
 
-  var config = (document.getElementById('site-script') || { dataset: {} }).dataset
   var supportsCopy = window.navigator.clipboard
-  var svgAs = config.svgAs
-  var uiRootPath = (config.uiRootPath == null ? window.uiRootPath : config.uiRootPath) || '.'
-
   var isBeerArticle = document.body.classList.contains('beer-article')
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
     var code, language, lang, copy, toast, toolbox, header, content, block, title
@@ -82,7 +78,7 @@
     window.navigator.clipboard.writeText(text).then(
       function () {
         this.classList.add('clicked')
-        setTimeout(function() {
+        setTimeout(function () {
           this.classList.remove('clicked')
         }.bind(this), 1000)
       }.bind(this),

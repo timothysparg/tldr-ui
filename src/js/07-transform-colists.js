@@ -66,7 +66,9 @@
 
     // Add divider before the colist if it follows a code block
     var prevSibling = colist.previousElementSibling
-    if (prevSibling && (prevSibling.classList.contains('listingblock') || prevSibling.classList.contains('literalblock'))) {
+    var isCodeBlock = prevSibling && (prevSibling.classList.contains('listingblock') ||
+      prevSibling.classList.contains('literalblock'))
+    if (isCodeBlock) {
       var divider = document.createElement('div')
       divider.className = 'divider margin'
       colist.parentNode.insertBefore(divider, colist)
