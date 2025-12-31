@@ -10,8 +10,9 @@
   var svgAs = config.svgAs
   var uiRootPath = (config.uiRootPath == null ? window.uiRootPath : config.uiRootPath) || '.'
 
+  var isBeerArticle = document.body.classList.contains('beer-article')
   ;[].slice.call(document.querySelectorAll('.doc pre.highlight, .doc .literalblock pre')).forEach(function (pre) {
-    var code, language, lang, copy, toast, toolbox
+    var code, language, lang, copy, toast, toolbox, header, content, block, title
     if (pre.classList.contains('highlight')) {
       code = pre.querySelector('code')
       if ((language = code.dataset.lang) && language !== 'console') {
@@ -19,7 +20,7 @@
         lang.appendChild(document.createTextNode(language))
       }
     } else if (pre.innerText.startsWith('$ ')) {
-      var block = pre.parentNode.parentNode
+      block = pre.parentNode.parentNode
       block.classList.remove('literalblock')
       block.classList.add('listingblock')
       pre.classList.add('highlightjs', 'highlight')
@@ -35,26 +36,32 @@
     if (supportsCopy) {
       ;(copy = document.createElement('button')).className = 'copy-button'
       copy.setAttribute('title', 'Copy to clipboard')
-      if (svgAs === 'svg') {
-        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttribute('class', 'copy-icon')
-        var use = document.createElementNS('http://www.w3.org/2000/svg', 'use')
-        use.setAttribute('href', uiRootPath + '/img/octicons-16.svg#icon-clippy')
-        svg.appendChild(use)
-        copy.appendChild(svg)
-      } else {
-        var img = document.createElement('img')
-        img.src = uiRootPath + '/img/octicons-16.svg#view-clippy'
-        img.alt = 'copy icon'
-        img.className = 'copy-icon'
-        copy.appendChild(img)
-      }
+      var icon = document.createElement('i')
+      icon.className = 'fa fa-copy copy-icon'
+      copy.appendChild(icon)
       ;(toast = document.createElement('span')).className = 'copy-toast'
       toast.appendChild(document.createTextNode('Copied!'))
       copy.appendChild(toast)
       toolbox.appendChild(copy)
     }
-    pre.parentNode.appendChild(toolbox)
+    if (isBeerArticle) {
+      content = pre.parentNode
+      block = pre.closest('.listingblock, .literalblock')
+      title = block && block.querySelector(':scope > .title')
+      if (content && !content.querySelector('.beer-code-header')) {
+        ;(header = document.createElement('div')).className = 'beer-code-header'
+        if (title) {
+          title.classList.add('beer-code-filename')
+          header.appendChild(title)
+        }
+        header.appendChild(toolbox)
+        content.insertBefore(header, pre)
+      } else {
+        content.appendChild(toolbox)
+      }
+    } else {
+      pre.parentNode.appendChild(toolbox)
+    }
     if (copy) copy.addEventListener('click', writeToClipboard.bind(copy, code))
   })
 
@@ -67,12 +74,17 @@
 
   function writeToClipboard (code) {
     var text = code.innerText.replace(TRAILING_SPACE_RX, '')
+    // Strip callout markers (angle brackets with numbers)
+    text = text.replace(/\s*〈\s*\d+\s*〉/g, '')
+    // Strip comment markers followed by callouts (e.g., ";; (1)" or "// (1)")
+    text = text.replace(/\s*(;;|\/\/)\s*\(\d+\)/g, '')
     if (code.dataset.lang === 'console' && text.startsWith('$ ')) text = extractCommands(text)
     window.navigator.clipboard.writeText(text).then(
       function () {
         this.classList.add('clicked')
-        this.offsetHeight // eslint-disable-line no-unused-expressions
-        this.classList.remove('clicked')
+        setTimeout(function() {
+          this.classList.remove('clicked')
+        }.bind(this), 1000)
       }.bind(this),
       function () {}
     )

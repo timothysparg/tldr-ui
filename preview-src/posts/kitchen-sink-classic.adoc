@@ -82,11 +82,11 @@ NOTE: This is a note admonition.
 
 TIP: This is a tip admonition.
 
+IMPORTANT: This is an important admonition.
+
 WARNING: This is a warning admonition.
 
 CAUTION: This is a caution admonition.
-
-IMPORTANT: This is an important admonition.
 
 === Code Blocks
 
@@ -96,13 +96,12 @@ This is a listing block.
 It preserves line breaks and spacing.
 ----
 
-[source,js]
+[source,clojure]
 ----
-function add(a, b) {
-  return a + b
-}
+(defn add [a b]
+  (+ a b))
 
-console.log(add(2, 3)) // <1>
+(println (add 2 3)) ;; <1>
 ----
 <1> Example callout for a source block.
 
@@ -142,7 +141,7 @@ Inline image: image:../multirepo-ssg.svg[Alt text for inline image, width=24]
 
 A bare link: https://example.com
 
-[source,text]
+[source,plaintext]
 ----
 Callout line one // <1>
 Callout line two // <2>

@@ -107,24 +107,157 @@ body.dark.beer-article .beer-article-card {
   font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
 }
 
-.beer-article .beer-article-card pre {
-  background: var(--surface-container-highest);
-  border: 1px solid var(--outline-variant);
-  border-radius: 12px;
-  padding: 1rem;
-  overflow: auto;
-}
-
-.beer-article .beer-article-card code {
-  background: color-mix(in srgb, var(--outline-variant) 20%, transparent);
-  padding: 0.1em 0.35em;
-  border-radius: 8px;
-}
-
 .beer-article .beer-article-card .listingblock pre {
   margin: 0.5rem 0 1rem;
 }
 
+.beer-article .doc p code,
+.beer-article .doc li code,
+.beer-article .doc td code,
+.beer-article .doc dd code {
+  background: color-mix(in srgb, var(--outline-variant) 20%, transparent);
+  padding: 0.1em 0.35em;
+  border-radius: 0.4em;
+}
+
+.beer-article .doc pre {
+  border-radius: 0.5rem;
+}
+
+.beer-article .doc .source-toolbox .copy-button {
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: auto;
+  min-width: auto;
+  padding: 0;
+}
+
+.beer-article .doc .beer-code-header {
+  align-items: center;
+  background: #21222c;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+}
+
+.beer-article .doc .beer-code-header + pre {
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.beer-article .doc .beer-code-filename {
+  color: #5c6370;
+  font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.beer-article .doc .beer-code-header .source-toolbox {
+  align-items: center;
+  display: flex;
+  margin-left: auto;
+  position: static;
+  visibility: visible;
+}
+
+.beer-article .doc .beer-code-header .source-toolbox > :not(:last-child)::after {
+  content: "";
+  padding: 0;
+}
+
+.beer-article .doc .beer-code-header .source-lang {
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
+  border-radius: 999px;
+  color: var(--primary);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.beer-article .doc .beer-code-header .copy-button {
+  color: #abb2bf;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beer-article .doc .beer-code-header .copy-button .copy-icon {
+  font-size: 0.9rem;
+}
+
+.beer-article .doc .beer-code-header .copy-button:hover {
+  color: #ffffff;
+}
+
+.beer-article .doc .beer-code-header .copy-button.clicked {
+  color: #98c379;
+}
+
+.beer-article .doc .beer-code-header .copy-toast {
+  display: none;
+}
+
+.beer-article .doc pre.highlight {
+  background: #282a36;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: none;
+  padding: 0;
+}
+
+.beer-article .doc pre.highlight > code {
+  display: block;
+  background: #282a36;
+  line-height: 2.2;
+  padding: 1.5rem;
+  color: #f8f8f2;
+}
+
+.beer-article .doc .listingblock pre:not(.highlight),
+.beer-article .doc .literalblock pre {
+  background: #282a36;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: none;
+  line-height: 2.2;
+  padding: 1.5rem;
+  color: #f8f8f2;
+}
+
+.beer-article .doc .conum[data-value] {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: #f43f5e;
+  font-family: var(--beer-font-family-mono, 'Roboto Mono', monospace);
+  font-size: 0.85em;
+  font-style: normal;
+  height: auto;
+  line-height: 1.4;
+  text-align: left;
+  width: auto;
+}
+
+.beer-article .doc .conum[data-value]::before {
+  content: "〈";
+}
+
+.beer-article .doc .conum[data-value]::after {
+  content: attr(data-value) "〉";
+}
+
+.beer-article .doc .conum[data-value] + b {
+  display: none;
+}
 .beer-article .doc p a,
 .beer-article .doc li a,
 .beer-article .doc td a,
@@ -220,14 +353,138 @@ body.dark.beer-article .beer-article-card {
   content: "\f12a";
 }
 
-.beer-article .beer-article-card .colist td {
-  padding: 0.25rem 0.5rem;
+/* Code blocks with BeerCSS styling */
+.beer-article .doc .listingblock,
+.beer-article .doc .literalblock {
+  margin: 1.5rem 0;
 }
 
-.beer-article .beer-article-card .colist .conum {
-  background: var(--primary-container);
-  color: var(--on-primary-container);
-  border-radius: 999px;
-  padding: 0 0.5em;
-  display: inline-block;
+/* Add article-like container for code blocks with callouts */
+.beer-article .doc .listingblock.has-callouts {
+  background: var(--surface-container-low);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--elevate1, 0 2px 4px rgba(0,0,0,0.1));
+}
+
+.beer-article .doc .listingblock.has-callouts > .content {
+  background: var(--surface-container-low);
+  padding: 0;
+}
+
+/* Code header (with language chip and copy button) */
+.beer-article .doc .beer-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--surface-container);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.beer-article .doc .beer-code-filename {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Source language chip styling */
+.beer-article .doc .source-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Code content padding adjustment for blocks with callouts */
+.beer-article .doc .listingblock.has-callouts pre {
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Divider between code and callouts */
+.beer-article .doc .divider.margin {
+  margin: 1rem 0;
+  height: 1px;
+  background: var(--outline-variant);
+  border: none;
+}
+
+/* BeerCSS List-based Colist Styling */
+.beer-article .doc .colist {
+  margin: 0;
+  padding: 0;
+}
+
+.beer-article .doc .colist ul.list {
+  list-style: none;
+  margin: 0;
+  padding: 0 1rem 1rem 1rem;
+  background: var(--surface-container-low);
+}
+
+.beer-article .doc .colist ul.list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border: none;
+  background: transparent;
+}
+
+.beer-article .doc .colist ul.list li:not(:last-child) {
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.beer-article .doc .colist ul.list li button.circle {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: default;
+  pointer-events: none;
+}
+
+.beer-article .doc .colist ul.list li .max {
+  flex: 1;
+  min-width: 0;
+}
+
+.beer-article .doc .colist ul.list li .max h6 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.beer-article .doc .colist ul.list li .max .small-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--on-surface-variant);
+}
+
+.beer-article .doc .colist ul.list li .max .small-text code {
+  font-size: 0.85rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--surface-container-highest);
+  border-radius: 4px;
+}
+
+/* Remove old table-based colist styling for beer articles */
+.beer-article .doc .colist > table {
+  display: none;
 }

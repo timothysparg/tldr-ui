@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clojure Code Viewer</title>
+    
+    <!-- BeerCSS & Material Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.13.1/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.13.1/dist/cdn/beer.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/clojure.min.js"></script>
+
+    <style>
+        :root {
+            --code-font: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        /* Make HLJS background transparent to inherit BeerCSS surface colors */
+        pre code.hljs {
+            background: transparent !important;
+        }
+
+    </style>
+</head>
+<body class="dark">
+
+    <main class="responsive">
+        <div class="space"></div>
+        
+        <header class="center-align">
+            <h2 class="extra">Snippet Viewer</h2>
+            <p>Clean BeerCSS List Layout</p>
+        </header>
+
+        <div class="space"></div>
+
+        <div class="grid">
+            <div class="s12 m10 l8 offset-m1 offset-l2">
+                
+                <article class="no-padding extra elevate">
+                    
+                    <!-- Header Row -->
+                    <nav class="padding surface-container">
+                        <div class="chip fill secondary">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/clojure/clojure-original.svg" alt="Clojure logo" />
+                            <span>logic_gate.clj</span>
+                        </div>
+                        
+                        <div class="max"></div>
+                        
+                        <button class="circle transparent" onclick="copyCode(this)">
+                            <i>content_copy</i>
+                            <div class="tooltip">Copy Code</div>
+                        </button>
+                    </nav>
+
+                    <!-- Code Body -->
+                    <div class="padding">
+                        <pre class="scroll"><code id="code" class="language-clojure">(ns example.logic-gate)
+
+(defn- solve-riddle [x] ;; (1)
+  (let [secret (* x 42)] ;; (2)
+    (cond
+      (> secret 100) :big
+      (< secret 0)   :error
+      :else          :small)))</code></pre>
+
+                        <!-- Callout Explanations using Idiomatic BeerCSS List -->
+                        <div class="divider margin"></div>                 
+                        <ul class="list">
+                            <li>
+                                <button class="circle primary">1</button>
+                                <div class="max">
+                                    <h6 class="small">Function Definition</h6>
+                                    <div class="small-text">Defines a private function <code>solve-riddle</code> that takes one argument.</div>
+                                </div>
+                            </li>
+                            <li>
+                                <button class="circle primary">2</button>
+                                <div class="max">
+                                    <h6 class="small">Local Binding</h6>
+                                    <div class="small-text">Binds the result of <code>x * 42</code> to the local symbol <code>secret</code>.</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </article>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        window.onload = () => {
+            hljs.highlightAll();
+        };
+
+        async function copyCode(btn) {
+            const codeElement = document.getElementById('code');
+            const temp = codeElement.cloneNode(true);
+            temp.querySelectorAll('.callout-ref').forEach(el => el.remove());
+            const text = temp.innerText.trim();
+            
+            const icon = btn.querySelector('i');
+            
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                const originalIcon = icon.innerText;
+                btn.classList.add('primary-text');
+                icon.innerText = 'done';
+                
+                setTimeout(() => {
+                    btn.classList.remove('primary-text');
+                    icon.innerText = originalIcon;
+                }, 2000);
+
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        }
+    </script>
+</body>
+</html>
