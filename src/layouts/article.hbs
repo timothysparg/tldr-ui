@@ -8,39 +8,41 @@
 <body class="article">
   {{> nav}}
 
-  <main class="responsive article-layout">
-    <div class="article-main">
-      <article class="round no-elevate large-padding article-card">
-        <header class="article-header">
-          {{#with page.title}}
-          <h1>{{{this}}}</h1>
-          {{/with}}
-          <div class="article-meta">
-            {{#if page.attributes.revdate}}
-            <span class="meta-item">
-              <i class="fas fa-calendar"></i>
-              <span>{{page.attributes.revdate}}</span>
-            </span>
-            {{/if}}
-            <span class="meta-item">
-              <i class="fas fa-clock"></i>
-              <span data-reading-time></span>
-            </span>
-            {{#if page.attributes.tags}}
-            <span class="meta-item meta-tags">
-              <i class="fas fa-tag"></i>
-              <span>{{page.attributes.tags}}</span>
-            </span>
-            {{/if}}
-          </div>
-        </header>
-        {{{page.contents}}}
+  <main class="responsive">
+    <div class="grid">
+      <div class="s12 m12 l9">
+        <article class="round no-elevate large-padding article-card">
+          <header>
+            {{#with page.title}}
+            <h1>{{{this}}}</h1>
+            {{/with}}
+            <div class="article-meta">
+              {{#if page.attributes.revdate}}
+              <span class="meta-item">
+                <i class="fas fa-calendar"></i>
+                <span>{{page.attributes.revdate}}</span>
+              </span>
+              {{/if}}
+              <span class="meta-item">
+                <i class="fas fa-clock"></i>
+                <span data-reading-time></span>
+              </span>
+              {{#if page.attributes.tags}}
+              <span class="meta-item meta-tags">
+                <i class="fas fa-tag"></i>
+                <span>{{page.attributes.tags}}</span>
+              </span>
+              {{/if}}
+            </div>
+          </header>
+          {{{page.contents}}}
+        </article>
+      </div>
+      <article class="s12 m12 l3 article-toc" aria-label="On this page">
+        <h5>On this page</h5>
+        <div class="article-toc-body"></div>
       </article>
     </div>
-    <aside class="article-toc" aria-label="On this page">
-      <h3>On this page</h3>
-      <div class="article-toc-body"></div>
-    </aside>
   </main>
   {{> footer-scripts}}
 </body>
