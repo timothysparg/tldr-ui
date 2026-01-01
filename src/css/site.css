@@ -131,3 +131,11 @@ h6 {
 /* ============================================
    BASE STYLES
    ============================================ */
+
+body.light .theme-image.dark {
+  display: none;
+}
+
+body.dark .theme-image.light {
+  display: none;
+}
