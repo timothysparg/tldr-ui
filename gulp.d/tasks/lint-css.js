@@ -1,16 +1,15 @@
 'use strict'
 
-const stylelint = require('stylelint')
-
 module.exports = (files) => async (done) => {
   try {
-    const result = await stylelint.lint({
+    const stylelint = await import('stylelint')
+    const result = await stylelint.default.lint({
       files,
       formatter: 'string',
     })
 
-    if (result.output) {
-      console.log(result.output)
+    if (result.report) {
+      console.log(result.report)
     }
 
     if (result.errored) {
