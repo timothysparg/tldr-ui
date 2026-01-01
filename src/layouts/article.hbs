@@ -26,6 +26,19 @@
               <span class="meta-item">
                 <i class="fas fa-clock"></i>
                 <span data-reading-time></span>
+                  <script>
+                    onloadAdd(() => {
+                      const target = me("[data-reading-time]");
+
+                      const article = me("article.article-card");
+                      if (!article) return;
+
+                      const text = article.innerText || "";
+                      const words = text.trim().split(/\s+/).filter(Boolean).length;
+                      const minutes = Math.max(1, Math.ceil(words / 200));
+                      target.innerText = `${minutes} min read`;
+                    });
+                  </script>
               </span>
               {{#if page.attributes.tags}}
               <span class="meta-item meta-tags">

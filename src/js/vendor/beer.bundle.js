@@ -27,13 +27,6 @@
       }
     }
 
-    var readingTimeTarget = document.querySelector('[data-reading-time]')
-    if (readingTimeTarget) {
-      var text = article.textContent || ''
-      var words = text.trim().split(/\s+/).filter(Boolean).length
-      var minutes = Math.max(1, Math.ceil(words / 200))
-      readingTimeTarget.textContent = minutes + ' min read'
-    }
   }
 
   if (document.readyState === 'loading') {
