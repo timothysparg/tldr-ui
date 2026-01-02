@@ -305,4 +305,28 @@ article.article-card {
     background: color-mix(in srgb, var(--primary) 6%, var(--surface-container-low));
     border-color: color-mix(in srgb, var(--primary) 25%, var(--outline));
   }
+
+  & .keyseq {
+    white-space: nowrap;
+  }
+
+  & .keyseq kbd {
+    display: inline-block;
+    padding: 0.1rem 0.35rem;
+    border: 1px solid var(--outline);
+    border-radius: 0.25rem;
+    background: var(--surface-container);
+    font-family: var(--monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
+    font-size: 0.85em;
+    line-height: 1.2;
+  }
+
+  & .button {
+    --_size: 1.2rem;
+    --_padding: 0.35rem;
+    background: var(--tertiary);
+    color: var(--on-tertiary);
+    font-weight: 600;
+  }
+
 }
