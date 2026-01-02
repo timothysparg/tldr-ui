@@ -12,21 +12,32 @@
   <button class="circle transparent">
     <i id="mode-icon">dark_mode</i>
     <script>
+      const THEME_STORAGE_KEY = "ui-mode";
+      const THEME_MAP = {
+        light: "dark_mode",
+        dark: "light_mode",
+        auto: "brightness_auto",
+      };
+      const THEME_MODES = Object.keys(THEME_MAP);
+
       me().on("click", async () => {
-        const isDark = ui("mode") === "dark";
-        const next = isDark ? "light" : "dark";
+        const current = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
+        const next = THEME_MODES[(THEME_MODES.indexOf(current) + 1) % THEME_MODES.length];
 
         // Apply mode
         await ui("mode", next);
+        localStorage.setItem(THEME_STORAGE_KEY, next);
 
-        // Update Icon: If new mode is dark, show Sun (light_mode), else Moon
-        me("#mode-icon").innerText = next === "dark" ? "light_mode" : "dark_mode";
+        // Update Icon
+        me("#mode-icon").innerText = THEME_MAP[next];
       });
 
       // 2. Init on Load: Ensure icon matches 'auto' or saved state immediately
       onloadAdd(_ => {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
+        ui("mode", stored);
         const start = ui("mode");
-        me("#mode-icon").innerText = start === "dark" ? "light_mode" : "dark_mode";
+        me("#mode-icon").innerText = THEME_MAP[start];
       })
     </script>
   </button>
