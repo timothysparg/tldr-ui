@@ -281,4 +281,28 @@ article.article-card {
     background: color-mix(in srgb, var(--error) 8%, var(--surface-container));
     border-color: color-mix(in srgb, var(--error) 35%, var(--outline));
   }
+
+  & .sidebarblock,
+  & .exampleblock {
+    border: 1px solid var(--outline);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: var(--surface-container-low);
+  }
+
+  & .sidebarblock .content,
+  & .exampleblock .content {
+    margin: 0;
+  }
+
+  & .sidebarblock {
+    background: color-mix(in srgb, var(--tertiary) 8%, var(--surface-container-low));
+    border-color: color-mix(in srgb, var(--tertiary) 30%, var(--outline));
+  }
+
+  & .exampleblock {
+    background: color-mix(in srgb, var(--primary) 6%, var(--surface-container-low));
+    border-color: color-mix(in srgb, var(--primary) 25%, var(--outline));
+  }
 }
