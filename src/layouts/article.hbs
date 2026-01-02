@@ -75,7 +75,7 @@
             }
 
             const list = document.createElement("ul");
-            list.className = "list no-space";
+            list.className = "list no-space toc-list";
             let currentSublist = null;
 
             headings.forEach((heading) => {
@@ -96,7 +96,7 @@
 
               if (!currentSublist) {
                 currentSublist = document.createElement("ul");
-                currentSublist.className = "list no-space";
+                currentSublist.className = "list no-space toc-list";
                 const sublistItem = document.createElement("li");
                 sublistItem.appendChild(currentSublist);
                 list.appendChild(sublistItem);

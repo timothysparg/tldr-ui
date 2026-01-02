@@ -125,6 +125,7 @@ h5,
 h6 {
   font-family: var(--font-family-display);
   letter-spacing: 0.01em;
+  margin-bottom: 1rem;
 }
 
 
@@ -143,4 +144,24 @@ body.dark .theme-image.light {
 .article-toc {
     align-self: start;
     height: fit-content;
+}
+
+.article-toc-body {
+  & .toc-list {
+    margin: 0;
+    padding-left: 0.6rem;
+  }
+
+  & .toc-list li {
+    min-height: 0;
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  & .toc-list a {
+    padding: 2px 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    line-height: 1.1 !important;
+  }
 }
