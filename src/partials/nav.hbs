@@ -20,6 +20,14 @@
       };
       const THEME_MODES = Object.keys(THEME_MAP);
 
+      const setHighlightTheme = mode => {
+        const light = me("#hljs-theme-light");
+        const dark = me("#hljs-theme-dark");
+        if (!light || !dark) return;
+        light.disabled = mode === "dark";
+        dark.disabled = mode === "light";
+      };
+
       me().on("click", async () => {
         const current = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
         const next = THEME_MODES[(THEME_MODES.indexOf(current) + 1) % THEME_MODES.length];
@@ -27,6 +35,7 @@
         // Apply mode
         await ui("mode", next);
         localStorage.setItem(THEME_STORAGE_KEY, next);
+        setHighlightTheme(next);
 
         // Update Icon
         me("#mode-icon").innerText = THEME_MAP[next];
@@ -38,6 +47,7 @@
         ui("mode", stored);
         const start = ui("mode");
         me("#mode-icon").innerText = THEME_MAP[start];
+        setHighlightTheme(start);
       })
     </script>
   </button>
