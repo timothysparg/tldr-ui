@@ -329,4 +329,20 @@ article.article-card {
     font-weight: 600;
   }
 
-}
+  & .imageblock {
+    text-align: center;
+
+    & .content {
+      display: flex;
+      justify-content: center;
+    }
+
+    & .title {
+      margin-top: 0.4rem;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--outline);
+    }
+  }
+} 
+
