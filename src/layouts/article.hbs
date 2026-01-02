@@ -50,6 +50,13 @@
           </header>
           {{{page.contents}}}
         </article>
+        <script>
+          onloadAdd(() => {
+            any("article a").forEach((anchor) => {
+              anchor.classList.add("link");
+            });
+          });
+        </script>
       </div>
       <article class="s12 m12 l3 article-toc" aria-label="On this page">
         <h5>On this page</h5>
