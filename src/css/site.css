@@ -193,4 +193,92 @@ article.article-card {
   & .dlist dd > p:first-child {
     margin-top: 0.5rem;
   }
+
+  & .admonitionblock {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    border: 1px solid var(--outline);
+    background: var(--surface-container);
+  }
+
+  & .admonitionblock table {
+    border: 0;
+    width: 100%;
+  }
+
+  & .admonitionblock tr {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  & .admonitionblock td {
+    border: 0;
+    padding: 0;
+  }
+
+  & .admonitionblock .icon {
+    flex: 0 0 auto;
+    width: 1.5rem;
+    text-align: center;
+    color: var(--primary);
+  }
+
+  & .admonitionblock .icon i {
+    font-family: "Material Symbols Outlined";
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    line-height: 1;
+  }
+
+  & .admonitionblock .icon i::before {
+    display: inline-block;
+  }
+
+  & .admonitionblock .icon .icon-note::before {
+    content: "info";
+  }
+
+  & .admonitionblock .icon .icon-tip::before {
+    content: "lightbulb";
+  }
+
+  & .admonitionblock .icon .icon-important::before {
+    content: "report";
+  }
+
+  & .admonitionblock .icon .icon-warning::before {
+    content: "warning";
+  }
+
+  & .admonitionblock .icon .icon-caution::before {
+    content: "dangerous";
+  }
+
+  & .admonitionblock .content {
+    margin: 0;
+  }
+
+  & .admonitionblock.note {
+    background: color-mix(in srgb, var(--primary) 8%, var(--surface-container));
+    border-color: color-mix(in srgb, var(--primary) 30%, var(--outline));
+  }
+
+  & .admonitionblock.tip {
+    background: color-mix(in srgb, var(--tertiary) 10%, var(--surface-container));
+    border-color: color-mix(in srgb, var(--tertiary) 35%, var(--outline));
+  }
+
+  & .admonitionblock.important {
+    background: color-mix(in srgb, var(--secondary) 10%, var(--surface-container));
+    border-color: color-mix(in srgb, var(--secondary) 35%, var(--outline));
+  }
+
+  & .admonitionblock.warning,
+  & .admonitionblock.caution {
+    background: color-mix(in srgb, var(--error) 8%, var(--surface-container));
+    border-color: color-mix(in srgb, var(--error) 35%, var(--outline));
+  }
 }
