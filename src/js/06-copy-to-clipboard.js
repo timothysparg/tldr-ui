@@ -6,11 +6,13 @@
   var TRAILING_SPACE_RX = / +$/gm
 
   var supportsCopy = window.navigator.clipboard
-  var iconMap = {
-    clojure: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/clojure/clojure-original.svg',
-  }
-  var filenameMap = {
-    clojure: 'logic_gate.clj',
+  var deviconOverrides = {
+    cpp: 'cplusplus',
+    js: 'javascript',
+    sh: 'bash',
+    shell: 'bash',
+    shellscript: 'bash',
+    ts: 'typescript',
   }
   var isBeerArticle = document.body.classList.contains('article')
   ;[].slice.call(document.querySelectorAll('article pre.highlight, article .literalblock pre')).forEach(function (pre) {
@@ -57,14 +59,10 @@
         } else if (lang) {
           chip = document.createElement('div')
           chip.className = 'chip fill secondary'
-          if (iconMap[language]) {
-            logo = document.createElement('img')
-            logo.src = iconMap[language]
-            logo.alt = language + ' logo'
-            chip.appendChild(logo)
-          }
+          logo = createDeviconLogo(language)
+          if (logo) chip.appendChild(logo)
           label = document.createElement('span')
-          label.appendChild(document.createTextNode(filenameMap[language] || language))
+          label.appendChild(document.createTextNode(language))
           chip.appendChild(label)
           header.appendChild(chip)
         }
@@ -108,5 +106,17 @@
       }.bind(this),
       function () {}
     )
+  }
+
+  function createDeviconLogo (language) {
+    if (!language) return null
+    var slug = deviconOverrides[language] || language
+    var logo = document.createElement('img')
+    logo.src = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/' + slug + '/' + slug + '-original.svg'
+    logo.alt = language + ' logo'
+    logo.addEventListener('error', function () {
+      this.remove()
+    })
+    return logo
   }
 })()
