@@ -123,10 +123,10 @@ h3,
 h4,
 h5,
 h6 {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   font-family: var(--font-family-display);
   letter-spacing: 0.01em;
-  margin-bottom: 1rem;
-  margin-top: 0.5rem;
 }
 
 
@@ -151,144 +151,146 @@ body.dark .theme-image.light {
   & .toc-list {
     margin: 0;
     padding-left: 0.6rem;
-  }
 
-  & .toc-list li {
-    min-height: 0;
-    padding: 0;
-    align-items: flex-start;
-  }
+    & li {
+      align-items: flex-start;
+      min-height: 0;
+      padding: 0;
+    }
 
-  & .toc-list a {
-    padding: 2px 0 !important;
-    min-height: 0 !important;
-    height: auto !important;
-    line-height: 1.1 !important;
+    & a {
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 2px 0 !important;
+      line-height: 1.1 !important;
+    }
   }
 }
 
 article.article-card {
   & .ulist.checklist,
   & .ulist.checklist ul.checklist {
-    list-style: none;
     padding-left: 1.25rem;
+    list-style: none;
   }
 
   & .ulist.checklist i {
     display: inline-block;
-    margin-left: -1.25rem;
     width: 1.25rem;
+    margin-left: -1.25rem;
   }
 
   & .dlist dt {
-    font-style: italic;
     font-weight: 700;
+    font-style: italic;
   }
 
   & .dlist dd {
     margin: 0 0 0 1.5rem;
-  }
 
-  & .dlist dd + dt,
-  & .dlist dd > p:first-child {
-    margin-top: 0.5rem;
+    & + dt,
+    & > p:first-child {
+      margin-top: 0.5rem;
+    }
   }
 
   & .admonitionblock {
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
     margin: 1rem 0;
-    border: 1px solid var(--outline);
+    padding: 0.75rem 1rem;
     background: var(--surface-container);
+    border: 1px solid var(--outline);
+    border-radius: 0.5rem;
+
+    & table {
+      width: 100%;
+      border: 0;
+    }
+
+    & tr {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    & td {
+      padding: 0;
+      border: 0;
+    }
+
+    & .icon {
+      flex: 0 0 auto;
+      width: 1.5rem;
+      color: var(--primary);
+      text-align: center;
+
+      & i {
+        font-weight: 400;
+        font-family: "Material Symbols Outlined", sans-serif;
+        font-style: normal;
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+        line-height: 1;
+
+        &::before {
+          display: inline-block;
+        }
+      }
+
+      & .icon-note::before {
+        content: "info";
+      }
+
+      & .icon-tip::before {
+        content: "lightbulb";
+      }
+
+      & .icon-important::before {
+        content: "report";
+      }
+
+      & .icon-warning::before {
+        content: "warning";
+      }
+
+      & .icon-caution::before {
+        content: "dangerous";
+      }
+    }
+
+    & .content {
+      margin: 0;
+    }
+
+    &.note {
+      background: color-mix(in srgb, var(--primary) 8%, var(--surface-container));
+      border-color: color-mix(in srgb, var(--primary) 30%, var(--outline));
+    }
+
+    &.tip {
+      background: color-mix(in srgb, var(--tertiary) 10%, var(--surface-container));
+      border-color: color-mix(in srgb, var(--tertiary) 35%, var(--outline));
+    }
+
+    &.important {
+      background: color-mix(in srgb, var(--secondary) 10%, var(--surface-container));
+      border-color: color-mix(in srgb, var(--secondary) 35%, var(--outline));
+    }
+
+    &.warning,
+    &.caution {
+      background: color-mix(in srgb, var(--error) 8%, var(--surface-container));
+      border-color: color-mix(in srgb, var(--error) 35%, var(--outline));
+    }
   }
 
-  & .admonitionblock table {
-    border: 0;
-    width: 100%;
-  }
-
-  & .admonitionblock tr {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  & .admonitionblock td {
-    border: 0;
-    padding: 0;
-  }
-
-  & .admonitionblock .icon {
-    flex: 0 0 auto;
-    width: 1.5rem;
-    text-align: center;
-    color: var(--primary);
-  }
-
-  & .admonitionblock .icon i {
-    font-family: "Material Symbols Outlined";
-    font-weight: 400;
-    font-style: normal;
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-    line-height: 1;
-  }
-
-  & .admonitionblock .icon i::before {
-    display: inline-block;
-  }
-
-  & .admonitionblock .icon .icon-note::before {
-    content: "info";
-  }
-
-  & .admonitionblock .icon .icon-tip::before {
-    content: "lightbulb";
-  }
-
-  & .admonitionblock .icon .icon-important::before {
-    content: "report";
-  }
-
-  & .admonitionblock .icon .icon-warning::before {
-    content: "warning";
-  }
-
-  & .admonitionblock .icon .icon-caution::before {
-    content: "dangerous";
-  }
-
-  & .admonitionblock .content {
-    margin: 0;
-  }
-
-  & .admonitionblock.note {
-    background: color-mix(in srgb, var(--primary) 8%, var(--surface-container));
-    border-color: color-mix(in srgb, var(--primary) 30%, var(--outline));
-  }
-
-  & .admonitionblock.tip {
-    background: color-mix(in srgb, var(--tertiary) 10%, var(--surface-container));
-    border-color: color-mix(in srgb, var(--tertiary) 35%, var(--outline));
-  }
-
-  & .admonitionblock.important {
-    background: color-mix(in srgb, var(--secondary) 10%, var(--surface-container));
-    border-color: color-mix(in srgb, var(--secondary) 35%, var(--outline));
-  }
-
-  & .admonitionblock.warning,
-  & .admonitionblock.caution {
-    background: color-mix(in srgb, var(--error) 8%, var(--surface-container));
-    border-color: color-mix(in srgb, var(--error) 35%, var(--outline));
-  }
 
   & .sidebarblock,
   & .exampleblock {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--surface-container-low);
     border: 1px solid var(--outline);
     border-radius: 0.5rem;
-    padding: 1rem;
-    margin: 1rem 0;
-    background: var(--surface-container-low);
   }
 
   & .sidebarblock .content,
@@ -308,25 +310,28 @@ article.article-card {
 
   & .keyseq {
     white-space: nowrap;
-  }
 
-  & .keyseq kbd {
-    display: inline-block;
-    padding: 0.1rem 0.35rem;
-    border: 1px solid var(--outline);
-    border-radius: 0.25rem;
-    background: var(--surface-container);
-    font-family: var(--monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
-    font-size: 0.85em;
-    line-height: 1.2;
+    & kbd {
+      display: inline-block;
+      padding: 0.1rem 0.35rem;
+      font-size: 0.85em;
+      font-family: var(--monospace-font-family, monospace);
+      line-height: 1.2;
+      background: var(--surface-container);
+      border: 1px solid var(--outline);
+      border-radius: 0.25rem;
+    }
   }
 
   & .button {
+    /* stylelint-disable-next-line custom-property-pattern */
     --_size: 1.2rem;
+    /* stylelint-disable-next-line custom-property-pattern */
     --_padding: 0.35rem;
-    background: var(--tertiary);
+
     color: var(--on-tertiary);
     font-weight: 600;
+    background: var(--tertiary);
   }
 
   & .imageblock {
@@ -334,15 +339,15 @@ article.article-card {
 
     & .content {
       display: flex;
+      flex-wrap: nowrap;
       justify-content: center;
     }
 
     & .title {
       margin-top: 0.4rem;
-      font-style: italic;
-      font-weight: 700;
       color: var(--outline);
+      font-weight: 700;
+      font-style: italic;
     }
   }
 } 
-
