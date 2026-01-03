@@ -1,4 +1,6 @@
 [tools]
+actionlint = "latest"
 node = "22"
 "npm:@antora/cli" = "latest"
 "npm:gulp-cli" = "latest"
+shellcheck = "latest"

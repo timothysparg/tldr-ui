@@ -4,11 +4,13 @@ const { parallel, series, watch } = require('gulp')
 const createTask = require('./gulp.d/lib/create-task')
 const exportTasks = require('./gulp.d/lib/export-tasks')
 const log = require('fancy-log')
+const ospath = require('path')
 
 const bundleName = 'ui'
 const buildDir = 'build'
 const previewSrcDir = 'preview-src'
-const previewDestDir = 'public'
+const previewBasePath = (process.env.PREVIEW_BASE_PATH || '').replace(/^\/+|\/+$/g, '')
+const previewDestDir = previewBasePath ? ospath.join('public', previewBasePath) : 'public'
 const srcDir = 'src'
 const destDir = `${previewDestDir}/_`
 const { reload: livereload } = process.env.LIVERELOAD === 'true' ? require('gulp-connect') : {}
