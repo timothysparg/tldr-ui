@@ -17,5 +17,4 @@ jobs:
       - name: Release Please
         uses: googleapis/release-please-action@v4
         with:
-          release-type: simple
-          package-name: tldr-ui
+          release-type: node
