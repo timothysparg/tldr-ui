@@ -1,9 +1,7 @@
-name: Deploy Preview to GitHub Pages
+name: Deploy Release to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
   workflow_dispatch:
@@ -32,32 +30,10 @@ jobs:
           install: true
           cache: true
 
-      - name: Build preview site (subpath)
-        run: |
-          npm ci
-          PREVIEW_BASE_PATH=preview npx gulp preview:build
-
       - name: Build release site
         run: |
-          release_ref="${GITHUB_REF_NAME}"
-          if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
-            release_ref="$(git describe --tags --abbrev=0 2>/dev/null || echo main)"
-          fi
-          if [ "${release_ref}" = "main" ]; then
-            npx gulp preview:build
-            mkdir -p site
-            cp -R public/. site/
-          else
-            git worktree add release "${release_ref}"
-            pushd release
-            npm ci
-            npx gulp preview:build
-            popd
-            mkdir -p site
-            cp -R release/public/. site/
-          fi
-          mkdir -p site/preview
-          cp -R public/preview/. site/preview/
+          npm ci
+          npx gulp preview:build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -65,7 +41,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: public
 
   deploy:
     runs-on: ubuntu-latest
