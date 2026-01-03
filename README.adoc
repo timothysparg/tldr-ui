@@ -15,8 +15,6 @@
 :url-gulp: http://gulpjs.com
 :url-opendevise: https://opendevise.com
 :url-nodejs: https://nodejs.org
-:url-nvm: https://github.com/creationix/nvm
-:url-nvm-install: {url-nvm}#installation
 :url-source-maps: https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map
 
 image:{img-ci-status}[CI Status (GitLab CI), link={url-ci-pipelines}]

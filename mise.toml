@@ -1,4 +1,4 @@
 [tools]
-node = "18"
+node = "22"
 "npm:@antora/cli" = "latest"
 "npm:gulp-cli" = "latest"

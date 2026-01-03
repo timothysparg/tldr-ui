@@ -6,7 +6,7 @@
 - `build/`: created when bundling and holds `ui-bundle.zip` for Antora playbooks. Keep committed files to source only; build artifacts are disposable.
 
 ## Build, Test, and Development Commands
-- Install deps: `npm ci` (Node 10 via `.nvmrc`; run `nvm use` if versions diverge).
+- Install deps: `npm ci` (Node 22 via `mise.toml`; run `mise install` if versions diverge).
 - Lint all: `npx gulp lint` (ESLint + Stylelint).
 - Format JS: `npx gulp format`.
 - Stage assets: `npx gulp build` (writes to `public/_`).
