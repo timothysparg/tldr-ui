@@ -1,54 +1,54 @@
 ;(function () {
   'use strict'
 
-  var isBeerArticle = document.body.classList.contains('article')
+  const isBeerArticle = document.body.classList.contains('article')
 
   if (!isBeerArticle) return
 
   // Find all colist elements (callout lists)
-  var colists = document.querySelectorAll('article .colist')
+  const colists = document.querySelectorAll('article .colist')
 
   colists.forEach(function (colist) {
-    var table = colist.querySelector('table')
+    const table = colist.querySelector('table')
     if (!table) return
 
     // Create BeerCSS list structure
-    var list = document.createElement('ul')
+    const list = document.createElement('ul')
     list.className = 'list'
 
     // Get all rows from the table
-    var rows = table.querySelectorAll('tr')
+    const rows = table.querySelectorAll('tr')
 
     rows.forEach(function (row) {
-      var cells = row.querySelectorAll('td')
+      const cells = row.querySelectorAll('td')
       if (cells.length !== 2) return
 
-      var numberCell = cells[0]
-      var contentCell = cells[1]
+      const numberCell = cells[0]
+      const contentCell = cells[1]
 
       // Extract the callout number
-      var conum = numberCell.querySelector('.conum')
-      var calloutNumber = conum ? conum.getAttribute('data-value') : '1'
+      const conum = numberCell.querySelector('.conum')
+      const calloutNumber = conum ? conum.getAttribute('data-value') : '1'
 
       // Create list item
-      var listItem = document.createElement('li')
+      const listItem = document.createElement('li')
 
       // Create circular button for the number
-      var button = document.createElement('button')
+      const button = document.createElement('button')
       button.className = 'circle primary'
       button.textContent = calloutNumber
       button.setAttribute('type', 'button')
 
       // Create content wrapper
-      var contentWrapper = document.createElement('div')
+      const contentWrapper = document.createElement('div')
       contentWrapper.className = 'max'
 
       // Check if there's a title/heading in the content
-      var contentHTML = contentCell.innerHTML.trim()
+      const contentHTML = contentCell.innerHTML.trim()
 
       // If content starts with a paragraph, check if it looks like a title
       // For now, just wrap all content in a div
-      var contentDiv = document.createElement('div')
+      const contentDiv = document.createElement('div')
       contentDiv.className = 'small-text'
       contentDiv.innerHTML = contentHTML
 
@@ -65,23 +65,23 @@
     table.parentNode.replaceChild(list, table)
 
     // Add divider before the colist if it follows a code block
-    var prevSibling = colist.previousElementSibling
-    var isCodeBlock = prevSibling && (prevSibling.classList.contains('listingblock') ||
+    const prevSibling = colist.previousElementSibling
+    const isCodeBlock = prevSibling && (prevSibling.classList.contains('listingblock') ||
       prevSibling.classList.contains('literalblock'))
     if (isCodeBlock) {
-      var divider = document.createElement('div')
+      const divider = document.createElement('div')
       divider.className = 'divider margin'
       colist.parentNode.insertBefore(divider, colist)
     }
   })
 
   // Also wrap code blocks in proper article structure if needed
-  var codeBlocks = document.querySelectorAll('article .listingblock, article .literalblock')
+  const codeBlocks = document.querySelectorAll('article .listingblock, article .literalblock')
 
   codeBlocks.forEach(function (block) {
     // Check if this block has callouts following it
-    var nextSibling = block.nextElementSibling
-    var hasCallouts = false
+    let nextSibling = block.nextElementSibling
+    let hasCallouts = false
 
     // Skip dividers to find colist
     while (nextSibling && nextSibling.classList.contains('divider')) {

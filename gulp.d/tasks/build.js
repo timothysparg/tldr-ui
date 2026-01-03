@@ -5,7 +5,6 @@ const browserify = require('browserify')
 const concat = require('gulp-concat')
 const cssnano = require('cssnano')
 const fs = require('fs-extra')
-const imagemin = require('gulp-imagemin')
 const merge = require('merge-stream')
 const ospath = require('path')
 const path = ospath.posix
@@ -19,6 +18,13 @@ const map = (transform) => new Transform({ objectMode: true, transform })
 const through = () => map((file, enc, next) => next(null, file))
 const uglify = require('gulp-uglify')
 const vfs = require('vinyl-fs')
+
+const waitForStream = (stream) =>
+  new Promise((resolve, reject) => {
+    stream.on('error', reject)
+    stream.on('finish', resolve)
+    stream.on('end', resolve)
+  })
 
 module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
@@ -36,7 +42,7 @@ module.exports = (src, dest, preview) => () => {
       }),
     postcssUrl([
       {
-        filter: (asset) => new RegExp('^[~][^/]*(?:font|typeface)[^/]*/.*/files/.+[.](?:ttf|woff2?)$').test(asset.url),
+        filter: (asset) => /^[~][^/]*(?:font|typeface)[^/]*\/.*\/files\/.+[.](?:ttf|woff2?)$/.test(asset.url),
         url: (asset) => {
           const relpath = asset.pathname.slice(1)
           const abspath = require.resolve(relpath)
@@ -57,36 +63,18 @@ module.exports = (src, dest, preview) => () => {
       : (css, result) => cssnano({ preset: 'default' })(css, result).then(() => postcssPseudoElementFixer(css, result)),
   ]
 
-  return merge(
-    vfs.src('ui.yml', { ...opts, allowEmpty: true }),
-    vfs
-      .src('js/+([0-9])-*.js', { ...opts, read: false, sourcemaps })
-      .pipe(bundle(opts))
-      .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
-      // NOTE concat already uses stat from newest combined file
-      .pipe(concat('js/site.js')),
-    vfs
-      .src('js/vendor/+([^.])?(.bundle).js', { ...opts, read: false })
-      .pipe(bundle(opts))
-      .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } })),
-    vfs
-      .src('js/vendor/*.min.js', opts)
-      .pipe(map((file, enc, next) => next(null, Object.assign(file, { extname: '' }, { extname: '.js' })))),
-    // NOTE use the next line to bundle a JavaScript library that cannot be browserified, like jQuery
-    //vfs.src(require.resolve('<package-name-or-require-path>'), opts).pipe(concat('js/vendor/<library-name>.js')),
-    vfs
-      .src(['css/site.css', 'css/vendor/*.css'], { ...opts, sourcemaps })
-      .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } }))),
-    vfs.src('font/*.{ttf,woff*(2)}', opts),
-    vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(
-      preview
+  const buildStream = (imageminModule) => {
+    const imagemin = imageminModule && (imageminModule.default || imageminModule)
+    const imageminPlugins = imageminModule || imagemin
+    const imageTransform =
+      preview || !imagemin
         ? through()
         : imagemin(
           [
-            imagemin.gifsicle(),
-            imagemin.jpegtran(),
-            imagemin.optipng(),
-            imagemin.svgo({
+            imageminPlugins.gifsicle(),
+            imageminPlugins.mozjpeg ? imageminPlugins.mozjpeg() : imageminPlugins.jpegtran(),
+            imageminPlugins.optipng(),
+            imageminPlugins.svgo({
               plugins: [
                 { cleanupIDs: { preservePrefixes: ['icon-', 'view-'] } },
                 { removeViewBox: false },
@@ -95,12 +83,40 @@ module.exports = (src, dest, preview) => () => {
             }),
           ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
         )
-    ),
-    vfs.src('helpers/*.js', opts),
-    vfs.src('layouts/*.hbs', opts),
-    vfs.src('partials/*.hbs', opts),
-    vfs.src('static/**/*[!~]', { ...opts, base: ospath.join(src, 'static'), dot: true })
-  ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
+
+    return merge(
+      vfs.src('ui.yml', { ...opts, allowEmpty: true }),
+      vfs
+        .src('js/+([0-9])-*.js', { ...opts, read: false, sourcemaps })
+        .pipe(bundle(opts))
+        .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
+        // NOTE concat already uses stat from newest combined file
+        .pipe(concat('js/site.js')),
+      vfs
+        .src('js/vendor/+([^.])?(.bundle).js', { ...opts, read: false })
+        .pipe(bundle(opts))
+        .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } })),
+      vfs
+        .src('js/vendor/*.min.js', opts)
+        .pipe(map((file, enc, next) => next(null, Object.assign(file, { extname: '' }, { extname: '.js' })))),
+      // NOTE use the next line to bundle a JavaScript library that cannot be browserified, like jQuery
+      //vfs.src(require.resolve('<package-name-or-require-path>'), opts).pipe(concat('js/vendor/<library-name>.js')),
+      merge(
+        vfs.src('css/site.css', { ...opts, sourcemaps }),
+        vfs.src('css/vendor/*.css', { ...opts, allowEmpty: true, sourcemaps })
+      ).pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } }))),
+      vfs.src('font/*.{ttf,woff*(2)}', opts),
+      vfs.src('img/**/*.{gif,ico,jpg,png,svg}', opts).pipe(imageTransform),
+      vfs.src('helpers/*.js', opts),
+      vfs.src('layouts/*.hbs', opts),
+      vfs.src('partials/*.hbs', opts),
+      vfs.src('static/**/*[!~]', { ...opts, base: ospath.join(src, 'static'), dot: true })
+    ).pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
+  }
+
+  if (preview) return buildStream()
+
+  return import('gulp-imagemin').then((imageminModule) => waitForStream(buildStream(imageminModule)))
 }
 
 function bundle ({ base: basedir, ext: bundleExt = '.bundle.js' }) {

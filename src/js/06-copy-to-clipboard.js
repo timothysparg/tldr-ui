@@ -1,12 +1,12 @@
 ;(function () {
   'use strict'
 
-  var CMD_RX = /^\$ (\S[^\\\n]*(\\\n(?!\$ )[^\\\n]*)*)(?=\n|$)/gm
-  var LINE_CONTINUATION_RX = /( ) *\\\n *|\\\n( ?) */g
-  var TRAILING_SPACE_RX = / +$/gm
+  const CMD_RX = /^\$ (\S[^\\\n]*(\\\n(?!\$ )[^\\\n]*)*)(?=\n|$)/gm
+  const LINE_CONTINUATION_RX = /( ) *\\\n *|\\\n( ?) */g
+  const TRAILING_SPACE_RX = / +$/gm
 
-  var supportsCopy = window.navigator.clipboard
-  var deviconOverrides = {
+  const supportsCopy = window.navigator.clipboard
+  const deviconOverrides = {
     cpp: 'cplusplus',
     js: 'javascript',
     sh: 'bash',
@@ -14,9 +14,9 @@
     shellscript: 'bash',
     ts: 'typescript',
   }
-  var isBeerArticle = document.body.classList.contains('article')
+  const isBeerArticle = document.body.classList.contains('article')
   ;[].slice.call(document.querySelectorAll('article pre.highlight, article .literalblock pre')).forEach(function (pre) {
-    var code, language, lang, copy, icon, tooltip, header, content, block, title, chip, spacer, label, logo
+    let code, language, lang, copy, icon, tooltip, header, content, block, title, chip, spacer, label, logo
     if (pre.classList.contains('highlight')) {
       code = pre.querySelector('code')
       if ((language = code.dataset.lang) && language !== 'console') {
@@ -80,14 +80,14 @@
   })
 
   function extractCommands (text) {
-    var cmds = []
-    var m
+    const cmds = []
+    let m
     while ((m = CMD_RX.exec(text))) cmds.push(m[1].replace(LINE_CONTINUATION_RX, '$1$2'))
     return cmds.join(' && ')
   }
 
   function writeToClipboard (code) {
-    var text = code.innerText.replace(TRAILING_SPACE_RX, '')
+    let text = code.innerText.replace(TRAILING_SPACE_RX, '')
     // Strip callout markers (angle brackets with numbers)
     text = text.replace(/\s*〈\s*\d+\s*〉/g, '')
     // Strip comment markers followed by callouts (e.g., ";; (1)" or "// (1)")
@@ -95,8 +95,8 @@
     if (code.dataset.lang === 'console' && text.startsWith('$ ')) text = extractCommands(text)
     window.navigator.clipboard.writeText(text).then(
       function () {
-        var icon = this.querySelector('i')
-        var original = icon && icon.textContent
+        const icon = this.querySelector('i')
+        const original = icon && icon.textContent
         if (icon) icon.textContent = 'done'
         this.classList.add('primary-text')
         setTimeout(function () {
@@ -110,8 +110,8 @@
 
   function createDeviconLogo (language) {
     if (!language) return null
-    var slug = deviconOverrides[language] || language
-    var logo = document.createElement('img')
+    const slug = deviconOverrides[language] || language
+    const logo = document.createElement('img')
     logo.src = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/' + slug + '/' + slug + '-original.svg'
     logo.alt = language + ' logo'
     logo.addEventListener('error', function () {
