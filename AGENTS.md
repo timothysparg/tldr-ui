@@ -7,11 +7,11 @@
 
 ## Build, Test, and Development Commands
 - Install deps: `npm ci` (Node 22 via `mise.toml`; run `mise install` if versions diverge).
-- Lint all: `npx gulp lint` (ESLint + Stylelint).
-- Format JS: `npx gulp format`.
-- Stage assets: `npx gulp build` (writes to `public/_`).
-- Publishable bundle: `npx gulp bundle` (clean → lint → build → zip to `build/ui-bundle.zip`; logs `--ui-bundle-url=...`).
-- Preview site: `npx gulp preview` (builds preview pages then serves on `0.0.0.0:5252`; set `LIVERELOAD=true` for live reload).
+- Lint all: `gulp lint` (ESLint + Stylelint).
+- Format JS: `gulp format`.
+- Stage assets: `gulp build` (writes to `public/_`).
+- Publishable bundle: `gulp bundle` (clean → lint → build → zip to `build/ui-bundle.zip`; logs `--ui-bundle-url=...`).
+- Preview site: `gulp preview` (builds preview pages then serves on `0.0.0.0:5252`; set `LIVERELOAD=true` for live reload).
 
 ## Coding Style & Naming Conventions
 - `.editorconfig`: 2-space indent, LF, UTF-8, trim trailing whitespace, final newline.
@@ -20,8 +20,8 @@
 - Templates: prefer layouts/partials over duplicating markup; keep bundle entry files suffixed `.bundle.js`.
 
 ## Testing & QA
-- No automated tests; baseline checks are `npx gulp lint` plus manual preview.
-- For UI changes, run `npx gulp preview` and verify navigation, search box alignment, code blocks, and mobile behavior.
+- No automated tests; baseline checks are `gulp lint` plus manual preview.
+- For UI changes, run `gulp preview` and verify navigation, search box alignment, code blocks, and mobile behavior.
 
 ## Commit & Pull Request Guidelines
 - Commits are short, present-tense statements (e.g., `fix search box alignment`); reference issues with `#123` when applicable.
@@ -29,5 +29,5 @@
 - Do not commit `build/ui-bundle.zip`; regenerate locally or in CI instead.
 
 ## Bundling & Integration Tips
-- After `npx gulp bundle`, point your Antora playbook at the reported bundle path to test end-to-end.
-- If you only need refreshed staged assets, prefer `npx gulp build` to avoid unnecessary zips.
+- After `gulp bundle`, point your Antora playbook at the reported bundle path to test end-to-end.
+- If you only need refreshed staged assets, prefer `gulp build` to avoid unnecessary zips.

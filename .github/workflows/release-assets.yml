@@ -24,7 +24,7 @@ jobs:
         run: npm ci
 
       - name: Build UI bundle
-        run: npx gulp bundle
+        run: gulp bundle
 
       - name: Upload UI bundle to release
         uses: softprops/action-gh-release@v2

@@ -35,7 +35,7 @@ ui:
     snapshot: true
 ----
 
-Run `npx gulp bundle` from link:.[this repository] to generate the bundle in `build/ui-bundle.zip`.
+Run `gulp bundle` from link:.[this repository] to generate the bundle in `build/ui-bundle.zip`.
 The `snapshot` flag tells Antora to fetch the UI when the `--fetch` command-line flag is present.
 
 == Development Quickstart
