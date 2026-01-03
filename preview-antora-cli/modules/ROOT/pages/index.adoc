@@ -1,0 +1,10 @@
+= Blog Preview (Standard UI)
+:page-layout: default
+
+Welcome! This playbook uses the stock Antora UI to render the same blog posts used in the custom theme. Use this page as the start page when running `antora` with `antora-playbook.yml`.
+
+== Posts
+
+* xref:posts/a-blog-the-fun-way.adoc[A blog, the fun way]
+* xref:posts/git-filter-repo-git-filter-branch-for-simpletons-like-me.adoc[git filter-repo: a git filter-branch replacement for simpletons like me]
+* xref:posts/git-filter-repo-text-that-never-was.adoc[git filter-repo: The text that never was]

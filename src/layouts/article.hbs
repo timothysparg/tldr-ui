@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{> head}}
+</head>
+
+<body class="article">
+  {{> nav}}
+
+  <main class="responsive">
+    <div class="grid">
+      <div class="s12 m12 l9">
+        <article class="round no-elevate large-padding article-card">
+          <header>
+            {{#with page.title}}
+            <h1>{{{this}}}</h1>
+            {{/with}}
+            <div class="article-meta">
+              {{#if page.attributes.revdate}}
+              <span class="meta-item">
+                <i class="fas fa-calendar"></i>
+                <span>{{page.attributes.revdate}}</span>
+              </span>
+              {{/if}}
+              <span class="meta-item">
+                <i class="fas fa-clock"></i>
+                <span data-reading-time></span>
+                <script>
+                  onloadAdd(() => {
+                    const target = me("[data-reading-time]");
+
+                    const article = me("article.article-card");
+                    if (!article) return;
+
+                    const text = article.innerText || "";
+                    const words = text.trim().split(/\s+/).filter(Boolean).length;
+                    const minutes = Math.max(1, Math.ceil(words / 200));
+                    target.innerText = `${minutes} min read`;
+                  });
+                </script>
+              </span>
+              {{#if page.attributes.tags}}
+              <span class="meta-item meta-tags">
+                <i class="fas fa-tag"></i>
+                <span>{{page.attributes.tags}}</span>
+              </span>
+              {{/if}}
+            </div>
+          </header>
+          {{{page.contents}}}
+        </article>
+        <script>
+          onloadAdd(() => {
+            any("article a").forEach((anchor) => {
+              anchor.classList.add("link");
+            });
+          });
+        </script>
+      </div>
+      <article class="s12 m12 l3 article-toc" aria-label="On this page">
+        <h5>On this page</h5>
+        <div class="article-toc-body"></div>
+        <script>
+          onloadAdd(() => {
+            const toc = me(".article-toc");
+            const body = me(".article-toc-body");
+            const article = me("article.article-card");
+            if (!toc || !body || !article) return;
+
+            const headings = [...article.querySelectorAll("h2[id], h3[id]")];
+            if (!headings.length) {
+              toc.remove();
+              return;
+            }
+
+            const list = document.createElement("ul");
+            list.className = "list no-space toc-list";
+            let currentSublist = null;
+
+            headings.forEach((heading) => {
+              const level = heading.tagName.toLowerCase();
+              const item = document.createElement("li");
+
+              const link = document.createElement("a");
+              link.href = `#${heading.id}`;
+              link.className = "link";
+              link.textContent = heading.textContent;
+              item.appendChild(link); 
+
+              if (level === "h2") {
+                currentSublist = null;
+                list.appendChild(item);
+                return;
+              }
+
+              if (!currentSublist) {
+                currentSublist = document.createElement("ul");
+                currentSublist.className = "list no-space toc-list";
+                const sublistItem = document.createElement("li");
+                sublistItem.appendChild(currentSublist);
+                list.appendChild(sublistItem);
+              }
+              currentSublist.appendChild(item);
+            });
+
+            body.appendChild(list);
+          });
+        </script>
+      </article>
+    </div>
+  </main>
+  {{> footer-scripts}}
+</body>
+
+</html>

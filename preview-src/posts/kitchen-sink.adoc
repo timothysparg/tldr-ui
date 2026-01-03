@@ -1,0 +1,160 @@
+= Kitchen Sink
+:page-role: article
+:page-layout: article
+:page-version: main
+:icons: font
+:toc: macro
+:toclevels: 3
+:sectanchors:
+:sectlinks:
+
+A normal paragraph with an https://example.com[external link], an <<explicit-anchor,internal anchor>> link, an xref:index.adoc[internal xref], and an xref:missing-page.adoc[unresolved xref].
+
+A paragraph with inline `code` and an inline +literal+ plus a footnote: footnote:[This is a footnote.]
+
+[%lead]
+This is a lead paragraph intended to stand out from normal body text.
+
+toc::[]
+
+== Heading Level 2
+
+=== Heading Level 3
+
+==== Heading Level 4
+
+===== Heading Level 5
+
+====== Heading Level 6
+
+[[explicit-anchor]]
+== Anchored Heading
+
+=== Lists
+
+Unordered list:
+
+* Alpha
+* Bravo
+* Charlie
+
+Ordered list:
+
+. First
+. Second
+. Third
+
+Checklist:
+
+* [ ] Unchecked item
+* [x] Checked item
+
+Description list:
+
+Term One:: Definition for term one.
+Term Two:: Definition for term two.
+
+=== Tables
+
+[.stripes%header%footer]
+|===
+|Column A |Column B |Column C
+
+|Left aligned ^|Centered >|Right aligned
+
+.^|Top aligned
+a|Multiline cell
+with a paragraph and a list:
+
+* One
+* Two
+
+~|Bottom aligned
+
+.|Middle aligned |Middle aligned |Middle aligned
+
+|Footer A |Footer B |Footer C
+|===
+
+=== Admonitions
+
+NOTE: This is a note admonition.
+
+TIP: This is a tip admonition.
+
+IMPORTANT: This is an important admonition.
+
+WARNING: This is a warning admonition.
+
+CAUTION: This is a caution admonition.
+
+=== Code Blocks
+
+[listing]
+----
+This is a listing block.
+It preserves line breaks and spacing.
+----
+
+[source,clojure]
+----
+(defn add [a b]
+  (+ a b))
+
+(println (add 2 3)) ;; <1>
+----
+<1> Example callout for a source block.
+
+=== Quotes and Verse
+
+[quote, Ada Lovelace, Notes]
+____
+That brain of mine is something more than merely mortal, as time will show.
+____
+
+[verse, William Blake, Auguries of Innocence]
+____
+To see a World in a Grain of Sand,
+And a Heaven in a Wild Flower,
+Hold Infinity in the palm of your hand,
+And Eternity in an hour.
+____
+
+=== Sidebars and Examples
+
+****
+This is a sidebar block with supplemental content.
+****
+
+====
+This is an example block.
+====
+
+=== Images
+
+.Block image with caption
+image::../multirepo-ssg.svg[Alt text for block image, width=240]
+
+Inline image: image:../multirepo-ssg.svg[Alt text for inline image, width=24]
+
+=== Links and Callouts
+
+A bare link: https://example.com
+
+[source]
+----
+Callout line one // <1>
+Callout line two // <2>
+----
+<1> First callout in a colist.
+<2> Second callout in a colist.
+
+=== Thematic and Page Breaks
+
+'''
+
+<<<
+
+=== UI Macros
+
+Press kbd:[Ctrl+S] to save, use menu:File[Save] from the menu, or click btn:[OK].

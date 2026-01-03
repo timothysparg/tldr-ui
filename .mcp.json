@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "brave-search": {
+      "command": "op",
+      "args": ["run", "--", "npx", "-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "op://Personal/Brave/api-token"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "env": {
+        "PLAYWRIGHT_HEADLESS": "true",
+        "PLAYWRIGHT_BROWSER": "chromium"
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
   var levels = parseInt(sidebar.dataset.levels || 2, 10)
   if (levels < 0) return
 
-  var articleSelector = 'article.doc'
+  var articleSelector = 'article'
   var article = document.querySelector(articleSelector)
   if (!article) return
   var headingsSelector = []
@@ -45,7 +45,7 @@
   menu.appendChild(title)
   menu.appendChild(list)
 
-  var startOfContent = !document.getElementById('toc') && article.querySelector('h1.page ~ :not(.is-before-toc)')
+  var startOfContent = !document.getElementById('toc') && article.querySelector('h1 ~ :not(.is-before-toc)')
   if (startOfContent) {
     var embeddedToc = document.createElement('aside')
     embeddedToc.className = 'toc embedded'

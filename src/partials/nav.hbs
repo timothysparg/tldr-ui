@@ -1,8 +1,54 @@
-<div class="nav-container"{{#if page.component}} data-component="{{page.component.name}}" data-version="{{page.version}}"{{/if}}>
-  <aside class="nav">
-    <div class="panels">
-{{> nav-menu}}
-{{> nav-explore}}
-    </div>
-  </aside>
-</div>
+<nav class="nav left">
+  <a href="{{{relativize (startPageUrl site.startPage)}}}">
+    <i>home</i>
+  </a>
+  {{!-- <a>
+    <i>code</i>
+  </a>
+  <a>
+    <i>book</i>
+  </a> --}}
+  <div class="max"></div>
+  <button class="circle transparent">
+    <i id="mode-icon">dark_mode</i>
+    <script>
+      const THEME_STORAGE_KEY = "ui-mode";
+      const THEME_MAP = {
+        light: "dark_mode",
+        dark: "light_mode",
+        auto: "brightness_auto",
+      };
+      const THEME_MODES = Object.keys(THEME_MAP);
+
+      const setHighlightTheme = mode => {
+        const light = me("#hljs-theme-light");
+        const dark = me("#hljs-theme-dark");
+        if (!light || !dark) return;
+        light.disabled = mode === "dark";
+        dark.disabled = mode === "light";
+      };
+
+      me().on("click", async () => {
+        const current = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
+        const next = THEME_MODES[(THEME_MODES.indexOf(current) + 1) % THEME_MODES.length];
+
+        // Apply mode
+        await ui("mode", next);
+        localStorage.setItem(THEME_STORAGE_KEY, next);
+        setHighlightTheme(next);
+
+        // Update Icon
+        me("#mode-icon").innerText = THEME_MAP[next];
+      });
+
+      // 2. Init on Load: Ensure icon matches 'auto' or saved state immediately
+      onloadAdd(_ => {
+        const stored = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
+        ui("mode", stored);
+        const start = ui("mode");
+        me("#mode-icon").innerText = THEME_MAP[start];
+        setHighlightTheme(start);
+      })
+    </script>
+  </button>
+</nav>

@@ -1,7 +1,59 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-rational-order"
+  ],
+  "plugins": [
+    "stylelint-plugin-defensive-css",
+    "stylelint-use-nesting",
+    "stylelint-declaration-block-no-ignored-properties",
+    "stylelint-high-performance-animation",
+    "stylelint-value-no-unknown-custom-properties",
+    "stylelint-no-unsupported-browser-features",
+    "stylelint-gamut"
+  ],
   "rules": {
     "comment-empty-line-before": null,
     "no-descending-specificity": null,
+    "selector-class-pattern": [
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$|^hljs-",
+      {
+        "message": "Expected class selector to be kebab-case (except hljs- classes)"
+      }
+    ],
+    "csstools/use-nesting": "always",
+    "plugin/declaration-block-no-ignored-properties": true,
+    "plugin/no-unsupported-browser-features": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ],
+    "plugin/no-low-performance-animation-properties": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ],
+    "csstools/value-no-unknown-custom-properties": [
+      true,
+      {
+        "importFrom": ["src/css/site.css"]
+      }
+    ],
+    "gamut/color-no-out-gamut-range": true,
+    "plugin/use-defensive-css": [
+      true,
+      {
+        "accidental-hover": true,
+        "background-repeat": true,
+        "custom-property-fallbacks": false,
+        "flex-wrapping": true,
+        "scroll-chaining": true,
+        "scrollbar-gutter": true,
+        "vendor-prefix-grouping": true,
+        "severity": "warning"
+      }
+    ]
   }
 }

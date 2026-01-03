@@ -1,7 +1,7 @@
 ;(function () {
   'use strict'
 
-  var article = document.querySelector('article.doc')
+  var article = document.querySelector('article')
   if (!article) return
   var toolbar = document.querySelector('.toolbar')
   var supportsScrollToOptions = 'scrollTo' in document.documentElement
@@ -20,7 +20,8 @@
       window.location.hash = '#' + this.id
       e.preventDefault()
     }
-    var y = computePosition(this, 0) - toolbar.getBoundingClientRect().bottom
+    var toolbarOffset = toolbar ? toolbar.getBoundingClientRect().bottom : 0
+    var y = computePosition(this, 0) - toolbarOffset
     var instant = e === false && supportsScrollToOptions
     instant ? window.scrollTo({ left: 0, top: y, behavior: 'instant' }) : window.scrollTo(0, y)
   }
