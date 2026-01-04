@@ -142,6 +142,26 @@ body.dark .theme-image.light {
   display: none;
 }
 
+#toc ul {
+  margin: 0;
+  padding-left: 1rem;
+
+  & ul {
+    margin-top: 0.2rem;
+  }
+}
+
+#toc li {
+  margin: 0;
+  padding: 0;
+}
+
+#toc a {
+  display: inline-block;
+  padding: 2px 0;
+  line-height: 1.2;
+}
+
 .article-toc {
     align-self: start;
     height: fit-content;
