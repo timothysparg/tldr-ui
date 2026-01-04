@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/timothysparg/tldr-ui/compare/v1.0.2...v1.0.3) (2026-01-04)
+
+
+### Bug Fixes
+
+* satisfy lint rules in build task ([0585ee9](https://github.com/timothysparg/tldr-ui/commit/0585ee9a42b52b44e151a1aa69f849968d78b68f))
+
 ## [1.0.2](https://github.com/timothysparg/tldr-ui/compare/v1.0.1...v1.0.2) (2026-01-04)
 
 
