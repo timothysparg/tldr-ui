@@ -101,7 +101,7 @@ module.exports = (src, dest, preview) => () => {
             .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
             // NOTE concat already uses stat from newest combined file
             .pipe(concat('js/site.js'))
-        ),
+        )
       ),
       waitForStream(
         toDest(
@@ -109,14 +109,14 @@ module.exports = (src, dest, preview) => () => {
             .src('js/vendor/+([^.])?(.bundle).js', { ...opts, read: false })
             .pipe(bundle(opts))
             .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
-        ),
+        )
       ),
       waitForStream(
         toDest(
           vfs
             .src('js/vendor/*.min.js', opts)
             .pipe(map((file, enc, next) => next(null, Object.assign(file, { extname: '' }, { extname: '.js' }))))
-        ),
+        )
       ),
       // NOTE use the next line to bundle a JavaScript library that cannot be browserified, like jQuery
       // toDest(vfs.src(require.resolve('<package-name-or-require-path>'), opts)
@@ -126,7 +126,7 @@ module.exports = (src, dest, preview) => () => {
           vfs
             .src('css/site.css', { ...opts, sourcemaps })
             .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
-        ),
+        )
       ),
       waitForStream(
         toDestBinary(vfs.src('img/**/*.{gif,ico,jpg,png,svg}', { ...opts, encoding: false }).pipe(imageTransform))
