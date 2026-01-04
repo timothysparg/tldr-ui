@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/timothysparg/tldr-ui/compare/v1.0.1...v1.0.2) (2026-01-04)
+
+
+### Bug Fixes
+
+* **build:** ensure postcss pipeline completes ([e0c22bd](https://github.com/timothysparg/tldr-ui/commit/e0c22bd6a9a5891d634be861c9e8692e5c74d6e4))
+
 ## [1.0.1](https://github.com/timothysparg/tldr-ui/compare/v1.0.0...v1.0.1) (2026-01-04)
 
 
