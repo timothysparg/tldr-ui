@@ -65,5 +65,5 @@
     "stylelint-value-no-unknown-custom-properties": "^6.1.0",
     "vinyl-fs": "~4.0"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
