@@ -163,8 +163,14 @@ body.dark .theme-image.light {
 }
 
 .article-toc {
-    align-self: start;
-    height: fit-content;
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  height: fit-content;
+}
+
+body.article main.responsive {
+  overflow: visible;
 }
 
 .article-toc-body {
