@@ -35,7 +35,10 @@
         // Apply mode
         await ui("mode", next);
         localStorage.setItem(THEME_STORAGE_KEY, next);
-        setHighlightTheme(next);
+
+        // Get resolved mode (auto -> light/dark based on system preference)
+        const resolved = ui("mode");
+        setHighlightTheme(resolved);
 
         // Update Icon
         me("#mode-icon").innerText = THEME_MAP[next];
