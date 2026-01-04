@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/timothysparg/tldr-ui/compare/v1.0.0...v1.0.1) (2026-01-04)
+
+
+### Bug Fixes
+
+* **build:** prevent binary file corruption in build pipeline ([11a0dfd](https://github.com/timothysparg/tldr-ui/commit/11a0dfd7fbfa9f603b4d6f6b45b228da970b4735))
+
 ## 1.0.0 (2026-01-03)
 
 
