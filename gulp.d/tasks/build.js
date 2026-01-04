@@ -62,12 +62,11 @@ module.exports = (src, dest, preview) => () => {
     postcssVar({ preserve: preview }),
     // NOTE to make vars.css available to all top-level stylesheets, use the next line in place of the previous one
     //postcssVar({ importFrom: path.join(src, 'css', 'vars.css'), preserve: preview }),
-    preview ? postcssCalc : () => {}, // cssnano already applies postcssCalc
+    preview ? postcssCalc : null, // cssnano already applies postcssCalc
     autoprefixer,
-    preview
-      ? () => {}
-      : (css, result) => cssnano({ preset: 'default' })(css, result).then(() => postcssPseudoElementFixer(css, result)),
-  ]
+    preview ? null : cssnano({ preset: 'default' }),
+    preview ? null : postcssPseudoElementFixer,
+  ].filter(Boolean)
 
   const runBuild = (imageminModule) => {
     const imagemin = imageminModule && (imageminModule.default || imageminModule)
@@ -92,67 +91,83 @@ module.exports = (src, dest, preview) => () => {
 
     const toDest = (stream) => stream.pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
     const toDestBinary = (stream) => stream.pipe(vfs.dest(dest))
-    const streams = [
-      toDest(vfs.src('ui.yml', { ...opts, allowEmpty: true })),
-      toDest(
-        vfs
-          .src('js/+([0-9])-*.js', { ...opts, read: false, sourcemaps })
-          .pipe(bundle(opts))
-          .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
-          // NOTE concat already uses stat from newest combined file
-          .pipe(concat('js/site.js'))
+    const streamPromises = [
+      waitForStream(toDest(vfs.src('ui.yml', { ...opts, allowEmpty: true }))),
+      waitForStream(
+        toDest(
+          vfs
+            .src('js/+([0-9])-*.js', { ...opts, read: false, sourcemaps })
+            .pipe(bundle(opts))
+            .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
+            // NOTE concat already uses stat from newest combined file
+            .pipe(concat('js/site.js'))
+        ),
       ),
-      toDest(
-        vfs
-          .src('js/vendor/+([^.])?(.bundle).js', { ...opts, read: false })
-          .pipe(bundle(opts))
-          .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
+      waitForStream(
+        toDest(
+          vfs
+            .src('js/vendor/+([^.])?(.bundle).js', { ...opts, read: false })
+            .pipe(bundle(opts))
+            .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
+        ),
       ),
-      toDest(
-        vfs
-          .src('js/vendor/*.min.js', opts)
-          .pipe(map((file, enc, next) => next(null, Object.assign(file, { extname: '' }, { extname: '.js' }))))
+      waitForStream(
+        toDest(
+          vfs
+            .src('js/vendor/*.min.js', opts)
+            .pipe(map((file, enc, next) => next(null, Object.assign(file, { extname: '' }, { extname: '.js' }))))
+        ),
       ),
       // NOTE use the next line to bundle a JavaScript library that cannot be browserified, like jQuery
       // toDest(vfs.src(require.resolve('<package-name-or-require-path>'), opts)
       //   .pipe(concat('js/vendor/<library-name>.js'))),
-      toDest(
-        vfs
-          .src('css/site.css', { ...opts, sourcemaps })
-          .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
+      waitForStream(
+        toDest(
+          vfs
+            .src('css/site.css', { ...opts, sourcemaps })
+            .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
+        ),
       ),
-      toDestBinary(vfs.src('img/**/*.{gif,ico,jpg,png,svg}', { ...opts, encoding: false }).pipe(imageTransform)),
-      toDest(vfs.src('helpers/*.js', opts)),
-      toDest(vfs.src('layouts/*.hbs', opts)),
-      toDest(vfs.src('partials/*.hbs', opts)),
+      waitForStream(
+        toDestBinary(vfs.src('img/**/*.{gif,ico,jpg,png,svg}', { ...opts, encoding: false }).pipe(imageTransform))
+      ),
+      waitForStream(toDest(vfs.src('helpers/*.js', opts))),
+      waitForStream(toDest(vfs.src('layouts/*.hbs', opts))),
+      waitForStream(toDest(vfs.src('partials/*.hbs', opts))),
     ]
 
     const fontDir = ospath.join(src, 'font')
     if (fs.pathExistsSync(fontDir)) {
-      streams.push(toDestBinary(vfs.src('font/*.{ttf,woff*(2)}', { ...opts, encoding: false })))
+      streamPromises.push(
+        waitForStream(toDestBinary(vfs.src('font/*.{ttf,woff*(2)}', { ...opts, encoding: false })))
+      )
     }
 
     const vendorCssDir = ospath.join(src, 'css', 'vendor')
     if (fs.pathExistsSync(vendorCssDir)) {
-      streams.push(
-        toDest(
-          vfs
-            .src('css/vendor/*.css', { ...opts, sourcemaps })
-            .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
+      streamPromises.push(
+        waitForStream(
+          toDest(
+            vfs
+              .src('css/vendor/*.css', { ...opts, sourcemaps })
+              .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
+          )
         )
       )
     }
 
     const staticDir = ospath.join(src, 'static')
     if (fs.pathExistsSync(staticDir)) {
-      streams.push(
-        toDestBinary(
-          vfs.src('static/**/*[!~]', { ...opts, base: ospath.join(src, 'static'), dot: true, encoding: false })
+      streamPromises.push(
+        waitForStream(
+          toDestBinary(
+            vfs.src('static/**/*[!~]', { ...opts, base: ospath.join(src, 'static'), dot: true, encoding: false })
+          )
         )
       )
     }
 
-    return Promise.all(streams.map(waitForStream))
+    return Promise.all(streamPromises)
   }
 
   if (preview) return runBuild()
@@ -186,8 +201,14 @@ function bundle ({ base: basedir, ext: bundleExt = '.bundle.js' }) {
   })
 }
 
-function postcssPseudoElementFixer (css, result) {
-  css.walkRules(/(?:^|[^:]):(?:before|after)/, (rule) => {
-    rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
-  })
+function postcssPseudoElementFixer () {
+  return {
+    postcssPlugin: 'postcss-pseudo-element-fixer',
+    Rule (rule) {
+      if (!/(?:^|[^:]):(?:before|after)/.test(rule.selector)) return
+      rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
+    },
+  }
 }
+
+postcssPseudoElementFixer.postcss = true
