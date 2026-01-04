@@ -109,6 +109,54 @@
         </script>
       </article>
     </div>
+    <script>
+      onloadAdd(() => {
+        const root = me()
+        const article = root.querySelector('article.article-card') || root.querySelector('article')
+        if (!article) return
+        const toolbar = document.querySelector('.toolbar')
+        const supportsScrollToOptions = 'scrollTo' in document.documentElement
+
+        const decodeFragment = (hash) => hash && (~hash.indexOf('%') ? decodeURIComponent(hash) : hash).slice(1)
+
+        const computePosition = (el, sum) =>
+          article.contains(el) ? computePosition(el.offsetParent, el.offsetTop + sum) : sum
+
+        const jumpToAnchor = (target, event) => {
+          if (event) {
+            if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+            window.location.hash = '#' + target.id
+            event.preventDefault()
+          }
+          const toolbarOffset = toolbar ? toolbar.getBoundingClientRect().bottom : 0
+          const y = computePosition(target, 0) - toolbarOffset
+          const instant = event === false && supportsScrollToOptions
+          instant ? window.scrollTo({ left: 0, top: y, behavior: 'instant' }) : window.scrollTo(0, y)
+        }
+
+        const fragment = decodeFragment(window.location.hash)
+        const target = fragment && document.getElementById(fragment)
+        if (target) {
+          jumpToAnchor(target, false)
+          setTimeout(() => jumpToAnchor(target, false), 250)
+        }
+
+        const handler = (event) => {
+          const link = event.target.closest && event.target.closest('a[href^="#"]')
+          if (!link) return
+          const fragment = decodeFragment(link.hash)
+          const anchor = fragment && document.getElementById(fragment)
+          if (!anchor) return
+          jumpToAnchor(anchor, event)
+        }
+
+        if (root.on) {
+          root.on('click', handler)
+        } else {
+          root.addEventListener('click', handler)
+        }
+      })
+    </script>
   </main>
   {{> footer-scripts}}
 </body>
