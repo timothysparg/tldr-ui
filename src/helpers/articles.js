@@ -7,11 +7,14 @@ module.exports = function articles (site) {
   const posts = []
   if (!site) return posts
 
+  // Preview system or Antora extension populates site.posts directly
   if (Array.isArray(site.posts) && site.posts.length) return sortPosts(site.posts.slice())
 
+  // Antora system: collect from navigation (requires page attributes in nav items)
   const components = Array.isArray(site.components)
     ? site.components
     : (site.components ? Object.values(site.components) : [])
+
   components.forEach((component) => {
     ;(component.versions || []).forEach((version) => {
       if (Array.isArray(version.navigation)) collectFromNav(version.navigation, posts)
