@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/timothysparg/tldr-ui/compare/v1.0.4...v1.0.5) (2026-01-06)
+
+
+### Bug Fixes
+
+* **bundle:** preserve binary files when creating UI bundle ([7e8ddf3](https://github.com/timothysparg/tldr-ui/commit/7e8ddf397219136531992895c05e70e85999a09c))
+
 ## [1.0.4](https://github.com/timothysparg/tldr-ui/compare/v1.0.3...v1.0.4) (2026-01-06)
 
 
