@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/timothysparg/tldr-ui/compare/v1.0.3...v1.0.4) (2026-01-06)
+
+
+### Bug Fixes
+
+* **css:** allow sticky article toc ([c1d0177](https://github.com/timothysparg/tldr-ui/commit/c1d0177ee9343c0bc7436d109050b9b8f63b89a9))
+* **helpers:** handle site.components as object in Antora 2.3+ ([baa77f4](https://github.com/timothysparg/tldr-ui/commit/baa77f4a31de04d977d4dccfa01bda150efc0e31))
+
 ## [1.0.3](https://github.com/timothysparg/tldr-ui/compare/v1.0.2...v1.0.3) (2026-01-04)
 
 
