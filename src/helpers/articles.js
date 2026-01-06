@@ -9,7 +9,9 @@ module.exports = function articles (site) {
 
   if (Array.isArray(site.posts) && site.posts.length) return sortPosts(site.posts.slice())
 
-  const components = site.components || []
+  const components = Array.isArray(site.components)
+    ? site.components
+    : (site.components ? Object.values(site.components) : [])
   components.forEach((component) => {
     ;(component.versions || []).forEach((version) => {
       if (Array.isArray(version.navigation)) collectFromNav(version.navigation, posts)
