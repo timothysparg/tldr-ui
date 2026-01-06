@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/timothysparg/tldr-ui/compare/v1.0.5...v1.0.6) (2026-01-06)
+
+
+### Bug Fixes
+
+* **helpers:** show featured articles ([7081efc](https://github.com/timothysparg/tldr-ui/commit/7081efcb2432573b1dafca7f2e3955f5fb82d38d))
+
 ## [1.0.5](https://github.com/timothysparg/tldr-ui/compare/v1.0.4...v1.0.5) (2026-01-06)
 
 
