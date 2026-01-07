@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.3.0](https://github.com/timothysparg/tldr-ui/compare/v1.2.0...v1.3.0) (2026-01-07)
+
+
+### Features
+
+* keep article width when toc missing ([#17](https://github.com/timothysparg/tldr-ui/issues/17)) ([463afd5](https://github.com/timothysparg/tldr-ui/commit/463afd5425d33d3ec94d595ce058589a0c056d8c))
+* style article metadata ([#21](https://github.com/timothysparg/tldr-ui/issues/21)) ([3b86e2a](https://github.com/timothysparg/tldr-ui/commit/3b86e2ac7598ec6046699d46b56b879c6f9d82da))
+
+
+### Bug Fixes
+
+* correct home link target ([#15](https://github.com/timothysparg/tldr-ui/issues/15)) ([65d5a83](https://github.com/timothysparg/tldr-ui/commit/65d5a839052adaf95a1b8729dc86054c200376aa))
+* display article revdate ([#19](https://github.com/timothysparg/tldr-ui/issues/19)) ([b0d9caf](https://github.com/timothysparg/tldr-ui/commit/b0d9caf4398566cdbc3d5790eb33f4d5f5d5d909))
+* prevent toc overflow and add markers ([#16](https://github.com/timothysparg/tldr-ui/issues/16)) ([8bf5268](https://github.com/timothysparg/tldr-ui/commit/8bf526807a7768d1d5ad082448929dcf93ad5971))
+
+
+### Reverts
+
+* display article revdate ([#19](https://github.com/timothysparg/tldr-ui/issues/19)) ([98b9387](https://github.com/timothysparg/tldr-ui/commit/98b9387e879a6a3534872842cceaef8e4c06a886))
+
 ## [1.2.0](https://github.com/timothysparg/tldr-ui/compare/v1.1.0...v1.2.0) (2026-01-07)
 
 
