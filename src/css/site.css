@@ -185,10 +185,13 @@ body.article main.responsive {
     }
 
     & a {
+      display: block;
       height: auto !important;
       min-height: 0 !important;
       padding: 2px 0 !important;
       line-height: 1.1 !important;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
   }
 }
