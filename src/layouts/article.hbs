@@ -17,12 +17,12 @@
             <h1>{{{this}}}</h1>
             {{/with}}
             <div class="article-meta">
-              {{#if page.attributes.revdate}}
+              {{#with (pageRevdate page contentCatalog)}}
               <span class="meta-item">
                 <i class="fas fa-calendar"></i>
-                <span>{{page.attributes.revdate}}</span>
+                <span>{{this}}</span>
               </span>
-              {{/if}}
+              {{/with}}
               <span class="meta-item">
                 <i class="fas fa-clock"></i>
                 <span data-reading-time></span>
