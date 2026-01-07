@@ -1,6 +1,6 @@
 = A blog, the fun way
 :page-role: article
-:revdate: 2019-08-18
+:page-revdate: 2019-08-18
 :page-tags: hugo, docker, netlify
 :page-layout: article
 :icons: font
