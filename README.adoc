@@ -3,7 +3,7 @@
 :experimental:
 :hide-uri-scheme:
 // Project URLs:
-:url-project: https://github.com/groknull/tldr-ui
+:url-project: https://github.com/timothysparg/tldr-ui
 :url-preview: https://tldr.groknull.dev/
 :url-ci-pipelines: {url-project}/actions
 :img-ci-status: {url-project}/actions/workflows/ci.yml/badge.svg
