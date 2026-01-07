@@ -161,7 +161,7 @@ module.exports = (src, dest, preview) => () => {
       streamPromises.push(
         waitForStream(
           toDestBinary(
-            vfs.src('static/**/*[!~]', { ...opts, base: ospath.join(src, 'static'), dot: true, encoding: false })
+            vfs.src(['**/*', '!**/*~'], { base: staticDir, cwd: staticDir, dot: true, encoding: false })
           )
         )
       )
