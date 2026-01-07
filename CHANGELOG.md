@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/timothysparg/tldr-ui/compare/v1.1.0...v1.2.0) (2026-01-07)
+
+
+### Features
+
+* **extensions:** add posts extension and surface articles ([f3ca978](https://github.com/timothysparg/tldr-ui/commit/f3ca9787a9cb59659f0e56752e4c06e8259e9511))
+
 ## [1.1.0](https://github.com/timothysparg/tldr-ui/compare/v1.0.6...v1.1.0) (2026-01-07)
 
 
