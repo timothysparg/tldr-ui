@@ -1,6 +1,9 @@
+[settings]
+lockfile = true
+experimental = true
+
 [tools]
 actionlint = "latest"
-node = "22"
-"npm:@antora/cli" = "latest"
+node = "lts"
 "npm:gulp-cli" = "latest"
 shellcheck = "latest"
