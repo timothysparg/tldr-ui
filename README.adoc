@@ -5,8 +5,10 @@
 // Project URLs:
 :url-project: https://github.com/timothysparg/tldr-ui
 :url-preview: https://tldr.groknull.dev/
-:url-ci-pipelines: {url-project}/actions
-:img-ci-status: {url-project}/actions/workflows/ci.yml/badge.svg
+:url-ci-pipelines: {url-project}/actions/workflows/pages.yml
+:url-release: {url-project}/releases/latest
+:img-ci-status: {url-project}/actions/workflows/pages.yml/badge.svg
+:img-release: https://img.shields.io/github/v/release/timothysparg/tldr-ui
 // External URLs:
 :url-antora: https://antora.org
 :url-antora-docs: https://docs.antora.org
@@ -17,7 +19,8 @@
 :url-nodejs: https://nodejs.org
 :url-source-maps: https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map
 
-image:{img-ci-status}[CI Status (GitLab CI), link={url-ci-pipelines}]
+image:{img-ci-status}[CI Status (GitHub Actions), link={url-ci-pipelines}]
+image:{img-release}[Release, link={url-release}]
 
 This project is the UI source for the https://tldr.groknull.dev/[TLDR blog], built with {url-antora}[Antora].
 It is a fork of the Antora Default UI and retains the original structure as a starting point for customization.
