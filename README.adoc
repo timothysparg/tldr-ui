@@ -4,7 +4,7 @@
 :hide-uri-scheme:
 // Project URLs:
 :url-project: https://github.com/timothysparg/tldr-ui
-:url-preview: https://tldr.groknull.dev/
+:url-preview: https://gitlab.com/antora/antora-ui-default
 :url-ci-pipelines: {url-project}/actions/workflows/pages.yml
 :url-release: {url-project}/releases/latest
 :img-ci-status: {url-project}/actions/workflows/pages.yml/badge.svg
