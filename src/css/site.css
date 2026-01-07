@@ -173,6 +173,27 @@ body.article main.responsive {
   overflow: visible;
 }
 
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin: 0.5rem 0 1rem;
+  color: var(--on-surface-variant);
+  font-size: 0.9rem;
+
+  & .meta-item {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    align-items: center;
+
+    & i {
+      color: var(--outline);
+      font-size: 0.95em;
+    }
+  }
+}
+
 .article-toc-body {
   & .toc-list {
     margin: 0;
