@@ -1,5 +1,5 @@
 <nav class="nav left">
-  <a href="{{{relativize (startPageUrl site.startPage)}}}">
+  <a href="{{#if site.homeUrl}}{{{relativize site.homeUrl}}}{{else}}{{{relativize (startPageUrl site.startPage)}}}{{/if}}">
     <i>home</i>
   </a>
   {{!-- <a>
