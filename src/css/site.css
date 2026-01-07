@@ -191,7 +191,6 @@ body.article main.responsive {
       padding: 2px 0 !important;
       line-height: 1.1 !important;
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
   }
 }
