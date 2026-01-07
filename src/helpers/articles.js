@@ -3,12 +3,35 @@
 const TAG_STRIP = /<[^>]+>/g
 const WS_NORMALIZE = /\s+/g
 
-module.exports = function articles (site) {
+module.exports = function articles (site, contentCatalog) {
   const posts = []
-  if (!site) return posts
+  if (!site && !contentCatalog) return posts
 
   // Preview system or Antora extension populates site.posts directly
-  if (Array.isArray(site.posts) && site.posts.length) return sortPosts(site.posts.slice())
+  if (site && Array.isArray(site.posts) && site.posts.length) return sortPosts(site.posts.slice())
+
+  // Antora system: collect from content catalog pages
+  if (contentCatalog && typeof contentCatalog.findBy === 'function') {
+    const pages = contentCatalog.findBy({ family: 'page' }) || []
+    pages.forEach((page) => {
+      const attrs = page.asciidoc?.attributes || {}
+      const role = attrs['page-role'] || attrs.role
+      if (role !== 'article') return
+      const summary = normalizeSummary(
+        attrs.description ||
+          attrs['page-description'] ||
+          page.asciidoc?.doctitle ||
+          ''
+      )
+      posts.push({
+        title: attrs.navtitle || page.asciidoc?.doctitle || attrs.title || '',
+        url: page.pub?.url || '',
+        summary: summary.slice(0, 100),
+        date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
+      })
+    })
+    return sortPosts(posts)
+  }
 
   // Antora system: collect from navigation (requires page attributes in nav items)
   const components = Array.isArray(site.components)

@@ -38,6 +38,40 @@ ui:
 Run `gulp bundle` from link:.[this repository] to generate the bundle in `build/ui-bundle.zip`.
 The `snapshot` flag tells Antora to fetch the UI when the `--fetch` command-line flag is present.
 
+== Enable Article/Post Functionality
+
+This theme includes built-in support for displaying blog articles and posts.
+To enable this functionality, you need to use the included Antora extension.
+
+=== Quick Start
+
+. Download the `posts-extension.js` file from the link:{url-project}/releases/latest[latest release] or copy it from the `extensions/` folder
+. Place it in your documentation project (e.g., `extensions/posts-extension.js`)
+. Register the extension in your `antora-playbook.yml`:
++
+[source,yaml]
+----
+antora:
+  extensions:
+    - ./extensions/posts-extension.js
+----
+
+. Mark your article pages with the required attributes:
++
+[source,asciidoc]
+----
+= My Blog Post
+:page-role: article
+:page-date: 2026-01-07
+:description: A short summary of this article
+
+Your article content here...
+----
+
+The extension will automatically collect all pages marked with `page-role: article` and make them available to the theme's article listing features.
+
+For complete documentation including all available attributes, troubleshooting, and customization options, see link:extensions/README.adoc[].
+
 == Development Quickstart
 
 This section offers a basic tutorial to teach you how to set up the UI project, preview it locally, and bundle it for use with Antora.

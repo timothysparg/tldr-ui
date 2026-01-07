@@ -1,0 +1,152 @@
+= Posts Extension for TLDR UI Theme
+:toc:
+:toclevels: 2
+
+This Antora extension enables article/blog functionality for sites using the TLDR UI theme.
+It collects pages marked as articles and makes them available for display in the theme's article listings and featured content sections.
+
+== What This Extension Does
+
+The Posts Extension:
+
+* Scans your Antora content for pages with the `page-role: article` attribute
+* Collects article metadata (title, date, summary, featured status, image)
+* Sorts articles by date (newest first)
+* Injects the sorted article list into the site model as `site.posts`
+* Makes articles available to all UI templates via the existing `articles` helper
+
+== Installation
+
+=== Step 1: Copy the Extension
+
+Copy the `extensions` folder from this UI bundle to your documentation project:
+
+[source,bash]
+----
+cp -r /path/to/tldr-ui/extensions /path/to/your-docs-project/
+----
+
+=== Step 2: Register in Playbook
+
+Add the extension to your Antora playbook configuration (`antora-playbook.yml`):
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - ./extensions/posts-extension.js
+----
+
+If you're using the UI bundle from a remote location, you'll need to either:
+
+1. Keep a local copy of the extension in your project, or
+2. Include the extension in your UI bundle's supplemental files
+
+== Usage
+
+=== Mark Pages as Articles
+
+In your AsciiDoc content files, add the `:page-role: article` attribute to mark them as articles:
+
+[source,asciidoc]
+----
+= My Blog Post
+:page-role: article
+:page-date: 2026-01-07
+:description: A short summary of this article that appears in listings
+
+Your article content here...
+----
+
+=== Required Attributes
+
+[cols="1,3"]
+|===
+|Attribute |Description
+
+|`:page-role:`
+|Must be set to `article` for the page to be collected
+
+|`:page-date:` (or `:date:` or `:revdate:`)
+|The publication date, used for sorting articles. Format: `YYYY-MM-DD`
+
+|`:description:` (or `:page-description:`)
+|A brief summary displayed in article listings (truncated to 100 characters)
+|===
+
+=== Optional Attributes
+
+[cols="1,3"]
+|===
+|Attribute |Description
+
+|`:featured:`
+|Set to `true` to mark as a featured article
+
+|`:image:` (or `:page-image:`)
+|Path to a thumbnail image for the article
+
+|`:navtitle:`
+|Override the page title in listings
+|===
+
+=== Example Article
+
+[source,asciidoc]
+----
+= Getting Started with Antora
+Author Name
+:page-role: article
+:page-date: 2026-01-07
+:description: Learn how to set up your first Antora documentation site
+:featured: true
+:image: _images/antora-logo.svg
+
+This is your article content...
+----
+
+== How It Works
+
+The extension registers two event listeners:
+
+1. **`uiLoaded`**: Scans the content catalog for pages with `page-role: article`, extracts metadata, and sorts them by date
+2. **`beforePublish`**: Injects the collected posts into `site.posts`, making them available to all templates
+
+The theme's `articles` Handlebars helper (in `src/helpers/articles.js`) automatically detects when `site.posts` is populated by an extension and uses it directly, ensuring optimal performance.
+
+== Troubleshooting
+
+=== Articles Not Appearing
+
+1. Verify the extension is registered in `antora-playbook.yml`
+2. Check that your pages have `:page-role: article`
+3. Ensure pages have a valid date attribute
+4. Look for extension logs during site generation:
++
+[source,console]
+----
+[posts-extension] Collecting articles for site.posts
+[posts-extension] Found 15 article(s)
+[posts-extension] Injecting posts into site model
+[posts-extension] Injected 15 posts into site.posts
+----
+
+=== Articles in Wrong Order
+
+Articles are sorted by their date attribute (newest first).
+Verify each article has a properly formatted `:page-date:` attribute.
+
+== Customization
+
+You can customize the extension behavior by modifying `extensions/posts-extension.js`:
+
+* Change the sorting logic in the `posts.sort()` call
+* Add additional metadata fields to collect
+* Filter articles based on custom criteria
+* Modify the summary length (currently 100 characters)
+
+== Related Documentation
+
+* https://docs.antora.org/antora/latest/extend/extensions/[Antora Extensions,window=_blank]
+* https://docs.antora.org/antora/latest/page/attributes/[Page Attributes,window=_blank]
+* https://docs.antora.org/antora-ui-default/create-helper/[Creating UI Helpers,window=_blank]

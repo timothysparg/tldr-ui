@@ -40,7 +40,7 @@
     <section class="responsive">
       <h2>Featured</h2>
       <div class="large-space"></div>
-      {{#with (articles site)}}
+      {{#with (articles site contentCatalog)}}
       {{#if this}}
       <div class="grid">
         {{#each this}}

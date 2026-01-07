@@ -39,9 +39,11 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         run: gulp bundle
 
-      - name: Upload UI bundle to release
+      - name: Upload release assets
         if: ${{ steps.release.outputs.release_created }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release.outputs.tag_name }}
-          files: build/ui-bundle.zip
+          files: |
+            build/ui-bundle.zip
+            extensions/posts-extension.js
