@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/timothysparg/tldr-ui/compare/v1.0.6...v1.1.0) (2026-01-07)
+
+
+### Features
+
+* **mise:** enable lockfile for reproducible tool versions ([043513e](https://github.com/timothysparg/tldr-ui/commit/043513e59ba7042884436bc450b7f3f901df99bb))
+* **ui:** add favicon support to theme ([0c77566](https://github.com/timothysparg/tldr-ui/commit/0c77566f02caa30658b69d0bf520cde92887a5c7))
+
+
+### Bug Fixes
+
+* **css:** enable text wrapping in "On this page" section ([e40528b](https://github.com/timothysparg/tldr-ui/commit/e40528b3ba6baad6ec69516edb794ae21643c842))
+* **css:** resolve stylelint violations ([b4a65a6](https://github.com/timothysparg/tldr-ui/commit/b4a65a652e9649936200dc107b18715ab57bc490))
+
 ## [1.0.6](https://github.com/timothysparg/tldr-ui/compare/v1.0.5...v1.0.6) (2026-01-06)
 
 
