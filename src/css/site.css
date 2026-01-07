@@ -167,6 +167,11 @@ body.dark .theme-image.light {
   top: 1.5rem;
   align-self: start;
   height: fit-content;
+
+  &.article-toc-empty {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 body.article main.responsive {

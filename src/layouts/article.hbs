@@ -70,7 +70,8 @@
 
             const headings = [...article.querySelectorAll("h2[id], h3[id]")];
             if (!headings.length) {
-              toc.remove();
+              toc.classList.add("article-toc-empty");
+              toc.setAttribute("aria-hidden", "true");
               return;
             }
 
