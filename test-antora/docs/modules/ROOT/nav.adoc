@@ -1,0 +1,4 @@
+// Navigation menu for Test Documentation
+// Add your navigation links here
+
+* xref:posts/a-blog-the-fun-way.adoc[A blog, the fun way]

@@ -1,0 +1,24 @@
+site:
+  title: Test Site
+  url: http://localhost
+  start_page: test::index.adoc
+
+antora:
+  extensions:
+    - ./extensions/posts-extension.js
+
+content:
+  sources:
+    - url: ..
+      branches: HEAD
+      start_path: test-antora/docs
+
+ui:
+  bundle:
+    # url: ../build/ui-bundle.zip
+    url: https://github.com/timothysparg/tldr-ui/releases/download/beta/ui-bundle.zip
+    # url: https://github.com/timothysparg/tldr-ui/releases/download/v1.2.0/ui-bundle.zip
+    snapshot: true
+
+output:
+  dir: ./build/site

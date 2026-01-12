@@ -1,0 +1,7 @@
+[tools]
+"npm:live-server" = "latest"
+watchexec = "latest"
+
+[tasks.serve]
+description = "Start live-server for Antora site"
+run = "live-server build/site --port=8080 --host=127.0.0.1"
