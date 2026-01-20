@@ -12,7 +12,7 @@ Blog posts are automatically discovered and displayed in the "Featured" section 
 2. Add the required front matter attributes:
    ```asciidoc
    = Your Blog Post Title
-   :page-role: article
+   :page-layout: article
    :page-description: A brief description of your post
    :revdate: 2026-01-06
    ```
@@ -23,7 +23,7 @@ Blog posts are automatically discovered and displayed in the "Featured" section 
 
 ### Required Attributes
 
-- `:page-role: article` - Marks the page as a blog article
+- `:page-layout: article` - Uses the article layout (and marks the page as a blog article)
 - `:page-description:` - Short description shown in the Featured section
 - `:revdate:` - Publication date (used for sorting, newest first)
 
@@ -31,7 +31,7 @@ Blog posts are automatically discovered and displayed in the "Featured" section 
 
 ```asciidoc
 = My Amazing Blog Post
-:page-role: article
+:page-layout: article
 :page-description: Learn how to build amazing things with Antora
 :revdate: 2026-01-06
 
@@ -63,7 +63,7 @@ npx http-server build/site -p 8080
 
 The UI uses a supplemental Handlebars helper (`supplemental-ui/helpers/articles.js`) that:
 1. Scans all `.adoc` files in `docs/modules/ROOT/pages/`
-2. Checks for `page-role: article` attribute
+2. Checks for `page-layout: article` attribute
 3. Extracts title, description, and date
 4. Returns sorted list (newest first) for display
 

@@ -1,5 +1,4 @@
 = git filter-repo: A git filter-branch replacement for simpletons like me
-:page-role: article
 :page-layout: article
 :page-revdate: 2020-06-21
 :page-tags: git, filter-repo, fiilter-branch

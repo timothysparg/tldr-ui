@@ -15,8 +15,8 @@ module.exports = function articles (site, contentCatalog) {
     const pages = contentCatalog.findBy({ family: 'page' }) || []
     pages.forEach((page) => {
       const attrs = page.asciidoc?.attributes || {}
-      const role = attrs['page-role'] || attrs.role
-      if (role !== 'article') return
+      const layout = page.layout || attrs['page-layout'] || attrs.layout
+      if (layout !== 'article') return
       const summary = normalizeSummary(
         attrs.description ||
           attrs['page-description'] ||
@@ -59,8 +59,8 @@ function collectFromNav (items, posts) {
       (item.page && item.page.attributes) ||
       item.attributes ||
       {}
-    const role = attrs['page-role'] || attrs.role
-    if (role === 'article') {
+    const layout = (item.page && item.page.layout) || attrs['page-layout'] || attrs.layout
+    if (layout === 'article') {
       const summary = normalizeSummary(
         item.contents ||
           (item.asciidoc && item.asciidoc.contents) ||

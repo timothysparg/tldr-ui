@@ -1,8 +1,7 @@
 =  Test Second Post
-:page-role: article
+:page-layout: article
 :page-description: This is a second test post to verify multiple articles work
 :page-revdate: 2026-01-07
-:page-layout: article
 
 This is a test second blog post to verify that multiple articles appear correctly in the Featured section.
 

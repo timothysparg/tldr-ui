@@ -1,5 +1,4 @@
 = Kitchen Sink
-:page-role: article
 :page-layout: article
 :page-version: main
 :icons: font

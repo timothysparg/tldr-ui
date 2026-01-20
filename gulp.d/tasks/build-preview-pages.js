@@ -167,8 +167,8 @@ function collectPosts (previewSrc) {
       paths.map((filePath) =>
         fs.readFile(filePath, 'utf8').then((contents) => {
           const doc = Asciidoctor.load(contents, { safe: 'safe', attributes: ASCIIDOC_ATTRIBUTES })
-          const pageRole = doc.getAttribute('page-role')
-          if (pageRole !== 'article') return null
+          const pageLayout = doc.getAttribute('page-layout')
+          if (pageLayout !== 'article') return null
           const html = doc.convert()
           const text = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
           const rel = path.relative(previewSrc, filePath)

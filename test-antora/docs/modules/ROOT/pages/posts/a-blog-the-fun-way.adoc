@@ -1,9 +1,8 @@
 = A blog, the fun way
-:page-role: article
+:page-layout: article
 :page-description: Creating a blog using Hugo, Docker, and Netlify with AsciiDoc support
 :page-revdate: 2019-08-18
 :page-tags: hugo, docker, netlify
-:page-layout: article
 :icons: font
 :sourcedir: ./
 

@@ -10,7 +10,7 @@ This test site demonstrates how to automatically display blog articles in the "F
 
 1. **Supplemental UI Helper** (`supplemental-ui/helpers/articles.js`)
    - Replaces the bundled `articles` helper
-   - Scans the file system for `.adoc` files with `page-role: article`
+   - Scans the file system for `.adoc` files with `page-layout: article`
    - Extracts metadata (title, description, date)
    - Returns sorted articles (newest first)
 
@@ -51,7 +51,6 @@ touch docs/modules/ROOT/pages/posts/my-new-post.adoc
 
 ```asciidoc
 = Your Blog Post Title
-:page-role: article
 :page-description: A brief summary that appears in the Featured section
 :revdate: 2026-01-07
 :page-tags: tag1, tag2, tag3
@@ -76,11 +75,10 @@ The article will automatically appear in the Featured section.
 
 | Attribute | Required | Description |
 |-----------|----------|-------------|
-| `page-role: article` | ✓ | Marks the page as a blog article |
+| `page-layout: article` | ✓ | Uses the article layout (and marks the page as a blog article) |
 | `page-description` | ✓ | Summary text (truncated to 100 chars) |
 | `revdate` | ✓ | Publication date for sorting |
 | `page-tags` | ✗ | Optional tags |
-| `page-layout` | ✗ | Optional layout override |
 
 ## Features
 
@@ -111,7 +109,7 @@ The UI also includes a preview mode that works differently:
 ## Troubleshooting
 
 **Articles not appearing?**
-1. Check that `page-role: article` is set correctly
+1. Check that `page-layout: article` is set correctly
 2. Verify the `.adoc` file is in `docs/modules/ROOT/pages/`
 3. Ensure `page-description` and `revdate` are present
 4. Rebuild the site

@@ -5,67 +5,22 @@ xref:templates.adoc[] explains how to access such attributes.
 But what are the attributes that actually used by the templates.
 If you're going to use the default UI bundle for your project, you'll want to know.
 
-== page-role attribute
+== page-layout attribute
 
-The `page-role` attribute is typically defined per-page.
-This attribute is used to add one or more space-separated classes to the `<body>` tag of that page.
+The `page-layout` attribute is defined per-page and tells Antora which layout to use.
+This UI also appends the layout name to the `<body>` tag as a class, which makes it easy to target layouts in CSS.
 
-A common use of the `page-role` attribute is to label the home page.
-
-[,asciidoc]
-----
-= Home
-:page-role: home
-
-This is the home page.
-----
-
-////
-Alternately, the role can be set on the document itself.
+A common use of the `page-layout` attribute is to select the `article` layout for blog posts.
 
 [,asciidoc]
 ----
-[.home]
-= Home
+= Blog Post Title
+:page-layout: article
 
-This is the home page.
-----
-////
-
-The resulting HTML will include the following `<body>` start tag:
-
-[,html]
-----
-<body class="article -toc">
+Your blog post content starts here.
 ----
 
-The stylesheet can now take advantage of this identity to assign styles to pages that have a given role.
-For example, the home page often requires a different appearance.
-Being able to target that page with CSS allows UI developers to apply that customization.
-
-Note that the UI templates could make use of the page role in other ways.
-The default UI currently only appends the value to the `class` attribute on the `<body>` tag.
-
-=== Hide the TOC sidebar
-
-The one reserved page role that the default UI recognizes is `-toc`.
-This role instructs the site script to remove (i.e., hide) the TOC sidebar.
-Here's how to set it.
-
-[,asciidoc]
-----
-= Page Title
-:page-role: -toc
-
-The TOC sidebar is not displayed even though this page has sections.
-
-== First Section
-
-== Second Section
-----
-
-The AsciiDoc `toc` attribute controls whether the TOC is rendered in the *body* of the article.
-Since the default UI provides an alternate TOC, you most likely don't want to activate the built-in TOC functionality in AsciiDoc when using Antora.
+The resulting HTML will include a `<body>` class that matches the layout, allowing layout-specific styling.
 
 == page-pagination attribute
 

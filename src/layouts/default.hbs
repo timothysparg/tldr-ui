@@ -5,7 +5,7 @@
   {{> head}}
 </head>
 
-<body class="default article{{#with (or page.attributes.role page.role)}} {{{this}}}{{/with}}">
+<body class="default article{{#with (or page.attributes.layout page.layout)}} {{{this}}}{{/with}}">
   {{> body}}
   {{> footer}}
 </body>
