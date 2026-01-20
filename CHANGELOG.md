@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.1](https://github.com/timothysparg/tldr-ui/compare/v1.3.0...v1.3.1) (2026-01-20)
+
+
+### Bug Fixes
+
+* increase article heading spacing ([43cb88a](https://github.com/timothysparg/tldr-ui/commit/43cb88a23ea2623b48bc81f1357e17813d7ec1ca)), closes [#20](https://github.com/timothysparg/tldr-ui/issues/20)
+* prevent theme flash on load ([75d40ae](https://github.com/timothysparg/tldr-ui/commit/75d40ae4e1a3ffbc2b45aed9d4ec3c0cc054095a)), closes [#23](https://github.com/timothysparg/tldr-ui/issues/23)
+* update featured placeholders ([29cf09d](https://github.com/timothysparg/tldr-ui/commit/29cf09db9cc2f659e5a3fafeba85054ce395dbf1)), closes [#25](https://github.com/timothysparg/tldr-ui/issues/25)
+* update preview + articles to use page-layout ([a4c3640](https://github.com/timothysparg/tldr-ui/commit/a4c3640818e81382b43b0e0277a0ae1d16174f20)), closes [#24](https://github.com/timothysparg/tldr-ui/issues/24)
+
 ## [1.3.0](https://github.com/timothysparg/tldr-ui/compare/v1.2.0...v1.3.0) (2026-01-07)
 
 
