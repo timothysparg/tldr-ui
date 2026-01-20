@@ -1,0 +1,11 @@
+    <script>
+      (function () {
+        const storageKey = "ui-mode";
+        const stored = localStorage.getItem(storageKey) || "auto";
+        const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const resolved = stored === "auto" ? (prefersDark ? "dark" : "light") : stored;
+        const root = document.documentElement;
+        root.classList.remove("light", "dark");
+        root.classList.add(resolved);
+      })();
+    </script>

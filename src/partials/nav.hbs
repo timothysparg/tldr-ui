@@ -27,6 +27,11 @@
         light.disabled = mode === "dark";
         dark.disabled = mode === "light";
       };
+      const setRootThemeClass = mode => {
+        const root = document.documentElement;
+        root.classList.remove("light", "dark");
+        root.classList.add(mode);
+      };
 
       me().on("click", async () => {
         const current = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
@@ -39,6 +44,7 @@
         // Get resolved mode (auto -> light/dark based on system preference)
         const resolved = ui("mode");
         setHighlightTheme(resolved);
+        setRootThemeClass(resolved);
 
         // Update Icon
         me("#mode-icon").innerText = THEME_MAP[next];
@@ -51,6 +57,7 @@
         const start = ui("mode");
         me("#mode-icon").innerText = THEME_MAP[start];
         setHighlightTheme(start);
+        setRootThemeClass(start);
       })
     </script>
   </button>

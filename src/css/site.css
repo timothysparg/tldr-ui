@@ -30,7 +30,7 @@
 }
 
 /* Light theme colors */
-body.light {
+html.light {
   --primary: #6750a4;
   --on-primary: #fff;
   --primary-container: #e9ddff;
@@ -74,7 +74,7 @@ body.light {
 }
 
 /* Dark theme colors */
-body.dark {
+html.dark {
   --primary: #d0bcff;
   --on-primary: #371e73;
   --primary-container: #4f378b;
