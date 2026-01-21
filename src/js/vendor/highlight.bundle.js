@@ -38,6 +38,6 @@
   hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'))
   hljs.registerLanguage('yaml', require('highlight.js/lib/languages/yaml'))
   ;[].slice.call(document.querySelectorAll('pre code.hljs[data-lang]')).forEach(function (node) {
-    hljs.highlightBlock(node)
+    hljs.highlightElement(node)
   })
 })()
