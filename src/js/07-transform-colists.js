@@ -63,16 +63,6 @@
 
     // Replace the table with the list
     table.parentNode.replaceChild(list, table)
-
-    // Add divider before the colist if it follows a code block
-    const prevSibling = colist.previousElementSibling
-    const isCodeBlock = prevSibling && (prevSibling.classList.contains('listingblock') ||
-      prevSibling.classList.contains('literalblock'))
-    if (isCodeBlock) {
-      const divider = document.createElement('div')
-      divider.className = 'divider margin'
-      colist.parentNode.insertBefore(divider, colist)
-    }
   })
 
   // Also wrap code blocks in proper article structure if needed
