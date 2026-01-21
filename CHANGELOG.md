@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0](https://github.com/timothysparg/tldr-ui/compare/v1.3.1...v1.4.0) (2026-01-21)
+
+
+### Features
+
+* support article card images ([1abcb6a](https://github.com/timothysparg/tldr-ui/commit/1abcb6acc2765afac81ea4701fb83a2abd3f3d15)), closes [#27](https://github.com/timothysparg/tldr-ui/issues/27)
+
+
+### Bug Fixes
+
+* avoid me() inside onloadAdd ([#40](https://github.com/timothysparg/tldr-ui/issues/40)) ([ba22cff](https://github.com/timothysparg/tldr-ui/commit/ba22cff216c64dbb67dd055905854fc43de536fb))
+* dedupe homepage title (closes [#28](https://github.com/timothysparg/tldr-ui/issues/28)) ([76cfd15](https://github.com/timothysparg/tldr-ui/commit/76cfd15600e69f3cad6da58b7219af9b99b8c0ab))
+* register ini language for highlight.js ([#39](https://github.com/timothysparg/tldr-ui/issues/39)) ([5974f10](https://github.com/timothysparg/tldr-ui/commit/5974f103a0268c5ba7917abdc961385d03346130))
+* remove callout divider (closes [#33](https://github.com/timothysparg/tldr-ui/issues/33)) ([8bdfcd0](https://github.com/timothysparg/tldr-ui/commit/8bdfcd0b36ed2dd9312a960e90be241c4b090e8a))
+* replace highlightBlock with highlightElement ([#37](https://github.com/timothysparg/tldr-ui/issues/37)) ([5198751](https://github.com/timothysparg/tldr-ui/commit/51987511e8e18791fcd03a06890b2d3c1c18f2e7))
+* restore toc scroll spy (closes [#29](https://github.com/timothysparg/tldr-ui/issues/29)) ([525a9f4](https://github.com/timothysparg/tldr-ui/commit/525a9f456e5b3c276469baa6d02b386802ba65bc))
+* tighten colist spacing (closes [#34](https://github.com/timothysparg/tldr-ui/issues/34)) ([5b46764](https://github.com/timothysparg/tldr-ui/commit/5b4676458a9f23c1099daa6b52e43e192ce98769))
+
 ## [1.3.1](https://github.com/timothysparg/tldr-ui/compare/v1.3.0...v1.3.1) (2026-01-20)
 
 
