@@ -111,8 +111,9 @@
       </article>
     </div>
     <script>
+      const rootEl = me()
       onloadAdd(() => {
-        const root = me()
+        const root = rootEl
         const article = root.querySelector('article.article-card') || root.querySelector('article')
         if (!article) return
         const toolbar = document.querySelector('.toolbar')
