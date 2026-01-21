@@ -14,6 +14,10 @@
         "PLAYWRIGHT_HEADLESS": "true",
         "PLAYWRIGHT_BROWSER": "chromium"
       }
+    },
+    "mise": {
+      "command": "mise",
+      "args": ["up"] 
     }
   }
 }
