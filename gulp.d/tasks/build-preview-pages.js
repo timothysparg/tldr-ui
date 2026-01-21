@@ -147,7 +147,7 @@ function compileLayouts (src) {
  */
 function copyImages (src, dest) {
   return vfs
-    .src('**/*.{png,svg}', { base: src, cwd: src })
+    .src('**/*.{png,svg}', { base: src, cwd: src, encoding: false })
     .pipe(vfs.dest(dest))
     .pipe(map((file, enc, next) => next()))
 }
@@ -174,10 +174,12 @@ function collectPosts (previewSrc) {
           const rel = path.relative(previewSrc, filePath)
           const url = rel.slice(0, rel.lastIndexOf('.')) + '.html'
           const date = doc.getAttribute('revdate') || doc.getAttribute('date') || doc.getAttribute('page-date')
+          const image = doc.getAttribute('article-card-image')
           return {
             title: doc.getDocumentTitle(),
             url,
             summary: text.slice(0, 100),
+            image,
             date: parseDate(date),
           }
         })

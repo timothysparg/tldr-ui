@@ -4,6 +4,7 @@
 :page-tags: hugo, docker, netlify
 :icons: font
 :sourcedir: ./
+:article-card-image: /img/a-blog-the-fun-way.png
 
 To write a blog you must first build a blog? +
 Apparently in my mind this is true, so here we are. 

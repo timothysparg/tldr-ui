@@ -27,6 +27,7 @@ module.exports = function articles (site, contentCatalog) {
         title: attrs.navtitle || page.asciidoc?.doctitle || attrs.title || '',
         url: page.pub?.url || '',
         summary: summary.slice(0, 100),
+        image: attrs['article-card-image'] || '',
         date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
       })
     })
@@ -72,6 +73,7 @@ function collectFromNav (items, posts) {
         title: item.content || item.title || attrs.title || '',
         url: item.url,
         summary: summary.slice(0, 100),
+        image: attrs['article-card-image'] || '',
         date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
       })
     }
