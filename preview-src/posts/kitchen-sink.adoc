@@ -6,6 +6,7 @@
 :toclevels: 3
 :sectanchors:
 :sectlinks:
+:article-card-image: image$kitchen-sink.png
 
 A normal paragraph with an https://example.com[external link], an <<explicit-anchor,internal anchor>> link, an xref:index.adoc[internal xref], and an xref:missing-page.adoc[unresolved xref].
 

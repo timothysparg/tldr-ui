@@ -146,10 +146,18 @@ function compileLayouts (src) {
  * @returns {import('stream').Readable} vinyl stream for further piping
  */
 function copyImages (src, dest) {
-  return vfs
-    .src('**/*.{png,svg}', { base: src, cwd: src, encoding: false })
-    .pipe(vfs.dest(dest))
-    .pipe(map((file, enc, next) => next()))
+  return merge(
+    vfs
+      .src('**/*.{png,svg}', { base: src, cwd: src, encoding: false })
+      .pipe(vfs.dest(dest)),
+    vfs
+      .src('assets/images/**/*.{png,svg}', {
+        base: ospath.join(src, 'assets', 'images'),
+        cwd: src,
+        encoding: false,
+      })
+      .pipe(vfs.dest(ospath.join(dest, '_images')))
+  ).pipe(map((file, enc, next) => next()))
 }
 
 function resolvePage (spec, context = {}) {
@@ -175,11 +183,12 @@ function collectPosts (previewSrc) {
           const url = rel.slice(0, rel.lastIndexOf('.')) + '.html'
           const date = doc.getAttribute('revdate') || doc.getAttribute('date') || doc.getAttribute('page-date')
           const image = doc.getAttribute('article-card-image')
+          const normalizedImage = normalizePreviewImage(image)
           return {
             title: doc.getDocumentTitle(),
             url,
             summary: text.slice(0, 100),
-            image,
+            image: normalizedImage,
             date: parseDate(date),
           }
         })
@@ -190,6 +199,14 @@ function collectPosts (previewSrc) {
 
 function resolvePageURL (spec, context = {}) {
   if (spec) return '/' + (spec = spec.split(':').pop()).slice(0, spec.lastIndexOf('.')) + '.html'
+}
+
+function normalizePreviewImage (image) {
+  if (!image) return image
+  const value = String(image).trim()
+  if (!value.startsWith('image$')) return value
+  const rel = value.slice('image$'.length).replace(/^\/+/, '')
+  return '/_images/' + rel
 }
 
 /**

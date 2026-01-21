@@ -3,12 +3,23 @@
 const TAG_STRIP = /<[^>]+>/g
 const WS_NORMALIZE = /\s+/g
 
-module.exports = function articles (site, contentCatalog) {
+module.exports = function articles (site, contentCatalog, options) {
   const posts = []
   if (!site && !contentCatalog) return posts
+  const root = options && options.data && options.data.root
+  const uiRootPath = root && root.uiRootPath
+  const siteRootPath = root && root.siteRootPath
 
   // Preview system or Antora extension populates site.posts directly
-  if (site && Array.isArray(site.posts) && site.posts.length) return sortPosts(site.posts.slice())
+  if (site && Array.isArray(site.posts) && site.posts.length) {
+    const normalized = site.posts.map((post) => {
+      const imageValue = post.image || post['article-card-image']
+      return Object.assign({}, post, {
+        image: resolveArticleImage(imageValue, post.page || post, contentCatalog, uiRootPath, siteRootPath),
+      })
+    })
+    return sortPosts(normalized)
+  }
 
   // Antora system: collect from content catalog pages
   if (contentCatalog && typeof contentCatalog.findBy === 'function') {
@@ -27,7 +38,7 @@ module.exports = function articles (site, contentCatalog) {
         title: attrs.navtitle || page.asciidoc?.doctitle || attrs.title || '',
         url: page.pub?.url || '',
         summary: summary.slice(0, 100),
-        image: attrs['article-card-image'] || '',
+        image: resolveArticleImage(attrs['article-card-image'], page, contentCatalog, uiRootPath, siteRootPath),
         date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
       })
     })
@@ -41,7 +52,9 @@ module.exports = function articles (site, contentCatalog) {
 
   components.forEach((component) => {
     ;(component.versions || []).forEach((version) => {
-      if (Array.isArray(version.navigation)) collectFromNav(version.navigation, posts)
+      if (Array.isArray(version.navigation)) {
+        collectFromNav(version.navigation, posts, contentCatalog, uiRootPath, siteRootPath)
+      }
     })
   })
 
@@ -53,7 +66,7 @@ module.exports = function articles (site, contentCatalog) {
  * @param {Array} items navigation items
  * @param {Array} posts accumulator array for articles
  */
-function collectFromNav (items, posts) {
+function collectFromNav (items, posts, contentCatalog, uiRootPath, siteRootPath) {
   items.forEach((item) => {
     const attrs =
       (item.asciidoc && item.asciidoc.attributes) ||
@@ -73,12 +86,71 @@ function collectFromNav (items, posts) {
         title: item.content || item.title || attrs.title || '',
         url: item.url,
         summary: summary.slice(0, 100),
-        image: attrs['article-card-image'] || '',
+        image: resolveArticleImage(
+          attrs['article-card-image'],
+          item.page || item,
+          contentCatalog,
+          uiRootPath,
+          siteRootPath
+        ),
         date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
       })
     }
-    if (Array.isArray(item.items)) collectFromNav(item.items, posts)
+    if (Array.isArray(item.items)) collectFromNav(item.items, posts, contentCatalog, uiRootPath, siteRootPath)
   })
+}
+
+function resolveArticleImage (image, page, contentCatalog, uiRootPath, siteRootPath) {
+  if (!image) return ''
+  const value = String(image).trim()
+  if (!value) return ''
+
+  if (/^(?:https?:)?\/\//.test(value)) return value
+
+  if (value.startsWith('ui:')) {
+    const path = value.slice(3)
+    if (!uiRootPath) return path
+    return joinPath(uiRootPath, path)
+  }
+
+  if (value.startsWith('/')) {
+    if (siteRootPath) return joinPath(siteRootPath, value)
+    return value
+  }
+
+  if (!contentCatalog || !page || typeof contentCatalog.resolveResource !== 'function') return value
+
+  const ref = addImageFamily(value)
+  const qualified = qualifyResourceId(ref, page)
+  const resource = contentCatalog.resolveResource(qualified) || contentCatalog.resolveResource(ref)
+  return resource && resource.pub && resource.pub.url ? resource.pub.url : value
+}
+
+function addImageFamily (ref) {
+  if (!ref) return ref
+  if (ref.includes('$')) return ref
+  if (ref.includes(':')) {
+    const idx = ref.lastIndexOf(':')
+    return ref.slice(0, idx + 1) + 'image$' + ref.slice(idx + 1)
+  }
+  return 'image$' + ref
+}
+
+function qualifyResourceId (ref, page) {
+  if (!ref || /[@:]/.test(ref)) return ref
+  const src = page.src || page
+  const component = src.component || src.componentName || src.component
+  const version = src.version
+  const module = src.module || 'ROOT'
+  if (!component || !module) return ref
+  const prefix = version ? `${version}@` : ''
+  return `${prefix}${component}:${module}:${ref}`
+}
+
+function joinPath (base, target) {
+  const baseTrimmed = base.endsWith('/') ? base.slice(0, -1) : base
+  const targetTrimmed = target.startsWith('/') ? target : '/' + target
+  return baseTrimmed + targetTrimmed
 }
 
 /**
