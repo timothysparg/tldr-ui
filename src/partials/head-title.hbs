@@ -1,1 +1,1 @@
-    <title>{{{detag (or page.title (or defaultPageTitle 'TL;DR'))}}}{{#with site.title}} :: {{this}}{{/with}}</title>
+    <title>{{{detag (or page.title (or defaultPageTitle 'TL;DR'))}}}{{#if (and site.title (ne (detag (or page.title (or defaultPageTitle 'TL;DR'))) site.title))}} :: {{site.title}}{{/if}}</title>

@@ -1,6 +1,6 @@
 antoraVersion: '1.0.0'
 site:
-  title: Brand Docs
+  title: TL;DR
   url: http://localhost:5252
   startPage: ROOT:index
   components: []
