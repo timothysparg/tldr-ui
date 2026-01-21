@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/timothysparg/tldr-ui/compare/v1.4.0...v1.4.1) (2026-01-21)
+
+
+### Bug Fixes
+
+* support content images for article cards ([#43](https://github.com/timothysparg/tldr-ui/issues/43)) ([63d2355](https://github.com/timothysparg/tldr-ui/commit/63d2355c1724f688d8779656f9c55563b55a13a6))
+
 ## [1.4.0](https://github.com/timothysparg/tldr-ui/compare/v1.3.1...v1.4.0) (2026-01-21)
 
 
