@@ -251,6 +251,15 @@ body.article main.responsive {
         color: var(--outline);
         content: "›";
       }
+
+      &.is-active {
+        color: var(--primary);
+        font-weight: 700;
+
+        &::before {
+          color: var(--primary);
+        }
+      }
     }
 
     & .toc-list > li > a::before {

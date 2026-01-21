@@ -1,113 +1,71 @@
 ;(function () {
   'use strict'
 
-  const sidebar = document.querySelector('aside.toc.sidebar')
-  if (!sidebar) return
-  if (document.querySelector('body.-toc')) return sidebar.parentNode.removeChild(sidebar)
-  const levels = parseInt(sidebar.dataset.levels || 2, 10)
-  if (levels < 0) return
+  const toc = document.querySelector('.article-toc')
+  const tocBody = document.querySelector('.article-toc-body')
+  const article = document.querySelector('article.article-card')
+  if (!toc || !tocBody || !article) return
 
-  const articleSelector = 'article'
-  const article = document.querySelector(articleSelector)
-  if (!article) return
-  const headingsSelector = []
-  for (let level = 0; level <= levels; level++) {
-    const headingSelector = [articleSelector]
-    if (level) {
-      for (let l = 1; l <= level; l++) headingSelector.push((l === 2 ? '.sectionbody>' : '') + '.sect' + l)
-      headingSelector.push('h' + (level + 1) + '[id]' + (level > 1 ? ':not(.discrete)' : ''))
-    } else {
-      headingSelector.push('h1[id].sect0')
-    }
-    headingsSelector.push(headingSelector.join('>'))
-  }
-  const headings = find(headingsSelector.join(','), article.parentNode)
-  if (!headings.length) return sidebar.parentNode.removeChild(sidebar)
+  const headings = [].slice.call(article.querySelectorAll('h2[id], h3[id]'))
+  if (!headings.length) return
 
-  let lastActiveFragment
-  const links = {}
-  const list = headings.reduce(function (accum, heading) {
-    const link = document.createElement('a')
-    link.textContent = heading.textContent
-    links[(link.href = '#' + heading.id)] = link
-    const listItem = document.createElement('li')
-    listItem.dataset.level = parseInt(heading.nodeName.slice(1), 10) - 1
-    listItem.appendChild(link)
-    accum.appendChild(listItem)
-    return accum
-  }, document.createElement('ul'))
-
-  let menu = sidebar.querySelector('.toc-menu')
-  if (!menu) (menu = document.createElement('div')).className = 'toc-menu'
-
-  const title = document.createElement('h3')
-  title.textContent = sidebar.dataset.title || 'Contents'
-  menu.appendChild(title)
-  menu.appendChild(list)
-
-  const startOfContent = !document.getElementById('toc') && article.querySelector('h1 ~ :not(.is-before-toc)')
-  if (startOfContent) {
-    const embeddedToc = document.createElement('aside')
-    embeddedToc.className = 'toc embedded'
-    embeddedToc.appendChild(menu.cloneNode(true))
-    startOfContent.parentNode.insertBefore(embeddedToc, startOfContent)
-  }
+  let links = new Map()
+  let activeFragment
+  let isInitialized = false
 
   window.addEventListener('load', function () {
-    onScroll()
-    window.addEventListener('scroll', onScroll)
+    if (refreshLinks()) {
+      initScrollSpy()
+      return
+    }
+    const observer = new window.MutationObserver(function () {
+      if (!refreshLinks()) return
+      observer.disconnect()
+      initScrollSpy()
+    })
+    observer.observe(tocBody, { childList: true, subtree: true })
+    setTimeout(function () {
+      if (isInitialized) return
+      if (refreshLinks()) initScrollSpy()
+    }, 250)
   })
 
   function onScroll () {
-    const scrolledBy = window.pageYOffset
+    if (!links.size && !refreshLinks()) return
     const buffer = getNumericStyleVal(document.documentElement, 'fontSize') * 1.15
-    const ceil = article.offsetTop
-    if (scrolledBy && window.innerHeight + scrolledBy + 2 >= document.documentElement.scrollHeight) {
-      lastActiveFragment = Array.isArray(lastActiveFragment) ? lastActiveFragment : Array(lastActiveFragment || 0)
-      const activeFragments = []
-      const lastIdx = headings.length - 1
-      headings.forEach(function (heading, idx) {
-        const fragment = '#' + heading.id
-        if (idx === lastIdx || heading.getBoundingClientRect().top + getNumericStyleVal(heading, 'paddingTop') > ceil) {
-          activeFragments.push(fragment)
-          if (lastActiveFragment.indexOf(fragment) < 0) links[fragment].classList.add('is-active')
-        } else if (~lastActiveFragment.indexOf(fragment)) {
-          links[lastActiveFragment.shift()].classList.remove('is-active')
-        }
-      })
-      list.scrollTop = list.scrollHeight - list.offsetHeight
-      lastActiveFragment = activeFragments.length > 1 ? activeFragments : activeFragments[0]
-      return
-    }
-    if (Array.isArray(lastActiveFragment)) {
-      lastActiveFragment.forEach(function (fragment) {
-        links[fragment].classList.remove('is-active')
-      })
-      lastActiveFragment = undefined
-    }
-    let activeFragment
+    let current
     headings.some(function (heading) {
-      if (heading.getBoundingClientRect().top + getNumericStyleVal(heading, 'paddingTop') - buffer > ceil) return true
-      activeFragment = '#' + heading.id
+      if (heading.getBoundingClientRect().top - buffer > 0) return true
+      current = '#' + heading.id
       return false
     })
-    if (activeFragment) {
-      if (activeFragment === lastActiveFragment) return
-      if (lastActiveFragment) links[lastActiveFragment].classList.remove('is-active')
-      const activeLink = links[activeFragment]
-      activeLink.classList.add('is-active')
-      if (list.scrollHeight > list.offsetHeight) {
-        list.scrollTop = Math.max(0, activeLink.offsetTop + activeLink.offsetHeight - list.offsetHeight)
-      }
-      lastActiveFragment = activeFragment
-    } else if (lastActiveFragment) {
-      links[lastActiveFragment].classList.remove('is-active')
-      lastActiveFragment = undefined
-    }
+    if (!current && headings.length) current = '#' + headings[0].id
+    if (current) setActive(current)
   }
 
-  function find (selector, from) {
-    return [].slice.call((from || document).querySelectorAll(selector))
+  function setActive (fragment) {
+    if (fragment === activeFragment) return
+    if (activeFragment && links.get(activeFragment)) links.get(activeFragment).classList.remove('is-active')
+    activeFragment = fragment
+    if (links.get(activeFragment)) links.get(activeFragment).classList.add('is-active')
+  }
+
+  function refreshLinks () {
+    links = new Map(
+      [].slice
+        .call(tocBody.querySelectorAll('a[href^="#"]'))
+        .map((link) => [link.getAttribute('href'), link])
+    )
+    return links.size
+  }
+
+  function initScrollSpy () {
+    if (isInitialized) return
+    if (!refreshLinks()) return
+    if (window.location.hash) setActive(window.location.hash)
+    onScroll()
+    window.addEventListener('scroll', onScroll)
+    isInitialized = true
   }
 
   function getNumericStyleVal (el, prop) {
