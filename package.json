@@ -65,5 +65,8 @@
     "stylelint-value-no-unknown-custom-properties": "^6.1.0",
     "vinyl-fs": "~4.0"
   },
-  "version": "1.4.1"
+  "version": "1.4.1",
+  "dependencies": {
+    "@apple/highlightjs-pkl": "^1.0.1"
+  }
 }
