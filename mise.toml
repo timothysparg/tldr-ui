@@ -4,6 +4,14 @@ experimental = true
 
 [tools]
 actionlint = "latest"
+hk = "latest"
 node = "lts"
 "npm:gulp-cli" = "latest"
+pkl = "latest"
 shellcheck = "latest"
+
+[env]
+HK_MISE = 1
+
+[hooks]
+postinstall = "hk install --mise"
