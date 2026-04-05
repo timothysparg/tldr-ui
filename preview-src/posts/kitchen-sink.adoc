@@ -201,6 +201,10 @@ Inline image: image:../multirepo-ssg.svg[Alt text for inline image, width=24]
 
 === Links and Callouts
 
+=== mp4
+
+video::../_images/mise-install-demo.mp4[opts="autoplay,loop,muted,nocontrols"]
+
 A bare link: https://example.com
 
 [source]

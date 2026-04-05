@@ -435,6 +435,11 @@ article.article-card {
     background: var(--tertiary);
   }
 
+  & .videoblock video {
+    max-width: 100%;
+    height: auto;
+  }
+
   & .imageblock {
     text-align: center;
 

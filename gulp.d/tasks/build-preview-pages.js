@@ -148,10 +148,10 @@ function compileLayouts (src) {
 function copyImages (src, dest) {
   return merge(
     vfs
-      .src('**/*.{png,svg}', { base: src, cwd: src, encoding: false })
+      .src('**/*.{png,svg,gif,mp4}', { base: src, cwd: src, encoding: false })
       .pipe(vfs.dest(dest)),
     vfs
-      .src('assets/images/**/*.{png,svg}', {
+      .src('assets/images/**/*.{png,svg,gif,mp4}', {
         base: ospath.join(src, 'assets', 'images'),
         cwd: src,
         encoding: false,
