@@ -15,6 +15,7 @@
     ts: 'typescript',
   }
   const directIconUrls = {
+    pkl: 'https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg',
     toml: 'https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg',
   }
   const isBeerArticle = document.body.classList.contains('article')
