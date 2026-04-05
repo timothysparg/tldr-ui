@@ -14,6 +14,9 @@
     shellscript: 'bash',
     ts: 'typescript',
   }
+  const directIconUrls = {
+    toml: 'https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg',
+  }
   const isBeerArticle = document.body.classList.contains('article')
   ;[].slice.call(document.querySelectorAll('article pre.highlight, article .literalblock pre')).forEach(function (pre) {
     let code, language, lang, copy, icon, tooltip, header, content, block, title, chip, spacer, label, logo
@@ -110,9 +113,11 @@
 
   function createDeviconLogo (language) {
     if (!language) return null
-    const slug = deviconOverrides[language] || language
     const logo = document.createElement('img')
-    logo.src = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/' + slug + '/' + slug + '-original.svg'
+    const directUrl = directIconUrls[language]
+    const slug = deviconOverrides[language] || language
+    const deviconBase = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/'
+    logo.src = directUrl || deviconBase + slug + '/' + slug + '-original.svg'
     logo.alt = language + ' logo'
     logo.addEventListener('error', function () {
       this.remove()
