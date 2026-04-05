@@ -145,6 +145,28 @@ hooks {
 }
 ----
 
+[source,toml]
+----
+[settings]
+lockfile = true
+experimental = true
+
+[tools]
+actionlint = "latest"
+hk = "latest"
+node = "lts"
+"npm:gulp-cli" = "latest"
+pkl = "latest"
+shellcheck = "latest"
+
+[env]
+HK_MISE = 1
+
+[hooks]
+postinstall = "hk install --mise"
+
+----
+
 === Quotes and Verse
 
 [quote, Ada Lovelace, Notes]
