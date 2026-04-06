@@ -49,6 +49,9 @@
             </div>
           </header>
           {{{page.contents}}}
+          <footer class="article-footer">
+            <p>but did you grok more than null?</p>
+          </footer>
         </article>
         <script>
           onloadAdd(() => {
@@ -87,7 +90,7 @@
               link.href = `#${heading.id}`;
               link.className = "link";
               link.textContent = heading.textContent;
-              item.appendChild(link); 
+              item.appendChild(link);
 
               if (level === "h2") {
                 currentSublist = null;
