@@ -1,0 +1,89 @@
+amends "package://github.com/jdx/hk/releases/download/v1.38.0/hk@1.38.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.38.0/hk@1.38.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+  // ── Git hygiene ───────────────────────────────────────────────────────────
+  ["check-merge-conflict"] = Builtins.check_merge_conflict
+  ["check_added_large_files"] {
+    glob = List("**/*")
+    check = "hk util check-added-large-files --maxkb 1000 {{files}}"
+  }
+  ["mixed_line_ending"] = Builtins.mixed_line_ending
+  ["trailing_whitespace"] = Builtins.trailing_whitespace
+
+  // ── JavaScript ───────────────────────────────────────────────────────────
+  ["eslint"] {
+    glob =
+      List(
+        "gulpfile.js",
+        "gulp.d/**/*.js",
+        "src/helpers/*.js",
+        "src/js/*.js",
+        "src/js/vendor/highlight.bundle.js",
+        "extensions/**/*.js",
+      )
+    check = "eslint {{files}}"
+    fix = "eslint --fix {{files}}"
+    batch = true
+  }
+  ["biome"] {
+    glob =
+      List(
+        "gulpfile.js",
+        "gulp.d/**/*.js",
+        "src/helpers/*.js",
+        "src/js/*.js",
+        "src/js/vendor/highlight.bundle.js",
+        "extensions/**/*.js",
+      )
+    check = "biome check --no-errors-on-unmatched {{files}}"
+    fix = "biome check --write --no-errors-on-unmatched {{files}}"
+    batch = true
+  }
+
+  // ── CSS ───────────────────────────────────────────────────────────────────
+  ["stylelint"] {
+    glob = List("src/css/**/*.css")
+    check = "stylelint {{files}}"
+    fix = "stylelint --fix {{files}}"
+    batch = true
+  }
+
+  // ── TOML (mise.toml) ──────────────────────────────────────────────────────
+  ["mise"] = Builtins.mise
+
+  // ── PKL ───────────────────────────────────────────────────────────────────
+  ["pkl_format"] = Builtins.pkl_format
+
+  // ── GitHub Actions ────────────────────────────────────────────────────────
+  ["actionlint"] = Builtins.actionlint
+
+  // ── Shell ─────────────────────────────────────────────────────────────────
+  ["shellcheck"] = Builtins.shellcheck
+
+  // ── Typos ─────────────────────────────────────────────────────────────────
+  ["typos"] = Builtins.typos
+}
+
+hooks {
+  ["commit-msg"] {
+    steps {
+      ["check_conventional_commit"] = Builtins.check_conventional_commit
+    }
+  }
+  ["pre-commit"] {
+    fix = true
+    stash = "git"
+    steps = linters
+  }
+  ["pre-push"] {
+    steps = linters
+  }
+  ["fix"] {
+    fix = true
+    steps = linters
+  }
+  ["check"] {
+    steps = linters
+  }
+}

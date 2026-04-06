@@ -60,9 +60,21 @@ url = "https://nodejs.org/dist/v24.12.0/node-v24.12.0-darwin-x64.tar.gz"
 checksum = "sha256:9c125f61ae947b52e779095830f9cac267846a043ef7192183c84016aaad2812"
 url = "https://nodejs.org/dist/v24.12.0/node-v24.12.0-win-x64.zip"
 
+[[tools."npm:@biomejs/biome"]]
+version = "2.4.10"
+backend = "npm:@biomejs/biome"
+
+[[tools."npm:eslint"]]
+version = "9.39.4"
+backend = "npm:eslint"
+
 [[tools."npm:gulp-cli"]]
 version = "3.1.0"
 backend = "npm:gulp-cli"
+
+[[tools."npm:stylelint"]]
+version = "16.23.1"
+backend = "npm:stylelint"
 
 [[tools.pkl]]
 version = "0.31.0"
@@ -91,3 +103,35 @@ url = "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellche
 [tools.shellcheck."platforms.windows-x64"]
 checksum = "sha256:8a4e35ab0b331c85d73567b12f2a444df187f483e5079ceffa6bda1faa2e740e"
 url = "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.zip"
+
+[[tools.typos]]
+version = "1.42.3"
+backend = "aqua:crate-ci/typos"
+
+[tools.typos."platforms.linux-arm64"]
+checksum = "sha256:b3c5d7d7ef1e32145a8f060f8c1f145f91acd076c298031cbb318bd11de1cc68"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.typos."platforms.linux-arm64-musl"]
+checksum = "sha256:b3c5d7d7ef1e32145a8f060f8c1f145f91acd076c298031cbb318bd11de1cc68"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.typos."platforms.linux-x64"]
+checksum = "sha256:e083bf917d840563e77b35b64f43924d98fcb77acb69691455099d39e347d67d"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.typos."platforms.linux-x64-musl"]
+checksum = "sha256:e083bf917d840563e77b35b64f43924d98fcb77acb69691455099d39e347d67d"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.typos."platforms.macos-arm64"]
+checksum = "sha256:9df9ff62fbcc4d60d9fbea6425a18870a794b93dcf179b4a6c5fa80237feef3f"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-aarch64-apple-darwin.tar.gz"
+
+[tools.typos."platforms.macos-x64"]
+checksum = "sha256:88f59e57bd38f9d71ea201462ddb5d800b5c4022ca90cf17c5f0d71cb966568c"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-x86_64-apple-darwin.tar.gz"
+
+[tools.typos."platforms.windows-x64"]
+checksum = "sha256:7a6a1172465f6678286ea131add992e1b4d43c9244e933344dd22832cf12482f"
+url = "https://github.com/crate-ci/typos/releases/download/v1.42.3/typos-v1.42.3-x86_64-pc-windows-msvc.zip"

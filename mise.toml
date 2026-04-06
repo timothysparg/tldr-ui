@@ -6,9 +6,13 @@ experimental = true
 actionlint = "latest"
 hk = "latest"
 node = "lts"
+"npm:@biomejs/biome" = "2"
+"npm:eslint" = "9"
 "npm:gulp-cli" = "latest"
+"npm:stylelint" = "16"
 pkl = "latest"
 shellcheck = "latest"
+typos = "latest"
 
 [env]
 HK_MISE = 1
@@ -37,11 +41,11 @@ run = "gulp preview:build"
 
 [tasks.lint]
 description = "Lint CSS and JavaScript source files"
-run = "gulp lint"
+run = "hk run check"
 
 [tasks.format]
 description = "Format JavaScript source files"
-run = "gulp format"
+run = "hk run fix"
 
 [tasks.clean]
 description = "Remove build and public output directories"

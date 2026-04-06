@@ -4,3 +4,4 @@
 /sample/
 /test-antora/build/
 .DS_Store
+.mise/
