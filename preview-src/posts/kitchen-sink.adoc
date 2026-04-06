@@ -126,7 +126,7 @@ local linters = new Mapping<String, Step> {
   ["pkl_format"] = Builtins.pkl_format <3>
 }
 
-hooks { 
+hooks {
   ["pre-commit"] {
     fix = true
     stash = "git"
@@ -203,7 +203,11 @@ Inline image: image:../multirepo-ssg.svg[Alt text for inline image, width=24]
 
 === mp4
 
-video::../_images/mise-install-demo.mp4[opts="autoplay,loop,muted,nocontrols"]
+[.theme-media.dark]
+video::../_images/demo-dark.mp4[opts="autoplay,loop,muted,nocontrols"]
+
+[.theme-media.light]
+video::../_images/demo-light.mp4[opts="autoplay,loop,muted,nocontrols"]
 
 A bare link: https://example.com
 

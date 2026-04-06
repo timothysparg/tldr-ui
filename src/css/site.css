@@ -147,11 +147,11 @@ body.article article h6 {
    BASE STYLES
    ============================================ */
 
-body.light .theme-image.dark {
+html.light .theme-media.dark {
   display: none;
 }
 
-body.dark .theme-image.light {
+html.dark .theme-media.light {
   display: none;
 }
 
