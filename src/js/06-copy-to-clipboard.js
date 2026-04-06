@@ -83,14 +83,14 @@
     if (copy) copy.addEventListener('click', writeToClipboard.bind(copy, code))
   })
 
-  function extractCommands (text) {
+  function extractCommands(text) {
     const cmds = []
     let m
     while ((m = CMD_RX.exec(text))) cmds.push(m[1].replace(LINE_CONTINUATION_RX, '$1$2'))
     return cmds.join(' && ')
   }
 
-  function writeToClipboard (code) {
+  function writeToClipboard(code) {
     let text = code.innerText.replace(TRAILING_SPACE_RX, '')
     // Strip callout markers (angle brackets with numbers)
     text = text.replace(/\s*〈\s*\d+\s*〉/g, '')
@@ -103,16 +103,19 @@
         const original = icon && icon.textContent
         if (icon) icon.textContent = 'done'
         this.classList.add('primary-text')
-        setTimeout(function () {
-          this.classList.remove('primary-text')
-          if (icon) icon.textContent = original
-        }.bind(this), 1000)
+        setTimeout(
+          function () {
+            this.classList.remove('primary-text')
+            if (icon) icon.textContent = original
+          }.bind(this),
+          1000
+        )
       }.bind(this),
       function () {}
     )
   }
 
-  function createDeviconLogo (language) {
+  function createDeviconLogo(language) {
     if (!language) return null
     const logo = document.createElement('img')
     const directUrl = directIconUrls[language]

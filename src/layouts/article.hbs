@@ -61,57 +61,12 @@
           });
         </script>
       </div>
+      {{#with (toc page.contents)}}
       <article class="s12 m12 l3 article-toc" aria-label="On this page">
         <h5>On this page</h5>
-        <div class="article-toc-body"></div>
-        <script>
-          onloadAdd(() => {
-            const toc = me(".article-toc");
-            const body = me(".article-toc-body");
-            const article = me("article.article-card");
-            if (!toc || !body || !article) return;
-
-            const headings = [...article.querySelectorAll("h2[id], h3[id]")];
-            if (!headings.length) {
-              toc.classList.add("article-toc-empty");
-              toc.setAttribute("aria-hidden", "true");
-              return;
-            }
-
-            const list = document.createElement("ul");
-            list.className = "list no-space toc-list";
-            let currentSublist = null;
-
-            headings.forEach((heading) => {
-              const level = heading.tagName.toLowerCase();
-              const item = document.createElement("li");
-
-              const link = document.createElement("a");
-              link.href = `#${heading.id}`;
-              link.className = "link";
-              link.textContent = heading.textContent;
-              item.appendChild(link);
-
-              if (level === "h2") {
-                currentSublist = null;
-                list.appendChild(item);
-                return;
-              }
-
-              if (!currentSublist) {
-                currentSublist = document.createElement("ul");
-                currentSublist.className = "list no-space toc-list";
-                const sublistItem = document.createElement("li");
-                sublistItem.appendChild(currentSublist);
-                list.appendChild(sublistItem);
-              }
-              currentSublist.appendChild(item);
-            });
-
-            body.appendChild(list);
-          });
-        </script>
+        <div class="article-toc-body">{{{this}}}</div>
       </article>
+      {{/with}}
     </div>
     <script>
       const rootEl = me()

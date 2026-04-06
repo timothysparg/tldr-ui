@@ -155,24 +155,8 @@ html.dark .theme-media.light {
   display: none;
 }
 
-#toc ul {
-  margin: 0;
-  padding-left: 1rem;
-
-  & ul {
-    margin-top: 0.2rem;
-  }
-}
-
-#toc li {
-  margin: 0;
-  padding: 0;
-}
-
-#toc a {
-  display: inline-block;
-  padding: 2px 0;
-  line-height: 1.2;
+article.article-card #toc {
+  display: none;
 }
 
 .article-toc {
@@ -215,11 +199,12 @@ body.article main.responsive {
 }
 
 .article-toc-body {
-  & .toc-list {
+  & ul {
     display: block;
     min-width: 0;
     margin: 0;
     padding-left: 0.6rem;
+    list-style: none;
 
     & li {
       display: block;
@@ -239,13 +224,16 @@ body.article main.responsive {
       height: auto !important;
       min-height: 0 !important;
       padding: 2px 0 !important;
+      color: inherit;
       line-height: 1.1 !important;
       white-space: normal !important;
+      text-decoration: none;
       overflow-wrap: anywhere !important;
       hyphens: auto;
 
       &::before {
         display: block;
+        flex-shrink: 0;
         width: 1rem;
         margin-right: 0.2rem;
         color: var(--outline);
@@ -262,7 +250,7 @@ body.article main.responsive {
       }
     }
 
-    & .toc-list > li > a::before {
+    & ul > li > a::before {
       content: "»";
     }
   }
