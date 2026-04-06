@@ -15,3 +15,34 @@ HK_MISE = 1
 
 [hooks]
 postinstall = "hk install --mise"
+
+[prepare.npm]
+auto = true
+
+[tasks.dev]
+description = "Build the UI and launch the live preview server with watchers"
+run = "gulp preview"
+
+[tasks.build]
+description = "Build and stage UI assets for bundling"
+run = "gulp build"
+
+[tasks.bundle]
+description = "Clean, lint, build, and package the UI bundle for publishing"
+run = "gulp bundle"
+
+[tasks.preview]
+description = "Build preview pages and assets without starting the server"
+run = "gulp preview:build"
+
+[tasks.lint]
+description = "Lint CSS and JavaScript source files"
+run = "gulp lint"
+
+[tasks.format]
+description = "Format JavaScript source files"
+run = "gulp format"
+
+[tasks.clean]
+description = "Remove build and public output directories"
+run = "gulp clean"
