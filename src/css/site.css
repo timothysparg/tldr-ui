@@ -250,7 +250,7 @@ body.article main.responsive {
       }
     }
 
-    & ul > li > a::before {
+    & ul>li>a::before {
       content: "»";
     }
   }
@@ -277,8 +277,8 @@ article.article-card {
   & .dlist dd {
     margin: 0 0 0 1.5rem;
 
-    & + dt,
-    & > p:first-child {
+    &+dt,
+    &>p:first-child {
       margin-top: 0.5rem;
     }
   }
@@ -286,7 +286,7 @@ article.article-card {
   & .admonitionblock {
     position: relative;
     margin: 1.5rem 0;
-    padding: 1rem 1.25rem 1rem 1.5rem;
+    padding: 0.9rem 1.25rem 0.9rem 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
 
@@ -323,8 +323,8 @@ article.article-card {
       flex: 0 0 auto;
       align-items: center;
       justify-content: center;
-      width: 3.15rem;
-      height: 3.15rem;
+      width: 3.75rem;
+      height: 3.75rem;
 
       & i {
         display: block;
@@ -340,12 +340,29 @@ article.article-card {
         }
       }
 
-      & .icon-note { background-image: url('../img/avatar-note.png'); }
-      & .icon-tip { background-image: url('../img/avatar-tip.png'); }
-      & .icon-important { background-image: url('../img/avatar-important.png'); }
-      & .icon-warning { background-image: url('../img/avatar-warning.png'); }
-      & .icon-caution { background-image: url('../img/avatar-caution.png'); }
-      & .icon-tldr { background-image: url('../img/avatar-tldr.png'); }
+      & .icon-note {
+        background-image: url('../img/avatar-note.png');
+      }
+
+      & .icon-tip {
+        background-image: url('../img/avatar-tip.png');
+      }
+
+      & .icon-important {
+        background-image: url('../img/avatar-important.png');
+      }
+
+      & .icon-warning {
+        background-image: url('../img/avatar-warning.png');
+      }
+
+      & .icon-caution {
+        background-image: url('../img/avatar-caution.png');
+      }
+
+      & .icon-tldr {
+        background-image: url('../img/avatar-tldr.png');
+      }
     }
 
     & .content {
@@ -370,7 +387,10 @@ article.article-card {
         background-size: 100% 200%;
         animation: flow-shimmer 5s linear infinite;
       }
-      & .title { color: var(--primary); }
+
+      & .title {
+        color: var(--primary);
+      }
     }
 
     &.tip {
@@ -380,24 +400,28 @@ article.article-card {
         background-color: var(--tertiary);
         animation: glow-breathe 2.5s ease-in-out infinite;
       }
-      & .title { color: var(--tertiary); }
+
+      & .title {
+        color: var(--tertiary);
+      }
     }
 
     &.important {
       background: color-mix(in srgb, var(--secondary) 10%, var(--surface-container));
 
       &::before {
-        background: repeating-linear-gradient(
-          to bottom,
-          var(--secondary),
-          var(--secondary) 10px,
-          transparent 10px,
-          transparent 20px
-        );
+        background: repeating-linear-gradient(to bottom,
+            var(--secondary),
+            var(--secondary) 10px,
+            transparent 10px,
+            transparent 20px);
         background-size: 100% 20px;
         animation: dash-scroll 2s linear infinite;
       }
-      & .title { color: var(--secondary); }
+
+      & .title {
+        color: var(--secondary);
+      }
     }
 
     &.warning {
@@ -410,7 +434,10 @@ article.article-card {
         background-size: 100% 100px;
         animation: laser-scan 6s linear infinite;
       }
-      & .title { color: var(--error); }
+
+      & .title {
+        color: var(--error);
+      }
     }
 
     &.caution {
@@ -420,17 +447,18 @@ article.article-card {
       background: color-mix(in srgb, var(--caution-amber) 8%, var(--surface-container));
 
       &::before {
-        background: repeating-linear-gradient(
-          -45deg,
-          var(--caution-amber),
-          var(--caution-amber) 10px,
-          var(--caution-dark) 10px,
-          var(--caution-dark) 20px
-        );
+        background: repeating-linear-gradient(-45deg,
+            var(--caution-amber),
+            var(--caution-amber) 10px,
+            var(--caution-dark) 10px,
+            var(--caution-dark) 20px);
         background-size: 100% 28px;
         animation: slow-tape 4.5s linear infinite;
       }
-      & .title { color: var(--caution-amber); }
+
+      & .title {
+        color: var(--caution-amber);
+      }
     }
 
     &.tldr {
@@ -442,8 +470,14 @@ article.article-card {
         background-color: var(--tldr-magenta);
         animation: glow-breathe 2.5s ease-in-out infinite;
       }
-      & .icon i { background-image: url('../img/avatar-tldr.png'); }
-      & .title { color: var(--tldr-magenta); }
+
+      & .icon i {
+        background-image: url('../img/avatar-tldr.png');
+      }
+
+      & .title {
+        color: var(--tldr-magenta);
+      }
     }
   }
 
@@ -577,7 +611,7 @@ article.article-card {
     font-size: 0.8rem;
   }
 
-  & .colist .list > li {
+  & .colist .list>li {
     align-items: flex-start;
     height: auto;
     min-height: 0;
@@ -601,8 +635,13 @@ article.article-card {
 }
 
 @keyframes flow-shimmer {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 0% 200%; }
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 0% 200%;
+  }
 }
 
 @keyframes glow-breathe {
@@ -619,16 +658,31 @@ article.article-card {
 }
 
 @keyframes dash-scroll {
-  from { background-position: 0 0; }
-  to { background-position: 0 20px; }
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 20px;
+  }
 }
 
 @keyframes laser-scan {
-  0% { background-position: 0 -100px; }
-  100% { background-position: 0 calc(100% + 100px); }
+  0% {
+    background-position: 0 -100px;
+  }
+
+  100% {
+    background-position: 0 calc(100% + 100px);
+  }
 }
 
 @keyframes slow-tape {
-  from { background-position: 0 0; }
-  to { background-position: 0 28px; }
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 28px;
+  }
 }
