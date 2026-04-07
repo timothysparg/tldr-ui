@@ -32,10 +32,16 @@ module.exports =
       collectPosts(previewSrc),
     ])
       .then(([baseUiModel, { layouts }, posts]) => {
+        const registry = Asciidoctor.Extensions.create()
+        require(ospath.join(__dirname, '../../extensions/asciidoc-tldr-ui')).register(registry, {
+          Asciidoctor,
+          directIconUrls: baseUiModel.directIconUrls,
+          projectRoot: ospath.join(__dirname, '../..'),
+        })
         const extensions = ((baseUiModel.asciidoc || {}).extensions || []).map((request) => {
           ASCIIDOC_ATTRIBUTES[request.replace(/^@|\.js$/, '').replace(/[/]/g, '-') + '-loaded'] = ''
           const extension = require(request)
-          extension.register.call(Asciidoctor.Extensions)
+          extension.register.call(registry)
           return extension
         })
         const asciidoc = { extensions }
@@ -48,9 +54,9 @@ module.exports =
           site: { ...(baseUiModel.site || {}), posts },
         }
         delete baseUiModel.asciidoc
-        return [baseUiModel, layouts]
+        return [baseUiModel, layouts, registry]
       })
-      .then(([baseUiModel, layouts]) =>
+      .then(([baseUiModel, layouts, registry]) =>
         vfs
           .src('**/*.adoc', { base: previewSrc, cwd: previewSrc })
           .pipe(
@@ -63,7 +69,11 @@ module.exports =
               if (file.stem === '404') {
                 uiModel.page = { layout: '404', title: 'Page Not Found' }
               } else {
-                const doc = Asciidoctor.load(file.contents, { safe: 'safe', attributes: ASCIIDOC_ATTRIBUTES })
+                const doc = Asciidoctor.load(file.contents, {
+                  safe: 'safe',
+                  attributes: ASCIIDOC_ATTRIBUTES,
+                  extension_registry: registry,
+                })
                 const pageAttributes = Object.entries(doc.getAttributes())
                   .filter(([name]) => name.startsWith('page-'))
                   .reduce((accum, [name, val]) => {

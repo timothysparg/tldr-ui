@@ -535,6 +535,12 @@ article.article-card {
     margin: 0;
   }
 
+  & .listingblock .code-header .chip svg,
+  & .literalblock .code-header .chip svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
   & .listingblock pre,
   & .literalblock pre {
     margin: 0;

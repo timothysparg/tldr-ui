@@ -28,10 +28,13 @@ const cleanTask = createTask({
 const buildTask = createTask({
   name: 'build',
   desc: 'Build and stage the UI assets for bundling',
-  call: task.build(
-    srcDir,
-    destDir,
-    process.argv.slice(2).some((name) => name.startsWith('preview'))
+  call: parallel(
+    task.build(
+      srcDir,
+      destDir,
+      process.argv.slice(2).some((name) => name.startsWith('preview'))
+    ),
+    task.buildExtensions()
   ),
 })
 

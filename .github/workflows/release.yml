@@ -51,4 +51,5 @@ jobs:
           prerelease: ${{ needs.release-please.outputs.release_created != 'true' }}
           files: |
             build/ui-bundle.zip
-            extensions/posts-extension.js
+            build/extensions/antora-tldr-ui.js
+            build/extensions/asciidoc-tldr-ui.js

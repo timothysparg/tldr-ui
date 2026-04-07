@@ -43,20 +43,31 @@ The `snapshot` flag tells Antora to fetch the UI when the `--fetch` command-line
 
 == Enable Article/Post Functionality
 
-This theme includes built-in support for displaying blog articles and posts.
-To enable this functionality, you need to use the included Antora extension.
+This theme includes bundled extensions for:
+
+* collecting blog articles and posts into `site.posts`
+* rendering code block headers with static icons at build time
+
+To enable this functionality, register both bundled extension files in your Antora playbook.
 
 === Quick Start
 
-. Download the `posts-extension.js` file from the link:{url-project}/releases/latest[latest release] or copy it from the `extensions/` folder
-. Place it in your documentation project (e.g., `extensions/posts-extension.js`)
-. Register the extension in your `antora-playbook.yml`:
+. Download `antora-tldr-ui.js` and `asciidoc-tldr-ui.js` from the link:{url-project}/releases/latest[latest release]
+. Place them in your documentation project (for example, `extensions/antora-tldr-ui.js` and `extensions/asciidoc-tldr-ui.js`)
+. Register both extensions in your `antora-playbook.yml`:
 +
 [source,yaml]
 ----
 antora:
   extensions:
-    - ./extensions/posts-extension.js
+    - ./extensions/antora-tldr-ui.js
+
+asciidoc:
+  extensions:
+    - require: ./extensions/asciidoc-tldr-ui.js
+      direct_icon_urls:
+        pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
+        toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
 ----
 
 . Mark your article pages with the required attributes:
@@ -71,9 +82,10 @@ antora:
 Your article content here...
 ----
 
-The extension will automatically collect all pages marked with `page-role: article` and make them available to the theme's article listing features.
+The Antora extension will automatically collect all pages marked with `page-role: article` and make them available to the theme's article listing features.
+The AsciiDoc extension will add code headers and download any required icon assets into the local build cache.
 
-For complete documentation including all available attributes, troubleshooting, and customization options, see link:extensions/README.adoc[].
+For complete extension documentation, see link:extensions/README.adoc[].
 
 == Development Quickstart
 
