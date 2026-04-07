@@ -2,6 +2,7 @@
 
 const ensureDeviconCache = require('./lib/ensure-devicon-cache')
 const registerHtml5Converter = require('./lib/register-html5-converter')
+const registerTldrAdmonition = require('./lib/register-tldr-admonition')
 const syncDevicons = require('./lib/sync-devicons')
 const { setDeviconRuntimeConfig } = require('./lib/devicon-config')
 
@@ -28,4 +29,9 @@ module.exports.register = function (maybeContext, explicitContext = {}) {
   setDeviconRuntimeConfig(context)
   ensureDeviconCache({ ...context, extensionFile: __filename })
   registerHtml5Converter(context)
+
+  const registry = typeof this.block === 'function' ? this : maybeContext
+  if (registry && typeof registry.block === 'function') {
+    registerTldrAdmonition(registry)
+  }
 }

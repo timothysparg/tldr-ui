@@ -345,6 +345,7 @@ article.article-card {
       & .icon-important { background-image: url('../img/avatar-important.png'); }
       & .icon-warning { background-image: url('../img/avatar-warning.png'); }
       & .icon-caution { background-image: url('../img/avatar-caution.png'); }
+      & .icon-tldr { background-image: url('../img/avatar-tldr.png'); }
     }
 
     & .content {
@@ -430,6 +431,19 @@ article.article-card {
         animation: slow-tape 4.5s linear infinite;
       }
       & .title { color: var(--caution-amber); }
+    }
+
+    &.tldr {
+      --tldr-magenta: #e91e63;
+
+      background: color-mix(in srgb, var(--tldr-magenta) 8%, var(--surface-container));
+
+      &::before {
+        background-color: var(--tldr-magenta);
+        animation: glow-breathe 2.5s ease-in-out infinite;
+      }
+      & .icon i { background-image: url('../img/avatar-tldr.png'); }
+      & .title { color: var(--tldr-magenta); }
     }
   }
 

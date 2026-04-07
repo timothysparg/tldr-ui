@@ -89,6 +89,11 @@ WARNING: This is a warning admonition.
 
 CAUTION: This is a caution admonition.
 
+[TLDR]
+====
+This is a custom TL;DR admonition designed to summarize information blazingly fast!
+====
+
 === Code Blocks
 
 [listing]
