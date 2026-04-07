@@ -1,6 +1,7 @@
 /build/
 /build/devicons/
 /node_modules/
+/.playwright-mcp/
 /public/
 /sample/
 /test-antora/build/

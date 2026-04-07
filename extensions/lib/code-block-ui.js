@@ -6,7 +6,8 @@ const { getDeviconDir, getIconName } = require('./devicon-config')
 
 const iconCache = new Map()
 
-function buildCodeHeader({ title = null, lang = null, console = false } = {}) {
+function buildCodeHeader({ title = null, lang = null, console = false, copyText = '' } = {}) {
+  const copyMode = console ? 'console' : 'raw'
   let chipHtml = ''
   if (title) {
     chipHtml = `<div class="chip fill secondary code-filename">${escHtml(title)}</div>`
@@ -19,7 +20,7 @@ function buildCodeHeader({ title = null, lang = null, console = false } = {}) {
   return (
     `<nav class="code-header padding surface-container">` +
     `${chipHtml}<div class="max"></div>` +
-    `<button class="circle transparent copy-button" title="Copy to clipboard">` +
+    `<button class="circle transparent copy-button" type="button" title="Copy to clipboard" aria-label="Copy code" data-copy-mode="${copyMode}" data-copy-text="${escAttr(copyText)}">` +
     `<i>content_copy</i><div class="tooltip">Copy code</div>` +
     `</button></nav>`
   )
@@ -76,17 +77,22 @@ function cleanSvg(svg) {
 
 function renderListingBlock(node, { title = null, lang = null } = {}) {
   const pre = lang ? renderHighlightedPre(node, lang) : renderPlainPre(node)
-  return renderBlock('listingblock', node, pre, { title, lang })
+  return renderBlock('listingblock', node, pre, { copyText: buildCopyText(node), title, lang })
 }
 
 function renderLiteralBlock(node, { title = null, console = false } = {}) {
   const pre = console ? renderConsolePre(node) : renderPlainPre(node)
-  return renderBlock('literalblock', node, pre, { title, lang: console ? 'console' : null, console })
+  return renderBlock('literalblock', node, pre, {
+    copyText: buildCopyText(node, { console }),
+    title,
+    lang: console ? 'console' : null,
+    console,
+  })
 }
 
-function renderBlock(baseClass, node, preHtml, { title = null, lang = null, console = false } = {}) {
+function renderBlock(baseClass, node, preHtml, { title = null, lang = null, console = false, copyText = '' } = {}) {
   const attrs = buildBlockAttrs(baseClass, node)
-  const header = buildCodeHeader({ title, lang, console })
+  const header = buildCodeHeader({ title, lang, console, copyText })
   return `<div${attrs}>\n<div class="content">\n${header}${preHtml}\n</div>\n</div>`
 }
 
@@ -122,6 +128,45 @@ function escHtml(str) {
 
 function escAttr(str) {
   return escHtml(str)
+}
+
+function buildCopyText(node, { console = false } = {}) {
+  const source = normalizeCopyText(node.getSource())
+  return console ? extractCommands(source) : source
+}
+
+function normalizeCopyText(text) {
+  if (!text) return ''
+  return String(text)
+    .replace(/\s*〈\s*\d+\s*〉/g, '')
+    .replace(/\s*(;;|\/\/)\s*\(\d+\)/g, '')
+    .replace(/ +$/gm, '')
+}
+
+function extractCommands(text) {
+  const commands = []
+  let current = null
+
+  for (const line of String(text || '').split('\n')) {
+    if (line.startsWith('$ ')) {
+      if (current) commands.push(current)
+      current = line.slice(2)
+      continue
+    }
+
+    if (!current) continue
+
+    if (current.endsWith('\\')) {
+      current = current.slice(0, -1) + line.replace(/^ */, '')
+      continue
+    }
+
+    commands.push(current)
+    current = null
+  }
+
+  if (current) commands.push(current)
+  return commands.join(' && ')
 }
 
 module.exports = {

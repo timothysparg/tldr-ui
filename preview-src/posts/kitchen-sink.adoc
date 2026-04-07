@@ -167,6 +167,12 @@ postinstall = "hk install --mise"
 
 ----
 
+....
+$ npm ci
+$ npm run build \
+  -- --watch
+....
+
 === Quotes and Verse
 
 [quote, Ada Lovelace, Notes]
