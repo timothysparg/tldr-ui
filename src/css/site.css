@@ -718,44 +718,66 @@ article.article-card {
     opacity: 0.7;
   }
 
+  --callout-inline-size: 1.05rem;
+  --callout-inline-font-size: 0.6rem;
+  --callout-colist-size: 1.4rem;
+  --callout-colist-font-size: 0.8rem;
+  --callout-badge-color: #6e8f14;
+  --callout-badge-border-width: 1.75px;
+
+  & .colist .circle,
+  & .conum[data-value] {
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    color: var(--callout-badge-color);
+    font-weight: bold;
+    font-family: var(--font);
+    font-style: normal;
+    line-height: 1;
+    border: var(--callout-badge-border-width) solid var(--callout-badge-color);
+    border-radius: 50%;
+    user-select: none;
+  }
+
   & .colist .circle {
     /* stylelint-disable-next-line custom-property-pattern */
-    --_size: 1.4rem;
+    --_size: var(--callout-colist-size);
 
+    display: inline-flex;
+    flex-wrap: nowrap;
+    width: var(--callout-colist-size);
+    min-width: var(--callout-colist-size);
+    height: var(--callout-colist-size);
+    min-height: var(--callout-colist-size);
     margin: 0;
-    font-size: 0.8rem;
+    padding: 0;
+    font-size: var(--callout-colist-font-size);
   }
 
   /* Callout icons injected inline into code blocks */
   & .conum[data-value] {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.05rem;
-    height: 1.05rem;
+    flex-wrap: nowrap;
+    width: var(--callout-inline-size);
+    min-width: var(--callout-inline-size);
+    height: var(--callout-inline-size);
+    min-height: var(--callout-inline-size);
     margin-left: 0.4em;
-    color: #6e8f14;
-    font-weight: bold;
-    font-size: 0.6rem;
-    font-family: var(--font);
-    font-style: normal;
-    line-height: 1;
+    font-size: var(--callout-inline-font-size);
     vertical-align: middle;
-    border: 1.75px solid #6e8f14;
-    border-radius: 50%;
-    user-select: none;
 
-  &::after {
-    content: attr(data-value);
-  }
+    &::after {
+      content: attr(data-value);
+    }
 
-  & + b {
-    display: none;
-  }
+    & + b {
+      display: none;
+    }
   }
 
   & .colist .list>li {
-    align-items: flex-start;
+    align-items: center;
     height: auto;
     min-height: 0;
     padding-top: 0.25rem;
@@ -764,11 +786,20 @@ article.article-card {
 
   & .colist .small-text {
     line-height: 1.4;
+
+    & > :first-child {
+      margin-top: 0;
+    }
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
 /* Callout circle — dark mode uses the light chartreuse complement */
-.dark .conum[data-value] {
+.dark .conum[data-value],
+.dark .colist .circle {
   color: #ebffbd;
   border-color: #ebffbd;
 }
