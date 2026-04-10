@@ -39,7 +39,6 @@ module.exports = [
       'build/**',
       'public/**',
       'node_modules/**',
-      'src/js/vendor/**',
     ],
   },
 ]

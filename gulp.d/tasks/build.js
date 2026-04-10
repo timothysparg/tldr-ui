@@ -75,19 +75,19 @@ module.exports = (src, dest, preview) => () => {
       preview || !imagemin
         ? through()
         : imagemin(
-          [
-            imageminPlugins.gifsicle(),
-            imageminPlugins.mozjpeg ? imageminPlugins.mozjpeg() : imageminPlugins.jpegtran(),
-            imageminPlugins.optipng(),
-            imageminPlugins.svgo({
-              plugins: [
-                { cleanupIDs: { preservePrefixes: ['icon-', 'view-'] } },
-                { removeViewBox: false },
-                { removeDesc: false },
-              ],
-            }),
-          ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
-        )
+            [
+              imageminPlugins.gifsicle(),
+              imageminPlugins.mozjpeg ? imageminPlugins.mozjpeg() : imageminPlugins.jpegtran(),
+              imageminPlugins.optipng(),
+              imageminPlugins.svgo({
+                plugins: [
+                  { cleanupIDs: { preservePrefixes: ['icon-', 'view-'] } },
+                  { removeViewBox: false },
+                  { removeDesc: false },
+                ],
+              }),
+            ].reduce((accum, it) => (it ? accum.concat(it) : accum), [])
+          )
 
     const toDest = (stream) => stream.pipe(vfs.dest(dest, { sourcemaps: sourcemaps && '.' }))
     const toDestBinary = (stream) => stream.pipe(vfs.dest(dest))
@@ -106,24 +106,6 @@ module.exports = (src, dest, preview) => () => {
       waitForStream(
         toDest(
           vfs
-            .src('js/vendor/+([^.])?(.bundle).js', { ...opts, read: false })
-            .pipe(bundle(opts))
-            .pipe(uglify({ ie: true, module: false, output: { comments: /^! / } }))
-        )
-      ),
-      waitForStream(
-        toDest(
-          vfs
-            .src('js/vendor/*.min.js', opts)
-            .pipe(map((file, enc, next) => next(null, Object.assign(file, { extname: '' }, { extname: '.js' }))))
-        )
-      ),
-      // NOTE use the next line to bundle a JavaScript library that cannot be browserified, like jQuery
-      // toDest(vfs.src(require.resolve('<package-name-or-require-path>'), opts)
-      //   .pipe(concat('js/vendor/<library-name>.js'))),
-      waitForStream(
-        toDest(
-          vfs
             .src('css/site.css', { ...opts, sourcemaps })
             .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
         )
@@ -138,31 +120,14 @@ module.exports = (src, dest, preview) => () => {
 
     const fontDir = ospath.join(src, 'font')
     if (fs.pathExistsSync(fontDir)) {
-      streamPromises.push(
-        waitForStream(toDestBinary(vfs.src('font/*.{ttf,woff*(2)}', { ...opts, encoding: false })))
-      )
-    }
-
-    const vendorCssDir = ospath.join(src, 'css', 'vendor')
-    if (fs.pathExistsSync(vendorCssDir)) {
-      streamPromises.push(
-        waitForStream(
-          toDest(
-            vfs
-              .src('css/vendor/*.css', { ...opts, sourcemaps })
-              .pipe(postcss((file) => ({ plugins: postcssPlugins, options: { file } })))
-          )
-        )
-      )
+      streamPromises.push(waitForStream(toDestBinary(vfs.src('font/*.{ttf,woff*(2)}', { ...opts, encoding: false }))))
     }
 
     const staticDir = ospath.join(src, 'static')
     if (fs.pathExistsSync(staticDir)) {
       streamPromises.push(
         waitForStream(
-          toDestBinary(
-            vfs.src(['**/*', '!**/*~'], { base: staticDir, cwd: staticDir, dot: true, encoding: false })
-          )
+          toDestBinary(vfs.src(['**/*', '!**/*~'], { base: staticDir, cwd: staticDir, dot: true, encoding: false }))
         )
       )
     }
@@ -175,7 +140,7 @@ module.exports = (src, dest, preview) => () => {
   return import('gulp-imagemin').then((imageminModule) => runBuild(imageminModule))
 }
 
-function bundle ({ base: basedir, ext: bundleExt = '.bundle.js' }) {
+function bundle({ base: basedir, ext: bundleExt = '.bundle.js' }) {
   return map((file, enc, next) => {
     if (bundleExt && file.relative.endsWith(bundleExt)) {
       const mtimePromises = []
@@ -201,10 +166,10 @@ function bundle ({ base: basedir, ext: bundleExt = '.bundle.js' }) {
   })
 }
 
-function postcssPseudoElementFixer () {
+function postcssPseudoElementFixer() {
   return {
     postcssPlugin: 'postcss-pseudo-element-fixer',
-    Rule (rule) {
+    Rule(rule) {
       if (!/(?:^|[^:]):(?:before|after)/.test(rule.selector)) return
       rule.selector = rule.selectors.map((it) => it.replace(/(^|[^:]):(before|after)$/, '$1::$2')).join(',')
     },
