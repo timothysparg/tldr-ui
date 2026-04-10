@@ -21,7 +21,7 @@ They are registered in different playbook sections because Antora extensions and
 
 |AsciiDoc
 |`extensions/asciidoc-tldr-ui.js`
-|Render code block headers during conversion and download required SVG icons into the local build cache
+|Render code blocks during conversion with Shiki, inject code headers, and download required SVG icons into the local build cache
 |===
 
 == Bundled Artifacts
@@ -125,9 +125,41 @@ The AsciiDoc extension registers a custom HTML5 converter that:
 
 * customizes `listing` blocks with titles or languages
 * customizes console-style `literal` blocks
+* applies Shiki syntax highlighting at build time
+* enables Shiki transformer annotations for richer code examples
 * injects `code-header` markup during conversion
 * downloads missing SVG icons into `build/devicons/`
 * fails the build if required icons cannot be downloaded
+
+=== Shiki Highlighting
+
+The converter uses Shiki to highlight source blocks at build time.
+That means the generated HTML already contains the highlighted markup and no client-side syntax highlighter is needed.
+
+The Antora extension initializes the shared Shiki highlighter during site generation.
+The preview pipeline does the same before converting the preview pages, so preview and Antora builds use the same highlighting path.
+
+The converter enables these Shiki transformer features:
+
+* notation diff
+* line highlight
+* word highlight
+* focus
+* error / warning / info highlighting
+* optional whitespace rendering
+* optional indent guides
+
+You can override the Shiki themes through the Antora extension config:
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: ../build/extensions/antora-tldr-ui.js
+      shiki:
+        lightTheme: github-light
+        darkTheme: github-dark
+----
 
 === Icon Configuration
 
@@ -173,6 +205,60 @@ Example titled listing block:
 FROM node:22
 ----
 ....
+
+Example annotated block:
+
+[source,asciidoc]
+....
+[source,ts]
+[code.add=2,code.remove=1]
+----
+console.log('old')
+console.log('new')
+console.log('same')
+----
+....
+
+Example block with callouts:
+
+[source,asciidoc]
+....
+[source,clojure,code.callout=4]
+----
+(defn add [a b]
+  (+ a b))
+
+(println (add 2 3)) ;;
+----
+<1> Calls the `add` function and prints the result.
+....
+
+Example block attributes:
+
+[source,asciidoc]
+....
+[source,json]
+[code.highlight="3",code.word="hello"]
+----
+{
+  "status": "ok",
+  "message": "hello world",
+  "count": 3
+}
+----
+....
+
+Optional block attributes:
+
+* `code.add="2,4"` / `code.remove="3"`
+* `code.highlight="1,3-4"`
+* `code.focus="2"`
+* `code.warning="2"` / `code.error="3"` / `code.info="4"`
+* `code.word="term,other"`
+* `code.whitespace=true` or `code.whitespace=boundary`
+* `code.indent-guides=true`
+* `code.indent="4"`
+* `code.callout="4"` or `code.callout="5,7,16"` — place callout icons on specific lines without inline `<N>` markers in the source (quote the value when specifying multiple lines)
 
 == Build Integration
 

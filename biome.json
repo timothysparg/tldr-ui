@@ -23,7 +23,6 @@
       "gulp.d/**/*.js",
       "src/helpers/*.js",
       "src/js/*.js",
-      "src/js/vendor/highlight.bundle.js",
       "extensions/**/*.js"
     ],
     "experimentalScannerIgnores": [

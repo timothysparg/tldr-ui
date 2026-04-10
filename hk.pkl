@@ -19,7 +19,6 @@ local linters = new Mapping<String, Step> {
         "gulp.d/**/*.js",
         "src/helpers/*.js",
         "src/js/*.js",
-        "src/js/vendor/highlight.bundle.js",
         "extensions/**/*.js",
       )
     check = "eslint {{files}}"
@@ -33,7 +32,6 @@ local linters = new Mapping<String, Step> {
         "gulp.d/**/*.js",
         "src/helpers/*.js",
         "src/js/*.js",
-        "src/js/vendor/highlight.bundle.js",
         "extensions/**/*.js",
       )
     check = "biome check --no-errors-on-unmatched {{files}}"

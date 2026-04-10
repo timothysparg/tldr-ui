@@ -46,7 +46,7 @@ The `snapshot` flag tells Antora to fetch the UI when the `--fetch` command-line
 This theme includes bundled extensions for:
 
 * collecting blog articles and posts into `site.posts`
-* rendering code block headers with static icons at build time
+* rendering code blocks with Shiki, code headers, and static icons at build time
 
 To enable this functionality, register both bundled extension files in your Antora playbook.
 
@@ -60,7 +60,10 @@ To enable this functionality, register both bundled extension files in your Anto
 ----
 antora:
   extensions:
-    - ./extensions/antora-tldr-ui.js
+    - require: ./extensions/antora-tldr-ui.js
+      shiki:
+        lightTheme: github-light
+        darkTheme: github-dark
 
 asciidoc:
   extensions:
@@ -83,7 +86,7 @@ Your article content here...
 ----
 
 The Antora extension will automatically collect all pages marked with `page-role: article` and make them available to the theme's article listing features.
-The AsciiDoc extension will add code headers and download any required icon assets into the local build cache.
+The AsciiDoc extension will apply Shiki highlighting, add code headers, and download any required icon assets into the local build cache.
 
 For complete extension documentation, see link:extensions/README.adoc[].
 

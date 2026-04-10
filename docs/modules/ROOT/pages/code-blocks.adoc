@@ -1,56 +1,48 @@
 = Code Blocks
 :page-aliases: copy-to-clipboard.adoc
 
-This page describes some of the styles and behaviors of code blocks and how to support them in a custom UI.
+This page describes how code blocks are rendered in this UI and what behavior is available out of the box.
 
-In AsciiDoc, code blocks a referred to as source and listing blocks.
-A source block is a listing block that has a source language defined on it (e.g., `javascript`).
+In AsciiDoc, code blocks are referred to as source and listing blocks.
+A source block is a listing block that has a source language defined on it (for example, `javascript`).
 Refer to xref:antora:asciidoc:source.adoc[source blocks] to learn more about source blocks in AsciiDoc and how they are used in Antora.
-
-Readers typically expect that a source block will be presented with syntax highlighting, so we'll start there.
 
 == Syntax highlighting
 
-Antora uses highlight.js as syntax highlighter in the AsciiDoc processor by default.
+This UI highlights source blocks at build time using Shiki through the bundled AsciiDoc extension.
+That means the rendered HTML already contains the highlighted markup when the page is generated.
+No client-side syntax highlighter is required.
 
-If you want to turn off syntax highlighting, you can do so by unsetting the `source-highlighter` attribute in the Antora playbook.
+To enable that behavior in an Antora site, register the bundled AsciiDoc extension in the playbook:
 
 [,yaml]
 ----
 asciidoc:
-  attributes:
-    source-highlighter: ~
+  extensions:
+    - require: ./build/extensions/asciidoc-tldr-ui.js
 ----
 
-If you soft unset the value instead (i.e., set the value to `false`), it allows individual pages to selectively turn syntax highlighting back on.
-
-By default, Antora highlights a restricted set of languages in order to minimize the size of the supporting asset files.
-However, you can add or remove support for languages in your own UI bundle.
-To do so, follow these steps:
-
-. Switch to your UI project.
-. Open the file [.path]_src/js/vendor/highlight.bundle.js_.
-. Add or remove one of the `registerLanguage` statements.
-
-For example, to add AsciiDoc syntax highlighting, add the following line:
-
-[,js]
-----
-  hljs.registerLanguage('asciidoc', require('highlight.js/lib/languages/asciidoc'))
-----
-
-Keep in mind, the language must be supported by highlight.js.
-To find out what languages are supported and how to abbreviate them, set the https://github.com/highlightjs/highlight.js/tree/9-18-stable/src/languages[languages] folder in the project on GitHub.
+Shiki is initialized once during the build, and the converter applies highlighting when a listing block has a language.
+Untyped listing blocks continue to render as plain preformatted text.
 
 == Copy to clipboard
 
-This page describes the copy to clipboard feature added to source blocks when using the default UI.
+This UI adds a clipboard button to copyable code blocks and computes the copied value at build time.
+The browser only handles the click interaction and writes the prepared value to the clipboard.
+
+IMPORTANT: Copy to clipboard only works for a local site or if the site is hosted over HTTPS.
+The clipboard API is not available on an insecure site served over plain HTTP.
+In that case, the button will still render, but copying will not work.
 
 === Source blocks
 
-The default UI automatically adds a clipboard button to all source blocks and provides the necessary CSS and JavaScript to support that behavior.
-The clipboard button shows up next to the language label when the mouse is hovered over the block.
-When the user clicks the clipboard button, the contents of the source block will be copied to the user's clipboard and a notification overlay will be briefly shown.
+Source blocks with a language get:
+
+* build-time syntax highlighting
+* a code header
+* a copy-to-clipboard button
+* a language chip with a static icon when one is available
+* Shiki transformer support for annotated examples
 
 You can try this behavior below:
 
@@ -59,34 +51,60 @@ You can try this behavior below:
 puts 'Take me to your clipboard!'
 ----
 
-IMPORTANT: Copy to clipboard only works for a local site or if the site is hosted over https (SSL).
-The copy to clipboard does not work on an insecure site (http) since the clipboard API is not available in that environment.
-In that case, the behavior gracefully degrades so the user will not see the clipboard button or an error.
+=== Transformer annotations
+
+This UI enables several Shiki transformers for annotated code examples.
+
+Annotations are configured using `code.*` block attributes so the visible code stays clean:
+
+[source,ts]
+[code.add=2,code.remove=1]
+----
+console.log('old')
+console.log('new')
+console.log('same')
+----
+
+Supported attributes include:
+
+* `code.add="2,4"` and `code.remove="3"` for diff views
+* `code.highlight="1,3-4"` for line highlighting
+* `code.focus="2"` for focus mode
+* `code.error="3"`, `code.warning="2"`, and `code.info="4"` for severity highlighting
+* `code.word="term,other"` for word highlighting
+
+Example:
+
+[,asciidoc]
+----
+[source,json]
+[code.highlight="3",code.word="hello"]
+----
+
+Additional block attributes supported by this UI:
+
+* `code.whitespace=true` or `code.whitespace=boundary` renders visible whitespace markers
+* `code.indent-guides=true` renders indent guides
+* `code.indent="4"` adjusts the indent-guide width when guides are enabled
+
+These annotations affect the rendered code, but the copied text remains clean because the source itself is not modified.
+
+NOTE: Standard Asciidoctor callout explanations still use native inline callout markers such as `<1>`.
 
 === Console blocks
 
-The default UI also adds a clipboard button to all console blocks.
-A console block is either a literal paragraph that begins with a `$` or a source block with the language `console`.
+The UI also supports console-style examples.
+A console block is a literal block that begins with `$ ` on each command line.
 
-The script provided by the default UI will automatically strip the `$` prompt at the beginning of each line and join the lines with `&&`.
-In <<ex-console-copy-paste>>, since the language is `console` and each line begins with a `$`, the console copy-paste logic is triggered.
+When such a block is copied, the visible prompts are not copied.
+Instead, the UI extracts the commands at build time and joins separate commands using `&&`.
 
-.Copy to clipboard for a multi-line console command
-[#ex-console-copy-paste]
-------
-[,console]
-----
-$ mkdir example
-$ cd example
-----
-------
-
-When a user uses the copy-to-clipboard button, they will copy the combined command `mkdir example && cd example` instead of the literal text shown.
-This can be useful for tutorial examples that a user is expected to copy-paste to run.
-You can try this behavior below:
+In the following example, the copied value becomes `mkdir example && cd example`:
 
 [,console]
 ----
 $ mkdir example
 $ cd example
 ----
+
+That makes tutorial-style shell examples easier to copy and paste directly into a terminal.

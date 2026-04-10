@@ -102,24 +102,25 @@ This is a listing block.
 It preserves line breaks and spacing.
 ----
 
-[source,clojure]
+[source,clojure,code.callout=4]
 ----
 (defn add [a b]
   (+ a b))
 
-(println (add 2 3)) ;; <1>
+(println (add 2 3)) ;
 ----
 <1> Example callout for a source block.
 
 [source,pkl]
+[code.callout="6,8,17"]
 ----
 amends "package://github.com/jdx/hk/releases/download/v1.32.0/hk@1.32.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v1.32.0/hk@1.32.0#/Builtins.pkl"
 
 local linters = new Mapping<String, Step> {
-  ["check-merge-conflict"] = Builtins.check_merge_conflict <1>
+  ["check-merge-conflict"] = Builtins.check_merge_conflict
   ["check_added_large_files"] = Builtins.check_added_large_files
-  ["google_java_format"] { <2>
+  ["google_java_format"] {
     glob = List("**/*.java")
     exclude = List("**/target/**")
     check = "google-java-format --dry-run --set-exit-if-changed {{files}}"
@@ -128,7 +129,7 @@ local linters = new Mapping<String, Step> {
   }
   ["mise"] = Builtins.mise
   ["mixed_line_ending"] = Builtins.mixed_line_ending
-  ["pkl_format"] = Builtins.pkl_format <3>
+  ["pkl_format"] = Builtins.pkl_format
 }
 
 hooks {
@@ -149,6 +150,9 @@ hooks {
   }
 }
 ----
+<1> Reuses the built-in merge-conflict checker.
+<2> Defines a custom Java formatter step with separate check and fix commands.
+<3> Uses the built-in Pkl formatter step.
 
 [source,toml]
 ----
@@ -172,11 +176,121 @@ postinstall = "hk install --mise"
 
 ----
 
+=== Shiki Transformer Examples
+
+These examples demonstrate the build-time Shiki transformer support used by this UI.
+
+==== Diff Notation
+
+Use `code.add` and `code.remove` block attributes to mark added and removed lines without adding inline comment markers to the snippet.
+
+[source,ts]
+[code.add="2,4",code.remove=1]
+----
+console.log('old')
+console.log('same')
+console.log('same')
+console.log('new')
+----
+
+Line 1 is styled as removed, and lines 2 and 4 are styled as added.
+
+==== Line Highlighting
+
+Use `code.highlight` to emphasize specific lines without changing the visible code.
+
+[source,js]
+[code.highlight=2]
+----
+console.log('normal')
+console.log('highlighted')
+console.log('normal')
+----
+
+Only the middle line is highlighted.
+
+==== Focused Lines
+
+Use `code.focus` to dim surrounding lines and draw attention to the important one.
+
+[source,js]
+[code.focus=2]
+----
+console.log('background')
+console.log('focus me')
+console.log('background')
+----
+
+The focused line stays fully emphasized while the surrounding lines are dimmed.
+
+==== Severity Levels
+
+Use `code.warning`, `code.error`, and `code.info` to communicate the intent of specific lines.
+
+[source,js]
+[code.warning=2,code.error=3,code.info=4]
+----
+const ok = true
+const needsAttention = false
+throw new Error('boom')
+console.info('heads up')
+----
+
+The second, third, and fourth lines receive warning, error, and informational styling respectively.
+
+==== Word Highlighting
+
+Use `code.word` to highlight a specific word or token inside an otherwise normal line.
+
+[source,js]
+[code.word=Hello]
+----
+console.log('Hello World')
+----
+
+Only the `Hello` token is highlighted.
+
+==== Meta-Driven Highlighting
+
+Formats that do not support inline comments can use the same `code.*` block attributes.
+
+[source,json]
+[code.highlight=3,code.word=hello]
+----
+{
+  "status": "ok",
+  "message": "hello world",
+  "count": 3
+}
+----
+
+The `hello` word is highlighted through `code.word`, and line 3 is highlighted through `code.highlight`.
+
+==== Whitespace And Indent Guides
+
+Use `code.whitespace` and `code.indent-guides` to render visible whitespace boundaries and indentation guides.
+
+[source,python]
+[code.whitespace=boundary,code.indent-guides=true]
+----
+def greet(name):
+    if name:
+        print("hi", name)
+----
+
+Boundary whitespace markers make indentation changes easier to spot, and indent guides visually connect nested levels.
+
+==== Console Copy Extraction
+
+Literal console blocks still render with code headers, and copy extracts the shell commands rather than the prompt characters.
+
 ....
 $ npm ci
 $ npm run build \
   -- --watch
 ....
+
+The visible `$ ` prompt is not included in the copied value, and the continued command is flattened for copying.
 
 === Quotes and Verse
 

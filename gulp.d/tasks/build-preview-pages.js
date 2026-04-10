@@ -16,14 +16,13 @@ const ASCIIDOC_ATTRIBUTES = {
   experimental: '',
   icons: 'font',
   sectanchors: '',
-  'source-highlighter': 'highlight.js',
   toc: 'macro',
   toclevels: '3',
 }
 
-module.exports =
-  (src, previewSrc, previewDest, sink = () => map()) =>
-  (done) =>
+module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
+  const uiExtension = require(ospath.join(__dirname, '../../extensions/asciidoc-tldr-ui'))
+  return (done) =>
     Promise.all([
       loadSampleUiModel(previewSrc),
       toPromise(
@@ -31,9 +30,12 @@ module.exports =
       ),
       collectPosts(previewSrc),
     ])
+      .then(([baseUiModel, { layouts }, posts]) =>
+        uiExtension.initHighlighter(baseUiModel.shiki || {}).then(() => [baseUiModel, { layouts }, posts])
+      )
       .then(([baseUiModel, { layouts }, posts]) => {
         const registry = Asciidoctor.Extensions.create()
-        require(ospath.join(__dirname, '../../extensions/asciidoc-tldr-ui')).register(registry, {
+        uiExtension.register(registry, {
           Asciidoctor,
           directIconUrls: baseUiModel.directIconUrls,
           projectRoot: ospath.join(__dirname, '../..'),
@@ -101,6 +103,7 @@ module.exports =
           .on('error', done)
           .pipe(sink())
       )
+}
 
 function loadSampleUiModel(src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => yaml.load(contents))

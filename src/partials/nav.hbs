@@ -20,13 +20,6 @@
       };
       const THEME_MODES = Object.keys(THEME_MAP);
 
-      const setHighlightTheme = mode => {
-        const light = me("#hljs-theme-light");
-        const dark = me("#hljs-theme-dark");
-        if (!light || !dark) return;
-        light.disabled = mode === "dark";
-        dark.disabled = mode === "light";
-      };
       const setRootThemeClass = mode => {
         const root = document.documentElement;
         root.classList.remove("light", "dark");
@@ -44,7 +37,6 @@
 
         // Get resolved mode (auto -> light/dark based on system preference)
         const resolved = ui("mode");
-        setHighlightTheme(resolved);
         setRootThemeClass(resolved);
 
         // Update Icon
@@ -57,7 +49,6 @@
         ui("mode", stored);
         const start = ui("mode");
         me("#mode-icon").innerText = THEME_MAP[start];
-        setHighlightTheme(start);
         setRootThemeClass(start);
       })
     </script>

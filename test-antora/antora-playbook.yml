@@ -5,7 +5,10 @@ site:
 
 antora:
   extensions:
-    - ../extensions/antora-tldr-ui.js
+    - require: ../extensions/antora-tldr-ui.js
+      shiki:
+        lightTheme: github-light
+        darkTheme: github-dark
 
 asciidoc:
   extensions:

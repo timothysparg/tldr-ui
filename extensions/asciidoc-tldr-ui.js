@@ -24,6 +24,8 @@ if (require.main === module && process.argv[2] === '--sync-devicons') {
   })
 }
 
+module.exports.initHighlighter = (options = {}) => require('./lib/shiki-singleton').initHighlighter(options)
+
 module.exports.register = function (maybeContext, explicitContext = {}) {
   const context = normalizeContext(maybeContext && maybeContext.Asciidoctor ? maybeContext : explicitContext)
   setDeviconRuntimeConfig(context)
