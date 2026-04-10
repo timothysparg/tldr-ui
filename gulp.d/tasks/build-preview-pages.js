@@ -37,6 +37,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
           createExtensionRegistry(uiExtension, {
             Asciidoctor,
             baseUiModel,
+            iconDiscoveryRoots: [previewSrc],
             projectRoot: ospath.join(__dirname, '../..'),
           })
         const { extensions } = createRegistry()
@@ -220,11 +221,12 @@ function collectPosts(previewSrc, createRegistry) {
   )
 }
 
-function createExtensionRegistry(uiExtension, { Asciidoctor, baseUiModel, projectRoot }) {
+function createExtensionRegistry(uiExtension, { Asciidoctor, baseUiModel, iconDiscoveryRoots, projectRoot }) {
   const registry = Asciidoctor.Extensions.create()
   uiExtension.register(registry, {
     Asciidoctor,
     directIconUrls: baseUiModel.directIconUrls,
+    iconDiscoveryRoots,
     projectRoot,
   })
   const extensions = ((baseUiModel.asciidoc || {}).extensions || []).map((request) => {

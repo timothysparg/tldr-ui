@@ -14,19 +14,6 @@ const ICON_ALIASES = {
   ts: 'typescript',
 }
 
-const REQUIRED_ICONS = [
-  'bash',
-  'clojure',
-  'cplusplus',
-  'docker',
-  'javascript',
-  'json',
-  'pkl',
-  'ruby',
-  'toml',
-  'typescript',
-]
-
 let runtimeConfig = {
   directIconUrls: {},
   deviconDir: ospath.join('build', 'devicons'),
@@ -60,7 +47,6 @@ function getDirectIconUrls(config = {}) {
 module.exports = {
   DEVICON_BASE_URL,
   ICON_ALIASES,
-  REQUIRED_ICONS,
   getDeviconDir,
   getDirectIconUrls,
   getIconName,

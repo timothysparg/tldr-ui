@@ -12,6 +12,7 @@ function normalizeContext(context = {}) {
     ...context,
     deviconDir: context.deviconDir || context.devicon_dir,
     directIconUrls: context.directIconUrls || context.direct_icon_urls,
+    iconDiscoveryRoots: context.iconDiscoveryRoots || context.icon_discovery_roots,
     projectRoot: context.projectRoot || context.project_root || process.cwd(),
   }
 }

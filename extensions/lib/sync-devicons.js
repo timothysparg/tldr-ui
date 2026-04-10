@@ -7,20 +7,23 @@ const fetch = require('make-fetch-happen').defaults({
   },
 })
 const ospath = require('path')
-const { DEVICON_BASE_URL, REQUIRED_ICONS, getDeviconDir, getDirectIconUrls } = require('./devicon-config')
+const discoverCodeLanguages = require('./discover-code-languages')
+const { DEVICON_BASE_URL, getDeviconDir, getDirectIconUrls } = require('./devicon-config')
 
 module.exports = async function syncDevicons({
-  icons = REQUIRED_ICONS,
+  icons,
   deviconDir,
   directIconUrls,
   log = () => {},
   projectRoot,
+  iconDiscoveryRoots,
 } = {}) {
   const resolvedDeviconDir = getDeviconDir({ deviconDir, projectRoot })
   await fs.ensureDir(resolvedDeviconDir)
   const directUrls = getDirectIconUrls({ directIconUrls })
+  const requiredIcons = normalizeIcons(icons || discoverCodeLanguages({ projectRoot, roots: iconDiscoveryRoots }))
   const seen = new Set()
-  for (const rawName of icons) {
+  for (const rawName of requiredIcons) {
     const iconName = String(rawName).trim()
     if (!iconName || seen.has(iconName)) continue
     seen.add(iconName)
@@ -49,4 +52,8 @@ function cleanSvg(svg) {
     .replace(/<\?xml[^?]*\?>\s*/g, '')
     .replace(/<!DOCTYPE[^>]*>\s*/g, '')
     .trim()
+}
+
+function normalizeIcons(icons) {
+  return Array.from(new Set((icons || []).map((icon) => String(icon || '').trim()).filter(Boolean))).sort()
 }
