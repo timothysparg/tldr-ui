@@ -1,6 +1,7 @@
 'use strict'
 
 const ensureDeviconCache = require('./lib/ensure-devicon-cache')
+const registerCodeCalloutPreprocessor = require('./lib/register-code-callout-preprocessor')
 const registerHtml5Converter = require('./lib/register-html5-converter')
 const registerTldrAdmonition = require('./lib/register-tldr-admonition')
 const syncDevicons = require('./lib/sync-devicons')
@@ -34,6 +35,7 @@ module.exports.register = function (maybeContext, explicitContext = {}) {
 
   const registry = typeof this.block === 'function' ? this : maybeContext
   if (registry && typeof registry.block === 'function') {
+    registerCodeCalloutPreprocessor(registry)
     registerTldrAdmonition(registry)
   }
 }

@@ -101,6 +101,31 @@ function renderBlock(baseClass, node, preHtml, { title = null, lang = null, cons
   return `<div${attrs}>\n<div class="content">\n${header}${preHtml}\n</div>\n</div>`
 }
 
+function renderColistBlock(node, baseConverter) {
+  const attrs = buildBlockAttrs('colist', node)
+  const items = node.getItems ? node.getItems() : []
+  const listHtml = items
+    .map((item, index) => {
+      const number = index + 1
+      const text = item.getText ? item.getText() : ''
+      const blockHtml = item.getBlocks
+        ? item
+            .getBlocks()
+            .map((block) => baseConverter.convert(block, block.getNodeName()))
+            .join('\n')
+        : ''
+      const contentHtml = [text ? `<p>${text}</p>` : '', blockHtml].filter(Boolean).join('\n')
+      return (
+        `<li>` +
+        `<button class="circle primary" type="button">${number}</button>` +
+        `<div class="max"><div class="small-text">${contentHtml}</div></div>` +
+        `</li>`
+      )
+    })
+    .join('\n')
+  return `<div${attrs}>\n<ul class="list">\n${listHtml}\n</ul>\n</div>`
+}
+
 function buildBlockAttrs(baseClass, node) {
   const attrs = []
   const id = node.getId()
@@ -126,11 +151,10 @@ function renderConsolePre(node) {
 function renderShikiPre(node, lang) {
   const { highlight } = require('./shiki-singleton')
   const source = node.getSource() || ''
-  const { source: cleanSource, callouts: extractedCallouts } = extractCallouts(source)
+  const { source: cleanSource, callouts } = extractCallouts(source)
   const shikiOptions = buildShikiOptions(node)
   let html = highlight(cleanSource, lang, shikiOptions)
   html = applyLineAnnotations(html, buildLineAnnotations(node))
-  const callouts = mergeCallouts(extractedCallouts, buildConfiguredCallouts(node))
   if (callouts.size) html = injectCallouts(html, callouts)
   return html
 }
@@ -354,28 +378,6 @@ function applyLineAnnotations(html, { lines, preClasses }) {
   })
 }
 
-function buildConfiguredCallouts(node) {
-  const lineNumbers = parseLineSpec(node.getAttribute('code.callout'))
-  if (!lineNumbers.length) return new Map()
-  const callouts = new Map()
-  lineNumbers.forEach((lineNumber, index) => {
-    const lineIndex = lineNumber - 1
-    if (lineIndex < 0) return
-    callouts.set(lineIndex, [index + 1])
-  })
-  return callouts
-}
-
-function mergeCallouts(primary, secondary) {
-  if (!secondary.size) return primary
-  const merged = new Map(primary)
-  for (const [lineIndex, numbers] of secondary) {
-    const existing = merged.get(lineIndex) || []
-    merged.set(lineIndex, existing.concat(numbers))
-  }
-  return merged
-}
-
 function extractCommands(text) {
   const commands = []
   let current = null
@@ -405,6 +407,7 @@ function extractCommands(text) {
 module.exports = {
   getBlockLanguage,
   isConsoleLiteral,
+  renderColistBlock,
   renderListingBlock,
   renderLiteralBlock,
 }

@@ -1,6 +1,12 @@
 'use strict'
 
-const { getBlockLanguage, isConsoleLiteral, renderListingBlock, renderLiteralBlock } = require('./code-block-ui')
+const {
+  getBlockLanguage,
+  isConsoleLiteral,
+  renderListingBlock,
+  renderLiteralBlock,
+  renderColistBlock,
+} = require('./code-block-ui')
 
 class UiHtml5Converter {
   constructor(asciidoctor) {
@@ -11,6 +17,7 @@ class UiHtml5Converter {
     const nodeName = transform || node.getNodeName()
     if (nodeName === 'listing') return this.convertListing(node, transform)
     if (nodeName === 'literal') return this.convertLiteral(node, transform)
+    if (nodeName === 'colist') return this.convertColist(node)
     return this.baseConverter.convert(node, transform)
   }
 
@@ -24,6 +31,10 @@ class UiHtml5Converter {
   convertLiteral(node, transform) {
     if (!isConsoleLiteral(node)) return this.baseConverter.convert(node, transform)
     return renderLiteralBlock(node, { console: true, title: node.getTitle() })
+  }
+
+  convertColist(node) {
+    return renderColistBlock(node, this.baseConverter)
   }
 }
 

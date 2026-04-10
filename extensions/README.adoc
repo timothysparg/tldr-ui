@@ -219,20 +219,6 @@ console.log('same')
 ----
 ....
 
-Example block with callouts:
-
-[source,asciidoc]
-....
-[source,clojure,code.callout=4]
-----
-(defn add [a b]
-  (+ a b))
-
-(println (add 2 3)) ;;
-----
-<1> Calls the `add` function and prints the result.
-....
-
 Example block attributes:
 
 [source,asciidoc]
@@ -248,6 +234,21 @@ Example block attributes:
 ----
 ....
 
+Example block with callouts:
+
+[source,asciidoc]
+....
+[source,clojure]
+[code.callout=4]
+----
+(defn add [a b]
+  (+ a b))
+
+(println (add 2 3))
+----
+<1> Calls the `add` function and prints the result.
+....
+
 Optional block attributes:
 
 * `code.add="2,4"` / `code.remove="3"`
@@ -258,7 +259,7 @@ Optional block attributes:
 * `code.whitespace=true` or `code.whitespace=boundary`
 * `code.indent-guides=true`
 * `code.indent="4"`
-* `code.callout="4"` or `code.callout="5,7,16"` — place callout icons on specific lines without inline `<N>` markers in the source (quote the value when specifying multiple lines)
+* `code.callout="4"` or `code.callout="5,7,16"` — inject native callout markers before parse (quote the value when specifying multiple lines)
 
 == Build Integration
 

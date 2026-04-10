@@ -28,38 +28,32 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
       toPromise(
         merge(compileLayouts(src), registerPartials(src), registerHelpers(src), copyImages(previewSrc, previewDest))
       ),
-      collectPosts(previewSrc),
     ])
-      .then(([baseUiModel, { layouts }, posts]) =>
-        uiExtension.initHighlighter(baseUiModel.shiki || {}).then(() => [baseUiModel, { layouts }, posts])
+      .then(([baseUiModel, { layouts }]) =>
+        uiExtension.initHighlighter(baseUiModel.shiki || {}).then(() => [baseUiModel, { layouts }])
       )
-      .then(([baseUiModel, { layouts }, posts]) => {
-        const registry = Asciidoctor.Extensions.create()
-        uiExtension.register(registry, {
-          Asciidoctor,
-          directIconUrls: baseUiModel.directIconUrls,
-          projectRoot: ospath.join(__dirname, '../..'),
-        })
-        const extensions = ((baseUiModel.asciidoc || {}).extensions || []).map((request) => {
-          ASCIIDOC_ATTRIBUTES[request.replace(/^@|\.js$/, '').replace(/[/]/g, '-') + '-loaded'] = ''
-          const extension = require(request)
-          extension.register.call(registry)
-          return extension
-        })
+      .then(([baseUiModel, { layouts }]) => {
+        const createRegistry = () =>
+          createExtensionRegistry(uiExtension, {
+            Asciidoctor,
+            baseUiModel,
+            projectRoot: ospath.join(__dirname, '../..'),
+          })
+        const { extensions } = createRegistry()
         const asciidoc = { extensions }
         for (const component of baseUiModel.site.components) {
           for (const version of component.versions || []) version.asciidoc = asciidoc
         }
+        return collectPosts(previewSrc, createRegistry).then((posts) => [baseUiModel, layouts, posts, createRegistry])
+      })
+      .then(([baseUiModel, layouts, posts, createRegistry]) => {
         baseUiModel = {
           ...baseUiModel,
           env: process.env,
           site: { ...(baseUiModel.site || {}), posts },
         }
         delete baseUiModel.asciidoc
-        return [baseUiModel, layouts, registry]
-      })
-      .then(([baseUiModel, layouts, registry]) =>
-        vfs
+        return vfs
           .src('**/*.adoc', { base: previewSrc, cwd: previewSrc })
           .pipe(
             map((file, enc, next) => {
@@ -71,6 +65,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
               if (file.stem === '404') {
                 uiModel.page = { layout: '404', title: 'Page Not Found' }
               } else {
+                const { registry } = createRegistry()
                 const doc = Asciidoctor.load(file.contents, {
                   safe: 'safe',
                   attributes: ASCIIDOC_ATTRIBUTES,
@@ -102,7 +97,7 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
           .pipe(vfs.dest(previewDest))
           .on('error', done)
           .pipe(sink())
-      )
+      })
 }
 
 function loadSampleUiModel(src) {
@@ -189,12 +184,17 @@ function resolvePage(spec) {
  * @param {string} previewSrc root path for preview AsciiDoc sources
  * @returns {Promise<Array<{title:string,url:string,summary:string,date:Date|null}>>}
  */
-function collectPosts(previewSrc) {
+function collectPosts(previewSrc, createRegistry) {
   return walkAdocFiles(previewSrc).then((paths) =>
     Promise.all(
       paths.map((filePath) =>
         fs.readFile(filePath, 'utf8').then((contents) => {
-          const doc = Asciidoctor.load(contents, { safe: 'safe', attributes: ASCIIDOC_ATTRIBUTES })
+          const { registry } = createRegistry()
+          const doc = Asciidoctor.load(contents, {
+            safe: 'safe',
+            attributes: ASCIIDOC_ATTRIBUTES,
+            extension_registry: registry,
+          })
           const pageLayout = doc.getAttribute('page-layout')
           if (pageLayout !== 'article') return null
           const html = doc.convert()
@@ -218,6 +218,22 @@ function collectPosts(previewSrc) {
       )
     ).then((items) => items.filter(Boolean))
   )
+}
+
+function createExtensionRegistry(uiExtension, { Asciidoctor, baseUiModel, projectRoot }) {
+  const registry = Asciidoctor.Extensions.create()
+  uiExtension.register(registry, {
+    Asciidoctor,
+    directIconUrls: baseUiModel.directIconUrls,
+    projectRoot,
+  })
+  const extensions = ((baseUiModel.asciidoc || {}).extensions || []).map((request) => {
+    ASCIIDOC_ATTRIBUTES[request.replace(/^@|\.js$/, '').replace(/[/]/g, '-') + '-loaded'] = ''
+    const extension = require(request)
+    extension.register.call(registry)
+    return extension
+  })
+  return { registry, extensions }
 }
 
 function resolvePageURL(spec) {

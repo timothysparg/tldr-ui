@@ -102,12 +102,13 @@ This is a listing block.
 It preserves line breaks and spacing.
 ----
 
-[source,clojure,code.callout=4]
+[source,clojure]
+[code.callout=4]
 ----
 (defn add [a b]
   (+ a b))
 
-(println (add 2 3)) ;
+(println (add 2 3))
 ----
 <1> Example callout for a source block.
 
@@ -266,19 +267,33 @@ Formats that do not support inline comments can use the same `code.*` block attr
 
 The `hello` word is highlighted through `code.word`, and line 3 is highlighted through `code.highlight`.
 
-==== Whitespace And Indent Guides
+==== Whitespace Rendering
 
-Use `code.whitespace` and `code.indent-guides` to render visible whitespace boundaries and indentation guides.
+Use `code.whitespace` to render visible whitespace boundaries.
 
 [source,python]
-[code.whitespace=boundary,code.indent-guides=true]
+[code.whitespace=boundary]
 ----
 def greet(name):
     if name:
         print("hi", name)
 ----
 
-Boundary whitespace markers make indentation changes easier to spot, and indent guides visually connect nested levels.
+Boundary whitespace markers make indentation changes easier to spot.
+
+==== Indent Guides
+
+Use `code.indent-guides` to render indentation guides for nested blocks.
+
+[source,python]
+[code.indent-guides=true]
+----
+def greet(name):
+    if name:
+        print("hi", name)
+----
+
+Indent guides visually connect nested levels without adding whitespace markers.
 
 ==== Console Copy Extraction
 
