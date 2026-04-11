@@ -2,13 +2,9 @@
 
 const fs = require('fs')
 const ospath = require('path')
-const {
-  transformerMetaHighlight,
-  transformerMetaWordHighlight,
-  transformerRenderIndentGuides,
-  transformerRenderWhitespace,
-} = require('@shikijs/transformers')
+const { transformerRenderIndentGuides, transformerRenderWhitespace } = require('@shikijs/transformers')
 const { getDeviconDir, getIconName } = require('./devicon-config')
+const { transformerLineAnnotations, transformerAdocCallouts } = require('./shiki-transformers')
 
 const iconCache = new Map()
 
@@ -152,27 +148,15 @@ function renderShikiPre(node, lang) {
   const { highlight } = require('./shiki-singleton')
   const source = node.getSource() || ''
   const { source: cleanSource, callouts } = extractCallouts(source)
-  const shikiOptions = buildShikiOptions(node)
-  let html = highlight(cleanSource, lang, shikiOptions)
-  html = applyLineAnnotations(html, buildLineAnnotations(node))
-  if (callouts.size) html = injectCallouts(html, callouts)
-  return html
+  const transformers = buildShikiTransformers(node, callouts)
+  return highlight(cleanSource, lang, { transformers })
 }
 
-function buildShikiOptions(node) {
-  const transformers = []
-  const metaTokens = []
+function buildShikiTransformers(node, callouts) {
+  const transformers = [transformerLineAnnotations(node)]
 
-  const highlightLines = normalizeAttr(node.getAttribute('code.highlight') || node.getAttribute('shiki-highlight'))
-  if (highlightLines) {
-    transformers.push(transformerMetaHighlight())
-    metaTokens.push(`{${highlightLines}}`)
-  }
-
-  const highlightWords = normalizeWordList(node.getAttribute('code.word') || node.getAttribute('shiki-word-highlight'))
-  if (highlightWords.length) {
-    transformers.push(transformerMetaWordHighlight())
-    metaTokens.push(...highlightWords.map((word) => `/${escapeMetaWord(word)}/`))
+  if (callouts.size) {
+    transformers.push(transformerAdocCallouts(callouts))
   }
 
   const whitespace = normalizeWhitespaceMode(
@@ -190,7 +174,7 @@ function buildShikiOptions(node) {
     transformers.push(transformerRenderIndentGuides(indent ? { indent } : {}))
   }
 
-  return metaTokens.length ? { meta: { __raw: metaTokens.join(' ') }, transformers } : { transformers }
+  return transformers
 }
 
 /**
@@ -217,30 +201,6 @@ function extractCallouts(source) {
     return clean.replace(/[ \t]+$/, '')
   })
   return { source: cleanLines.join('\n'), callouts }
-}
-
-/**
- * Inject Asciidoctor callout icons into Shiki-generated HTML.
- * Shiki wraps each source line in `<span class="line">...</span>` separated by \n.
- * We insert `<i class="conum" data-value="N"></i><b>(N)</b>` at the end of the
- * matching line spans.
- *
- * @param {string} html   Shiki output HTML
- * @param {Map<number, number[]>} callouts  line index → callout numbers
- * @returns {string}
- */
-function injectCallouts(html, callouts) {
-  return html.replace(/(<code>)([\s\S]*?)(<\/code>)/, (_, open, content, close) => {
-    const lines = content.split('\n')
-    const patched = lines.map((line, i) => {
-      const numbers = callouts.get(i)
-      if (!numbers || !line.startsWith('<span class="line">')) return line
-      const icons = numbers.map((n) => `<span class="conum" data-value="${n}"></span>`).join('')
-      // Insert icons before the closing </span> of the line wrapper
-      return line.slice(0, -'</span>'.length) + icons + '</span>'
-    })
-    return open + patched.join('\n') + close
-  })
 }
 
 function escHtml(str) {
@@ -275,17 +235,6 @@ function normalizeBooleanAttr(value) {
   return normalized !== 'false' && normalized !== '0' && normalized !== 'no'
 }
 
-function normalizeWordList(value) {
-  return normalizeAttr(value)
-    .split(',')
-    .map((part) => part.trim())
-    .filter(Boolean)
-}
-
-function escapeMetaWord(word) {
-  return word.replace(/[\\/]/g, '\\$&')
-}
-
 function normalizeWhitespaceMode(value) {
   const normalized = normalizeAttr(value).toLowerCase()
   if (!normalized) return null
@@ -299,83 +248,6 @@ function normalizeIndentSize(value) {
   if (!normalized) return null
   const parsed = Number.parseInt(normalized, 10)
   return Number.isNaN(parsed) || parsed <= 0 ? null : parsed
-}
-
-function buildLineAnnotations(node) {
-  const lines = new Map()
-  const preClasses = new Set()
-
-  if (normalizeAttr(node.getAttribute('code.highlight') || node.getAttribute('shiki-highlight'))) {
-    preClasses.add('has-highlighted')
-  }
-  addLineAnnotation(lines, preClasses, node.getAttribute('code.add'), ['diff', 'add'], 'has-diff')
-  addLineAnnotation(lines, preClasses, node.getAttribute('code.remove'), ['diff', 'remove'], 'has-diff')
-  addLineAnnotation(lines, preClasses, node.getAttribute('code.focus'), ['focused'], 'has-focused')
-  addLineAnnotation(lines, preClasses, node.getAttribute('code.warning'), ['highlighted', 'warning'], 'has-highlighted')
-  addLineAnnotation(lines, preClasses, node.getAttribute('code.error'), ['highlighted', 'error'], 'has-highlighted')
-  addLineAnnotation(lines, preClasses, node.getAttribute('code.info'), ['highlighted', 'info'], 'has-highlighted')
-
-  return { lines, preClasses }
-}
-
-function addLineAnnotation(lines, preClasses, spec, classes, preClass) {
-  const lineNumbers = parseLineSpec(spec)
-  if (!lineNumbers.length) return
-  if (preClass) preClasses.add(preClass)
-  for (const lineNumber of lineNumbers) {
-    const lineIndex = lineNumber - 1
-    if (lineIndex < 0) continue
-    const lineClasses = lines.get(lineIndex) || new Set()
-    for (const className of classes) lineClasses.add(className)
-    lines.set(lineIndex, lineClasses)
-  }
-}
-
-function parseLineSpec(spec) {
-  const normalized = normalizeAttr(spec)
-  if (!normalized) return []
-  const lines = new Set()
-  for (const part of normalized.split(',')) {
-    const trimmed = part.trim()
-    if (!trimmed) continue
-    const range = trimmed.match(/^(\d+)\s*-\s*(\d+)$/)
-    if (range) {
-      const start = Number.parseInt(range[1], 10)
-      const end = Number.parseInt(range[2], 10)
-      if (Number.isNaN(start) || Number.isNaN(end)) continue
-      const from = Math.min(start, end)
-      const to = Math.max(start, end)
-      for (let line = from; line <= to; line += 1) lines.add(line)
-      continue
-    }
-    const line = Number.parseInt(trimmed, 10)
-    if (!Number.isNaN(line)) lines.add(line)
-  }
-  return Array.from(lines).sort((a, b) => a - b)
-}
-
-function applyLineAnnotations(html, { lines, preClasses }) {
-  if (!lines.size && !preClasses.size) return html
-  let output = html
-  if (preClasses.size) {
-    output = output.replace(/<pre\b([^>]*)class="([^"]*)"/, (_, attrs, classValue) => {
-      const classNames = new Set(classValue.split(/\s+/).filter(Boolean))
-      for (const className of preClasses) classNames.add(className)
-      return `<pre${attrs}class="${Array.from(classNames).join(' ')}"`
-    })
-  }
-  return output.replace(/(<code>)([\s\S]*?)(<\/code>)/, (_, open, content, close) => {
-    const patched = content.split('\n').map((line, index) => {
-      const classes = lines.get(index)
-      if (!classes || !line.startsWith('<span class="line')) return line
-      return line.replace(/class="([^"]*)"/, (match, classValue) => {
-        const classNames = new Set(classValue.split(/\s+/).filter(Boolean))
-        for (const className of classes) classNames.add(className)
-        return `class="${Array.from(classNames).join(' ')}"`
-      })
-    })
-    return open + patched.join('\n') + close
-  })
 }
 
 function extractCommands(text) {
