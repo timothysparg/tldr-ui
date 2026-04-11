@@ -372,7 +372,7 @@
           position: absolute;
           inset-block: -100%;
           background: linear-gradient(180deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 40%, transparent) 50%, var(--primary) 100%);
-          animation: flow-shimmer 5s linear infinite;
+          animation: flow-shimmer 10s linear infinite;
           will-change: transform;
 
           @media (prefers-reduced-motion: reduce) {
@@ -405,7 +405,7 @@
           transform-origin: center;
           opacity: 0.28;
           filter: blur(6px);
-          animation: glow-breathe 3.75s ease-in-out infinite;
+          animation: glow-breathe 7.5s ease-in-out infinite;
           will-change: opacity, transform;
 
           @media (prefers-reduced-motion: reduce) {
@@ -431,7 +431,7 @@
             transparent 10px,
             transparent 20px
           );
-          animation: dash-scroll 2s linear infinite;
+          animation: dash-scroll 4s linear infinite;
           will-change: transform;
 
           @media (prefers-reduced-motion: reduce) {
@@ -460,7 +460,7 @@
           block-size: 100px;
           background: linear-gradient(180deg, transparent 0%, var(--error) 50%, transparent 100%);
           border-radius: 0.5rem 0 0 0.5rem;
-          animation: laser-scan 6s linear infinite;
+          animation: laser-scan 12s linear infinite;
           will-change: transform;
 
           @media (prefers-reduced-motion: reduce) {
@@ -489,7 +489,7 @@
             var(--caution-dark) 10px,
             var(--caution-dark) 20px
           );
-          animation: slow-tape 4.5s linear infinite;
+          animation: slow-tape 9s linear infinite;
           will-change: transform;
 
           @media (prefers-reduced-motion: reduce) {
@@ -509,7 +509,7 @@
 
         &::before {
           background-color: var(--tldr-magenta);
-          animation: glow-breathe 2.5s ease-in-out infinite;
+          animation: glow-breathe 5s ease-in-out infinite;
 
           @media (prefers-reduced-motion: reduce) {
             animation: none;
