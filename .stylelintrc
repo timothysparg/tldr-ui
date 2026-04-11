@@ -1,9 +1,13 @@
 {
   "extends": [
     "stylelint-config-standard",
-    "stylelint-config-rational-order"
+    "stylelint-config-rational-order",
+    "@double-great/stylelint-a11y/recommended",
+    "stylelint-plugin-logical-css/configs/recommended"
   ],
   "plugins": [
+    "@double-great/stylelint-a11y",
+    "stylelint-plugin-logical-css",
     "stylelint-plugin-defensive-css",
     "stylelint-use-nesting",
     "stylelint-declaration-block-no-ignored-properties",
@@ -16,9 +20,9 @@
     "comment-empty-line-before": null,
     "no-descending-specificity": null,
     "selector-class-pattern": [
-      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$|^hljs-",
+      "^[a-z]([a-z0-9]*)(-[a-z0-9]+)*$",
       {
-        "message": "Expected class selector to be kebab-case (except hljs- classes)"
+        "message": "Expected class selector to be kebab-case"
       }
     ],
     "csstools/use-nesting": "always",
