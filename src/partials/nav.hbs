@@ -10,15 +10,15 @@
   </a> --}}
   <div class="max"></div>
   <button class="circle transparent">
-    <i id="mode-icon">dark_mode</i>
+    <i id="mode-icon">brightness_auto</i>
     <script>
       const THEME_STORAGE_KEY = "ui-mode";
       const THEME_MAP = {
-        light: "dark_mode",
-        dark: "light_mode",
+        light: "light_mode",
+        dark: "dark_mode",
         auto: "brightness_auto",
       };
-      const THEME_MODES = Object.keys(THEME_MAP);
+      const THEME_MODES = ["auto", "light", "dark"];
 
       const setRootThemeClass = mode => {
         const root = document.documentElement;
@@ -32,25 +32,20 @@
         const current = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
         const next = THEME_MODES[(THEME_MODES.indexOf(current) + 1) % THEME_MODES.length];
 
-        // Apply mode
         await ui("mode", next);
         localStorage.setItem(THEME_STORAGE_KEY, next);
 
-        // Get resolved mode (auto -> light/dark based on system preference)
         const resolved = ui("mode");
         setRootThemeClass(resolved);
-
-        // Update Icon
         me("#mode-icon").innerText = THEME_MAP[next];
       });
 
-      // 2. Init on Load: Ensure icon matches 'auto' or saved state immediately
       onloadAdd(_ => {
         const stored = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
         ui("mode", stored);
-        const start = ui("mode");
-        me("#mode-icon").innerText = THEME_MAP[start];
-        setRootThemeClass(start);
+        const resolved = ui("mode");
+        me("#mode-icon").innerText = THEME_MAP[stored];
+        setRootThemeClass(resolved);
       })
     </script>
   </button>
