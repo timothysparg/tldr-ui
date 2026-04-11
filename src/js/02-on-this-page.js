@@ -6,9 +6,7 @@
   const article = document.querySelector('article.article-card')
   if (!toc || !tocBody || !article) return
 
-  const headings = [].slice.call(article.querySelectorAll('h2[id], h3[id]'))
-  if (!headings.length) return
-
+  let headings = []
   let links = new Map()
   let activeFragment
   let isInitialized = false
@@ -30,7 +28,7 @@
     }, 250)
   })
 
-  function onScroll () {
+  function onScroll() {
     if (!links.size && !refreshLinks()) return
     const buffer = getNumericStyleVal(document.documentElement, 'fontSize') * 1.15
     let current
@@ -43,23 +41,21 @@
     if (current) setActive(current)
   }
 
-  function setActive (fragment) {
+  function setActive(fragment) {
     if (fragment === activeFragment) return
     if (activeFragment && links.get(activeFragment)) links.get(activeFragment).classList.remove('is-active')
     activeFragment = fragment
     if (links.get(activeFragment)) links.get(activeFragment).classList.add('is-active')
   }
 
-  function refreshLinks () {
-    links = new Map(
-      [].slice
-        .call(tocBody.querySelectorAll('a[href^="#"]'))
-        .map((link) => [link.getAttribute('href'), link])
-    )
+  function refreshLinks() {
+    const list = [].slice.call(tocBody.querySelectorAll('a[href^="#"]'))
+    links = new Map(list.map((link) => [link.getAttribute('href'), link]))
+    headings = list.map((link) => document.getElementById(link.getAttribute('href').slice(1))).filter(Boolean)
     return links.size
   }
 
-  function initScrollSpy () {
+  function initScrollSpy() {
     if (isInitialized) return
     if (!refreshLinks()) return
     if (window.location.hash) setActive(window.location.hash)
@@ -68,7 +64,7 @@
     isInitialized = true
   }
 
-  function getNumericStyleVal (el, prop) {
+  function getNumericStyleVal(el, prop) {
     return parseFloat(window.getComputedStyle(el)[prop])
   }
 })()

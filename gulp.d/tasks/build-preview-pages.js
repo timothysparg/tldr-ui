@@ -17,7 +17,6 @@ const ASCIIDOC_ATTRIBUTES = {
   icons: 'font',
   sectanchors: '',
   toc: 'macro',
-  toclevels: '3',
 }
 
 module.exports = (src, previewSrc, previewDest, sink = () => map()) => {

@@ -3,7 +3,7 @@
 :page-version: main
 :icons: font
 :toc: macro
-:toclevels: 3
+:toclevels: 4
 :sectanchors:
 :sectlinks:
 :article-card-image: image$kitchen-sink.png

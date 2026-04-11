@@ -4,6 +4,7 @@ const ensureDeviconCache = require('./lib/ensure-devicon-cache')
 const registerCodeCalloutPreprocessor = require('./lib/register-code-callout-preprocessor')
 const registerHtml5Converter = require('./lib/register-html5-converter')
 const registerTldrAdmonition = require('./lib/register-tldr-admonition')
+const registerTocLevels = require('./lib/register-toc-levels')
 const syncDevicons = require('./lib/sync-devicons')
 const { setDeviconRuntimeConfig } = require('./lib/devicon-config')
 
@@ -38,5 +39,6 @@ module.exports.register = function (maybeContext, explicitContext = {}) {
   if (registry && typeof registry.block === 'function') {
     registerCodeCalloutPreprocessor(registry)
     registerTldrAdmonition(registry)
+    registerTocLevels(registry)
   }
 }
