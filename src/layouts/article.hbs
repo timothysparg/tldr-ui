@@ -61,12 +61,12 @@
           });
         </script>
       </div>
-      {{#with (toc page.contents)}}
+      {{#if page.tocHtml}}
       <article class="s12 m12 l3 article-toc" aria-label="On this page">
         <h5>On this page</h5>
-        <div class="article-toc-body">{{{this}}}</div>
+        <div class="article-toc-body">{{{page.tocHtml}}}</div>
       </article>
-      {{/with}}
+      {{/if}}
     </div>
     <script>
       const rootEl = me()

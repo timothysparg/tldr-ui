@@ -16,7 +16,8 @@
     "last 3 Safari versions",
     "last 3 iOS versions"
   ],
-  "devDependencies": {
+  "version": "1.4.1",
+  "dependencies": {
     "@asciidoctor/core": "~3.0",
     "@eslint/js": "^9.39.4",
     "@fontsource/roboto": "~5.2",
@@ -46,6 +47,8 @@
     "postcss-custom-properties": "~14.0",
     "postcss-import": "~16.1",
     "postcss-url": "~10.1",
+    "rehype-parse": "^9.0.1",
+    "rehype-stringify": "^10.0.1",
     "require-directory": "~2.1",
     "require-from-string": "~2.0",
     "shiki": "^4.0.2",
@@ -59,7 +62,8 @@
     "stylelint-plugin-defensive-css": "^1.0.4",
     "stylelint-use-nesting": "^6.0.1",
     "stylelint-value-no-unknown-custom-properties": "^6.1.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
     "vinyl-fs": "~4.0"
-  },
-  "version": "1.4.1"
+  }
 }

@@ -1,5 +1,6 @@
 'use strict'
 
+const ospath = require('path')
 const ensureDeviconCache = require('./lib/ensure-devicon-cache')
 const registerCodeCalloutPreprocessor = require('./lib/register-code-callout-preprocessor')
 const registerHtml5Converter = require('./lib/register-html5-converter')
@@ -7,6 +8,9 @@ const registerTldrAdmonition = require('./lib/register-tldr-admonition')
 const registerTocLevels = require('./lib/register-toc-levels')
 const syncDevicons = require('./lib/sync-devicons')
 const { setDeviconRuntimeConfig } = require('./lib/devicon-config')
+const { processDocument } = require('./lib/document-pipeline')
+
+const uiRoot = ospath.resolve(__dirname, '..')
 
 function normalizeContext(context = {}) {
   return {
@@ -14,7 +18,7 @@ function normalizeContext(context = {}) {
     deviconDir: context.deviconDir || context.devicon_dir,
     directIconUrls: context.directIconUrls || context.direct_icon_urls,
     iconDiscoveryRoots: context.iconDiscoveryRoots || context.icon_discovery_roots,
-    projectRoot: context.projectRoot || context.project_root || process.cwd(),
+    projectRoot: context.projectRoot || context.project_root || uiRoot,
   }
 }
 
@@ -40,5 +44,13 @@ module.exports.register = function (maybeContext, explicitContext = {}) {
     registerCodeCalloutPreprocessor(registry)
     registerTldrAdmonition(registry)
     registerTocLevels(registry)
+
+    registry.postprocessor(function () {
+      this.process((doc, output) => {
+        const { tocHtml } = processDocument(output)
+        doc.setAttribute('toc-html', tocHtml)
+        return output
+      })
+    })
   }
 }

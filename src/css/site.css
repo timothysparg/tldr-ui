@@ -155,9 +155,6 @@ html.dark .theme-media.light {
   display: none;
 }
 
-article.article-card #toc {
-  display: none;
-}
 
 .article-toc {
   position: sticky;

@@ -14,10 +14,12 @@ const ICON_ALIASES = {
   ts: 'typescript',
 }
 
+const uiRoot = ospath.resolve(__dirname, '..', '..')
+
 let runtimeConfig = {
   directIconUrls: {},
   deviconDir: ospath.join('build', 'devicons'),
-  projectRoot: process.cwd(),
+  projectRoot: uiRoot,
 }
 
 function getIconName(lang) {
@@ -37,7 +39,7 @@ function setDeviconRuntimeConfig(config = {}) {
 
 function getDeviconDir(config = {}) {
   const deviconDir = config.deviconDir || runtimeConfig.deviconDir || ospath.join('build', 'devicons')
-  return ospath.resolve(config.projectRoot || runtimeConfig.projectRoot || process.cwd(), deviconDir)
+  return ospath.resolve(config.projectRoot || runtimeConfig.projectRoot || uiRoot, deviconDir)
 }
 
 function getDirectIconUrls(config = {}) {

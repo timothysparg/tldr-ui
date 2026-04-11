@@ -12,6 +12,8 @@ const map = (transform = () => {}, flush = undefined) => new Transform({ objectM
 const vfs = require('vinyl-fs')
 const yaml = require('js-yaml')
 
+const { processDocument } = require('../../extensions/lib/document-pipeline')
+
 const ASCIIDOC_ATTRIBUTES = {
   experimental: '',
   icons: 'font',
@@ -59,11 +61,12 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
             map((file, enc, next) => {
               const siteRootPath = path.relative(ospath.dirname(file.path), ospath.resolve(previewSrc))
               const uiModel = { ...baseUiModel }
-              uiModel.page = { ...uiModel.page }
+              uiModel.page = { ...uiModel.page, attributes: { ...((baseUiModel.page || {}).attributes || {}) } }
               uiModel.siteRootPath = siteRootPath
               uiModel.uiRootPath = path.join(siteRootPath, '_')
               if (file.stem === '404') {
-                uiModel.page = { layout: '404', title: 'Page Not Found' }
+                uiModel.page.layout = '404'
+                uiModel.page.title = 'Page Not Found'
               } else {
                 const { registry } = createRegistry()
                 const doc = Asciidoctor.load(file.contents, {
@@ -83,7 +86,9 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
                 uiModel.page.description = doc.getAttribute('description')
                 uiModel.page.layout = doc.getAttribute('page-layout', 'default')
                 uiModel.page.title = doc.getDocumentTitle()
-                uiModel.page.contents = Buffer.from(doc.convert())
+                const { html, tocHtml } = processDocument(doc.convert().toString(), { removeToc: true })
+                uiModel.page.contents = Buffer.from(html)
+                uiModel.page.tocHtml = tocHtml
               }
               file.extname = '.html'
               try {
@@ -197,7 +202,7 @@ function collectPosts(previewSrc, createRegistry) {
           })
           const pageLayout = doc.getAttribute('page-layout')
           if (pageLayout !== 'article') return null
-          const html = doc.convert()
+          const html = doc.convert().toString()
           const text = html
             .replace(/<[^>]+>/g, ' ')
             .replace(/\s+/g, ' ')

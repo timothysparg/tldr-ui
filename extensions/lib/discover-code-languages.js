@@ -7,7 +7,9 @@ const { getIconName } = require('./devicon-config')
 const SOURCE_BLOCK_RX = /\[source\s*,\s*([^\],\s]+)(?:[^\]]|\n)*\]/gm
 const DEFAULT_IGNORED_DIRS = new Set(['.git', 'build', 'node_modules', 'public'])
 
-module.exports = function discoverCodeLanguages({ projectRoot = process.cwd(), roots } = {}) {
+const uiRoot = ospath.resolve(__dirname, '..', '..')
+
+module.exports = function discoverCodeLanguages({ projectRoot = uiRoot, roots } = {}) {
   const searchRoots = normalizeRoots(projectRoot, roots)
   const languages = new Set()
 
