@@ -63,6 +63,7 @@
     --inverse-surface: #313033;
     --inverse-on-surface: #f4eff4;
     --inverse-primary: #d0bcff;
+    --success: #2da44e;
     --surface-dim: #ded8e1;
     --surface-bright: #fbf8fd;
     --surface-container-lowest: #fff;
@@ -107,6 +108,7 @@
     --inverse-surface: #e6e1e6;
     --inverse-on-surface: #313033;
     --inverse-primary: #6750a4;
+    --success: #3fb950;
     --surface-dim: #141218;
     --surface-bright: #3b383e;
     --surface-container-lowest: #0f0d13;
@@ -619,11 +621,26 @@
       flex-wrap: nowrap;
       gap: 0.5rem;
       align-items: center;
-    }
 
-    & .listingblock .code-header .copy-button,
-    & .literalblock .code-header .copy-button {
-      margin: 0;
+      & sl-copy-button {
+        display: block;
+        margin: 0;
+
+        & [slot='copy-icon'] {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--on-surface-variant);
+        }
+
+        & [slot='success-icon'] {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--success);
+        }
+
+        & [slot='error-icon'] {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--error);
+        }
+      }
     }
 
     & .listingblock .code-header .chip svg,

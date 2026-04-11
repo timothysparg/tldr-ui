@@ -21,9 +21,11 @@ function buildCodeHeader({ title = null, lang = null, console = false, copyText 
   return (
     `<nav class="code-header padding surface-container">` +
     `${chipHtml}<div class="max"></div>` +
-    `<button class="circle transparent copy-button" type="button" title="Copy to clipboard" aria-label="Copy code" data-copy-text="${escAttr(copyText)}">` +
-    `<i>content_copy</i><div class="tooltip">Copy code</div>` +
-    `</button></nav>`
+    `<sl-copy-button value="${escAttr(copyText)}" hoist>` +
+    `<span slot="copy-icon" class="material-symbols-outlined">content_copy</span>` +
+    `<span slot="success-icon" class="material-symbols-outlined">check</span>` +
+    `<span slot="error-icon" class="material-symbols-outlined">content_copy_off</span>` +
+    `</sl-copy-button></nav>`
   )
 }
 
