@@ -156,6 +156,17 @@
     margin-block: 2rem 1rem;
   }
 
+  sup.footnote > a.footnote {
+    display: inline-block;
+    margin: -0.15em -0.25em;
+    padding: 0.15em 0.25em;
+
+  @media (pointer: coarse) {
+      margin: -0.25em -0.35em;
+      padding: 0.25em 0.35em
+  }
+  }
+
 
   /* ============================================
      BASE STYLES
