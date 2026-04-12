@@ -119,7 +119,7 @@ function renderColistBlock(node, baseConverter) {
       const contentHtml = [text ? `<p>${text}</p>` : '', blockHtml].filter(Boolean).join('\n')
       return (
         `<li>` +
-        `<button class="circle primary" type="button">${number}</button>` +
+        `<span class="circle primary" aria-hidden="true">${number}</span>` +
         `<div class="max"><div class="small-text">${contentHtml}</div></div>` +
         `</li>`
       )

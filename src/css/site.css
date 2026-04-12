@@ -939,13 +939,14 @@
 
       display: inline-flex;
       flex-wrap: nowrap;
+      margin: 0;
+      padding: 0;
+      font-size: var(--callout-colist-font-size);
+      cursor: default;
       inline-size: var(--callout-colist-size);
       min-inline-size: var(--callout-colist-size);
       block-size: var(--callout-colist-size);
       min-block-size: var(--callout-colist-size);
-      margin: 0;
-      padding: 0;
-      font-size: var(--callout-colist-font-size);
     }
 
     /* Callout icons injected inline into code blocks */
@@ -972,6 +973,7 @@
     & .colist .list>li {
       align-items: center;
       block-size: auto;
+      cursor: default;
       min-block-size: 0;
       padding-block: 0.25rem;
     }
