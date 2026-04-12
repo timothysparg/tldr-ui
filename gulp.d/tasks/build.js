@@ -146,6 +146,21 @@ module.exports = (src, dest, preview) => () => {
       )
     }
 
+    const roughNotationSrc = require.resolve('rough-notation/lib/rough-notation.iife.js')
+    streamPromises.push(
+      waitForStream(
+        vfs
+          .src(roughNotationSrc)
+          .pipe(
+            map((file, enc, next) => {
+              file.path = ospath.join(file.base, 'js', 'vendor', 'rough-notation.iife.js')
+              next(null, file)
+            })
+          )
+          .pipe(vfs.dest(dest))
+      )
+    )
+
     return Promise.all(streamPromises)
   }
 
