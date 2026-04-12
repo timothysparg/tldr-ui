@@ -13,18 +13,30 @@ const { transformerLineAnnotations, transformerAdocCallouts } = require('./shiki
 const iconCache = new Map()
 
 function buildCodeHeader({ title = null, lang = null, console = false, copyText = '' } = {}) {
-  let chipHtml = ''
+  let metaHtml = ''
+  let label = ''
+
   if (title) {
-    chipHtml = `<div class="chip fill secondary code-filename">${escHtml(title)}</div>`
-  } else if (lang && !console && lang !== 'console') {
-    chipHtml = `<div class="code-lang-icon">${resolveIcon(lang)}</div>`
-  } else if (!console) {
-    return ''
+    label = title
+  } else if (lang && lang !== 'console') {
+    label = lang
+  } else if (console) {
+    label = 'console'
   }
 
+  if (!label && !console) return ''
+
+  const iconHtml =
+    lang && !console && lang !== 'console' ? `<div class="code-lang-icon">${resolveIcon(lang)}</div>` : ''
+  metaHtml =
+    `<div class="code-header-meta">` +
+    `${iconHtml}` +
+    `<div class="code-header-label">${escHtml(label)}</div>` +
+    `</div>`
+
   return (
-    `<nav class="code-header padding surface-container">` +
-    `${chipHtml}<div class="max"></div>` +
+    `<nav class="code-header">` +
+    `${metaHtml}<div class="max"></div>` +
     `<button class="code-copy-button" type="button" aria-label="Copy code" data-copy-text="${escAttr(copyText)}">` +
     `<span class="material-symbols-outlined" aria-hidden="true">content_copy</span>` +
     `</button></nav>`

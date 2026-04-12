@@ -752,60 +752,169 @@
     & .literalblock .code-header {
       display: flex;
       flex-wrap: nowrap;
-      gap: 0.5rem;
+      gap: 0.4rem;
       align-items: center;
+      padding: 0.35rem 0.55rem 0.25rem;
+      background: color-mix(in srgb, var(--surface-container) 58%, transparent);
+      min-block-size: 1.75rem;
+      border-block-end: 1px solid color-mix(in srgb, var(--outline) 28%, transparent);
+
+      & .code-header-meta {
+        display: inline-flex;
+        gap: 0.45rem;
+        align-items: center;
+        min-inline-size: 0;
+      }
+
+      & .code-header-label {
+        overflow: hidden;
+        color: var(--on-surface-variant);
+        font-weight: 650;
+        font-size: 0.68rem;
+        font-family: var(--font);
+        line-height: 1;
+        letter-spacing: 0.07em;
+        white-space: nowrap;
+        text-transform: uppercase;
+        text-overflow: ellipsis;
+      }
 
       & .code-copy-button {
         display: inline-flex;
+        flex: 0 0 auto;
         align-items: center;
+        align-self: center;
         justify-content: center;
         margin: 0;
         padding: 0;
-        background: transparent;
-        border: 0;
-        cursor: pointer;
-        min-inline-size: 2.25rem;
-        min-block-size: 2.25rem;
-
-      & .material-symbols-outlined {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
-        color: var(--on-surface-variant);
         line-height: 1;
-        inline-size: 1.5rem;
-        block-size: 1.5rem;
-      }
+        background: color-mix(in srgb, var(--surface-container-high) 88%, transparent) !important;
+        border: 1px solid color-mix(in srgb, var(--outline) 24%, transparent) !important;
+        border-radius: 999px !important;
+        box-shadow: none !important;
+        cursor: pointer;
+        transition:
+          background-color var(--speed2) ease,
+          border-color var(--speed2) ease,
+          color var(--speed2) ease,
+          transform var(--speed2) ease;
+        appearance: none;
+        inline-size: 1.7rem;
+        block-size: 1.7rem;
+        min-inline-size: 1.7rem;
+        min-block-size: 1.7rem;
 
-      &[data-state='success'] .material-symbols-outlined {
-        /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
-        color: var(--success);
-      }
+        &:hover, &:focus {
+          background: color-mix(in srgb, var(--primary) 10%, var(--surface-container-high)) !important;
+          border-color: color-mix(in srgb, var(--primary) 30%, var(--outline)) !important;
+        }
 
-      &[data-state='error'] .material-symbols-outlined {
-        /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
-        color: var(--error);
-      }
+        &:focus-visible {
+          outline: 1px solid color-mix(in srgb, var(--primary) 55%, transparent);
+          outline-offset: 2px;
+        }
+
+        & .material-symbols-outlined {
+          display: grid;
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--on-surface-variant);
+          font-size: 0.9rem !important;
+          line-height: 0.9rem !important;
+          transform: translateX(0.5px);
+          place-items: center;
+          inline-size: 0.95rem;
+          block-size: 0.95rem;
+          font-variation-settings: 'opsz' 20;
+        }
+
+        &[data-state='success'] .material-symbols-outlined {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--success);
+        }
+
+        &[data-state='error'] .material-symbols-outlined {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--error);
+        }
+
+@media screen and (prefers-reduced-motion: reduce) {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        background: color-mix(in srgb, var(--surface-container-high) 88%, transparent) !important;
+        border: 1px solid color-mix(in srgb, var(--outline) 24%, transparent) !important;
+        border-radius: 999px !important;
+        box-shadow: none !important;
+        cursor: pointer;
+        transition:
+          none;
+        appearance: none;
+        inline-size: 1.7rem;
+        block-size: 1.7rem;
+        min-inline-size: 1.7rem;
+        min-block-size: 1.7rem;
+
+        &:hover, &:focus {
+          background: color-mix(in srgb, var(--primary) 10%, var(--surface-container-high)) !important;
+          border-color: color-mix(in srgb, var(--primary) 30%, var(--outline)) !important;
+        }
+
+        &:focus-visible {
+          outline: 1px solid color-mix(in srgb, var(--primary) 55%, transparent);
+          outline-offset: 2px;
+        }
+
+        & .material-symbols-outlined {
+          display: grid;
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--on-surface-variant);
+          font-size: 0.9rem !important;
+          line-height: 0.9rem !important;
+          transform: translateX(0.5px);
+          place-items: center;
+          inline-size: 0.95rem;
+          block-size: 0.95rem;
+          font-variation-settings: 'opsz' 20;
+        }
+
+        &[data-state='success'] .material-symbols-outlined {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--success);
+        }
+
+        &[data-state='error'] .material-symbols-outlined {
+          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+          color: var(--error);
+        }
+}
       }
     }
 
     & .listingblock .code-header .code-lang-icon,
     & .literalblock .code-header .code-lang-icon {
       display: flex;
+      flex: 0 0 auto;
       align-items: center;
       justify-content: center;
+      inline-size: 0.9rem;
+      block-size: 0.9rem;
 
       & svg {
-        block-size: 1.25rem;
-        inline-size: 1.25rem;
+        display: block;
+        block-size: 0.9rem;
+        inline-size: 0.9rem;
       }
     }
 
     & .listingblock pre,
     & .literalblock pre {
       margin: 0;
-      padding: 1rem;
+      padding: 0.9rem 1rem 1rem;
       background: transparent;
       border: 0;
     }
