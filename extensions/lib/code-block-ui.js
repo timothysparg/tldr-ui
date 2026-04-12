@@ -21,7 +21,7 @@ function buildCodeHeader({ title = null, lang = null, console = false, copyText 
   return (
     `<nav class="code-header padding surface-container">` +
     `${chipHtml}<div class="max"></div>` +
-    `<sl-copy-button value="${escAttr(copyText)}" hoist>` +
+    `<sl-copy-button value="${escAttr(copyText)}" hoist copy-label=" " success-label=" " error-label=" ">` +
     `<span slot="copy-icon" class="material-symbols-outlined">content_copy</span>` +
     `<span slot="success-icon" class="material-symbols-outlined">check</span>` +
     `<span slot="error-icon" class="material-symbols-outlined">content_copy_off</span>` +

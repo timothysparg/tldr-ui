@@ -640,9 +640,67 @@
       background: var(--tertiary);
     }
 
-    & .videoblock video {
-      max-inline-size: 100%;
-      block-size: auto;
+    & .videoblock {
+      margin-block: 3rem;
+
+      & .content {
+        position: relative;
+        padding: 1rem;
+        background: #2a2a2a; /* Slightly lighter charcoal for better contrast */
+        border-radius: 2rem;
+        box-shadow:
+          0 0 0 1px #3d3d3d, /* Rim light edge */
+          inset 0 0 15px #000,
+          0 20px 50px -10px rgb(0 0 0 / 70%);
+
+        /* Glass sheen overlay */
+        &::before {
+          position: absolute;
+          z-index: 1;
+          background: linear-gradient(135deg, rgb(255 255 255 / 5%) 0%, rgb(255 255 255 / 0%) 40%, rgb(255 255 255 / 2%) 100%);
+          border-radius: 0.75rem;
+          content: "";
+          pointer-events: none;
+          inset: 1rem; /* Match padding */
+        }
+
+        /* Power Indicator LED (Green for both modes) */
+        &::after {
+          position: absolute;
+          inset-block-end: 0.4rem;
+          background: #4caf50;
+          border-radius: 50%;
+          box-shadow: 0 0 4px #4caf50;
+          opacity: 0.8;
+          content: "";
+          inset-inline-end: 2.5rem;
+          inline-size: 6px;
+          block-size: 6px;
+        }
+      }
+
+      &.light .content {
+        background: #dcd0c0; /* Retro Xerox/Industrial Beige */
+        box-shadow:
+          0 0 0 1px #c5bba8,
+          inset 0 0 10px rgb(0 0 0 / 10%),
+          0 20px 50px -10px rgb(0 0 0 / 30%);
+
+        &::after {
+          background: #4caf50; /* Unified green LED */
+          box-shadow: 0 0 4px #4caf50;
+        }
+      }
+
+      & video {
+        display: block;
+        max-inline-size: 100%;
+        block-size: auto;
+        background: #000;
+        border-radius: 0.75rem;
+        /* Depth shadow */
+        box-shadow: 0 0 20px rgb(0 0 0 / 50%);
+      }
     }
 
     & .imageblock {
@@ -702,6 +760,15 @@
           color: var(--error);
         }
       }
+    }
+
+    & .listingblock .code-header sl-copy-button::part(tooltip__base),
+    & .listingblock .code-header sl-copy-button::part(tooltip__base__popup),
+    & .listingblock .code-header sl-copy-button::part(tooltip__body),
+    & .literalblock .code-header sl-copy-button::part(tooltip__base),
+    & .literalblock .code-header sl-copy-button::part(tooltip__base__popup),
+    & .literalblock .code-header sl-copy-button::part(tooltip__body) {
+      display: none;
     }
 
     & .listingblock .code-header .code-lang-icon,
