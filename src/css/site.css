@@ -643,10 +643,16 @@
       }
     }
 
-    & .listingblock .code-header .chip svg,
-    & .literalblock .code-header .chip svg {
-      inline-size: 1.25rem;
-      block-size: 1.25rem;
+    & .listingblock .code-header .code-lang-icon,
+    & .literalblock .code-header .code-lang-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & svg {
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+      }
     }
 
     & .listingblock pre,

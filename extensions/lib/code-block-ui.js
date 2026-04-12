@@ -13,7 +13,7 @@ function buildCodeHeader({ title = null, lang = null, console = false, copyText 
   if (title) {
     chipHtml = `<div class="chip fill secondary code-filename">${escHtml(title)}</div>`
   } else if (lang && !console && lang !== 'console') {
-    chipHtml = `<div class="chip fill secondary">${resolveIcon(lang)}<span>${escHtml(lang)}</span></div>`
+    chipHtml = `<div class="code-lang-icon">${resolveIcon(lang)}</div>`
   } else if (!console) {
     return ''
   }
