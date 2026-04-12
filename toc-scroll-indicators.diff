@@ -1,0 +1,492 @@
+diff --git a/src/css/site.css b/src/css/site.css
+index 8d77338..d424a67 100644
+--- a/src/css/site.css
++++ b/src/css/site.css
+@@ -1,6 +1,15 @@
+-@layer framework, site;
++@layer base, framework, site;
+
+ @import url("https://cdn.jsdelivr.net/npm/beercss@3.12.11/dist/cdn/beer.min.css") layer(framework);
++@import url("@fontsource/inter/index.css") layer(base);
++@import url("@fontsource/caveat/index.css") layer(base);
++@import url("@fontsource/rock-salt/index.css") layer(base);
++@import url("@fontsource/special-elite/index.css") layer(base);
++@import url("@fontsource/material-symbols-outlined/index.css") layer(base);
++@import url("@shoelace-style/shoelace/dist/themes/light.css") layer(framework);
++@import url("@shoelace-style/shoelace/dist/themes/dark.css") layer(framework);
++@import url("@fortawesome/fontawesome-free/css/all.min.css") layer(framework);
++@import url("@fortawesome/fontawesome-free/css/v4-shims.min.css") layer(framework);
+
+ @layer site {
+   /* ============================================
+@@ -176,6 +185,7 @@
+     block-size: auto;
+     max-block-size: calc(100vb - 6rem);
+     padding-inline-start: 1.25rem;
++    overflow-inline: visible;
+     overflow-block: auto;
+     overscroll-behavior: contain;
+     scrollbar-gutter: stable;
+@@ -197,6 +207,15 @@
+   }
+
+   .article-toc-body {
++    --toc-indicator-axis: calc(-0.6875rem);
++    --toc-center-band-ratio: 0.18;
++    --toc-center-band-min: 96px;
++    --toc-center-band-max: 160px;
++    --toc-active-hold-distance: 28px;
++
++    position: relative;
++    overflow: visible;
++
+     & ul {
+       display: block;
+       margin: 0;
+@@ -231,23 +250,65 @@
+       }
+
+       @media (hover: hover) {
+-        &:hover, &:focus {
++        &:hover,
++        &:focus {
+           color: var(--primary);
+         }
+       }
+
+       &.is-active {
+-        color: var(--primary);
+-        font-weight: 600;
++        /* No text highlight per user request */
++      }
++    }
+
+-        &::before {
+-          position: absolute;
+-          background-color: var(--primary);
+-          content: "";
+-          inset-block: 0.25rem;
+-          inset-inline-start: -1.25rem; /* Match .article-toc padding-left */
+-          inline-size: 3px;
+-        }
++    /* The dynamic indicator elements */
++    & .toc-marker-range,
++    & .toc-marker-active {
++      position: absolute;
++      z-index: 2;
++      opacity: 0;
++      transition: opacity var(--speed2) ease-in-out;
++      pointer-events: none;
++      inset-inline-start: var(--toc-indicator-axis); /* Mid-lane between border and TOC text */
++
++      &.is-visible {
++        opacity: 1;
++      }
++    }
++
++    /* Represents the entire viewport range */
++    & .toc-marker-range {
++      inline-size: 2px;
++      background: linear-gradient(
++        to bottom,
++        transparent,
++        color-mix(in srgb, var(--primary) 72%, transparent) 18%,
++        color-mix(in srgb, var(--primary) 72%, transparent) 82%,
++        transparent
++      );
++      box-shadow: 0 0 0 1px color-mix(in srgb, var(--surface) 85%, transparent);
++    }
++
++    /* Represents the heading closest to the center */
++    & .toc-marker-active {
++      inset-inline-start: calc(var(--toc-indicator-axis) - 3px);
++      inline-size: 8px;
++      block-size: 8px;
++      inset-block-start: 0;
++      background-color: var(--primary);
++      border: 0;
++      border-radius: 999px;
++      box-shadow:
++        0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent),
++        0 0 10px color-mix(in srgb, var(--primary) 45%, transparent);
++      transform: translateY(0);
++      transition:
++        transform 110ms cubic-bezier(0.22, 1, 0.36, 1),
++        opacity var(--speed2) ease-in-out;
++      will-change: transform;
++
++      @media (prefers-reduced-motion: reduce) {
++        transition: opacity var(--speed2) ease-in-out;
+       }
+     }
+   }
+@@ -405,7 +466,7 @@
+           transform-origin: center;
+           opacity: 0.28;
+           filter: blur(6px);
+-          animation: glow-breathe 7.5s ease-in-out infinite;
++          animation: glow-breathe 3.75s ease-in-out infinite;
+           will-change: opacity, transform;
+
+           @media (prefers-reduced-motion: reduce) {
+@@ -650,8 +711,8 @@
+       justify-content: center;
+
+       & svg {
+-        inline-size: 1.25rem;
+         block-size: 1.25rem;
++        inline-size: 1.25rem;
+       }
+     }
+
+diff --git a/src/js/02-on-this-page.js b/src/js/02-on-this-page.js
+index cba1217..38e8159 100644
+--- a/src/js/02-on-this-page.js
++++ b/src/js/02-on-this-page.js
+@@ -3,11 +3,25 @@
+
+   const toc = document.querySelector('.article-toc')
+   const tocBody = document.querySelector('.article-toc-body')
+-  if (!toc || !tocBody) return
++  const toolbar = document.querySelector('.toolbar')
++  const article = document.querySelector('article.article-card') || document.querySelector('article')
++  if (!toc || !tocBody || !article) return
+
+   let links = new Map()
++  let headingMetrics = []
++  let headingElements = []
+   let activeFragment
+   let isInitialized = false
++  let centerObserver
++  let resizeObserver
++  let pendingFrame = 0
++  let articleTop = 0
++  let articleBottom = 0
++  const centerVisibleHeadings = new Set()
++
++  let markerRange
++  let markerActive
++  let activeMarkerOffset = 0
+
+   window.addEventListener('load', function () {
+     if (refreshLinks()) {
+@@ -25,65 +39,271 @@
+   function refreshLinks() {
+     const list = [].slice.call(tocBody.querySelectorAll('a[href^="#"]'))
+     links = new Map(list.map((link) => [link.getAttribute('href'), link]))
++
+     if (links.size === 0) {
+       toc.style.display = 'none'
+     } else {
+       toc.style.display = 'block'
++      if (!markerRange) {
++        markerRange = document.createElement('div')
++        markerRange.className = 'toc-marker-range'
++        markerRange.setAttribute('aria-hidden', 'true')
++        tocBody.appendChild(markerRange)
++      }
++      if (!markerActive) {
++        markerActive = document.createElement('div')
++        markerActive.className = 'toc-marker-active'
++        markerActive.setAttribute('aria-hidden', 'true')
++        tocBody.appendChild(markerActive)
++      }
++      activeMarkerOffset = markerActive.offsetHeight ? markerActive.offsetHeight / 2 : 5
+     }
+     return links.size
+   }
+
++  function getRelativeOffset(el, container) {
++    let top = 0
++    let current = el
++    while (current && current !== container) {
++      top += current.offsetTop
++      current = current.offsetParent
++    }
++    return top
++  }
++
++  function getDocTop(el) {
++    return el.getBoundingClientRect().top + window.scrollY
++  }
++
++  function getToolbarOffset() {
++    if (toolbar) return toolbar.getBoundingClientRect().bottom
++    return parseFloat(window.getComputedStyle(document.documentElement).fontSize) * 4
++  }
++
++  function clamp(value, min, max) {
++    return Math.min(Math.max(value, min), max)
++  }
++
++  function getNumericTocVar(name, fallback) {
++    const value = parseFloat(window.getComputedStyle(tocBody).getPropertyValue(name))
++    return Number.isFinite(value) ? value : fallback
++  }
++
+   function initScrollSpy() {
+     if (isInitialized) return
+-    const headings = Array.from(links.keys())
++    headingElements = Array.from(links.keys())
+       .map((id) => document.getElementById(id.slice(1)))
+       .filter(Boolean)
+
+-    if (!headings.length) return
++    if (!headingElements.length) return
+
+-    const visibleHeadings = new Set()
++    refreshMetrics()
++    observeCenterBand()
+
+-    // Dynamically calculate the top margin based on the toolbar height
+-    // to avoid hardcoded 'px' values.
+-    const toolbar = document.querySelector('.toolbar')
+-    const getTopMargin = () => {
+-      if (toolbar) return toolbar.getBoundingClientRect().height
+-      // Fallback to a calculation of 4rem
+-      return parseFloat(window.getComputedStyle(document.documentElement).fontSize) * 4
+-    }
++    window.addEventListener('scroll', scheduleUpdate, { passive: true })
++    window.addEventListener('resize', handleResize, { passive: true })
+
+-    const observerOptions = {
+-      // IntersectionObserver rootMargin must be in px or %
+-      rootMargin: `-${Math.round(getTopMargin())}px 0px -80% 0px`,
+-      threshold: 0,
++    if ('ResizeObserver' in window) {
++      resizeObserver = new window.ResizeObserver(() => {
++        refreshMetrics()
++        scheduleUpdate()
++      })
++      resizeObserver.observe(article)
++      resizeObserver.observe(tocBody)
++      headingElements.forEach((heading) => resizeObserver.observe(heading))
+     }
+
+-    const observer = new IntersectionObserver((entries) => {
+-      entries.forEach((entry) => {
+-        if (entry.isIntersecting) {
+-          visibleHeadings.add(entry.target.id)
+-        } else {
+-          visibleHeadings.delete(entry.target.id)
++    if (window.location.hash) setActive(window.location.hash)
++    scheduleUpdate()
++    isInitialized = true
++  }
++
++  function refreshMetrics() {
++    articleTop = getDocTop(article)
++    articleBottom = articleTop + article.offsetHeight
++    headingMetrics = headingElements
++      .map((heading) => {
++        const id = '#' + heading.id
++        const link = links.get(id)
++        if (!link) return null
++
++        return {
++          id,
++          heading,
++          headingTop: getDocTop(heading),
++          headingHeight: heading.offsetHeight,
++          link,
++          linkTop: getRelativeOffset(link, tocBody),
++          linkHeight: link.offsetHeight,
+         }
+       })
++      .filter(Boolean)
++  }
++
++  function handleResize() {
++    refreshMetrics()
++    observeCenterBand()
++    scheduleUpdate()
++  }
++
++  function observeCenterBand() {
++    if (centerObserver) centerObserver.disconnect()
++    centerVisibleHeadings.clear()
+
+-      if (visibleHeadings.size > 0) {
+-        // Pick the FIRST one in document order that is currently visible
+-        let firstVisible
+-        for (const h of headings) {
+-          if (visibleHeadings.has(h.id)) {
+-            firstVisible = h
+-            break
++    const viewportHeight = window.innerHeight
++    const topInset = getToolbarOffset()
++    const availableHeight = Math.max(0, viewportHeight - topInset)
++    const bandRatio = getNumericTocVar('--toc-center-band-ratio', 0.18)
++    const bandMin = getNumericTocVar('--toc-center-band-min', 96)
++    const bandMax = getNumericTocVar('--toc-center-band-max', 160)
++    const bandHeight = clamp(availableHeight * bandRatio, bandMin, bandMax)
++    const upperInset = topInset + (availableHeight - bandHeight) / 2
++    const lowerInset = viewportHeight - bandHeight - upperInset
++    const rootMargin = `-${Math.round(upperInset)}px 0px -${Math.round(lowerInset)}px 0px`
++
++    centerObserver = new window.IntersectionObserver(
++      (entries) => {
++        entries.forEach((entry) => {
++          if (entry.isIntersecting) {
++            centerVisibleHeadings.add(entry.target.id)
++          } else {
++            centerVisibleHeadings.delete(entry.target.id)
+           }
+-        }
+-        if (firstVisible) setActive('#' + firstVisible.id)
++        })
++        scheduleUpdate()
++      },
++      { rootMargin, threshold: 0 }
++    )
++
++    headingElements.forEach((heading) => centerObserver.observe(heading))
++  }
++
++  function scheduleUpdate() {
++    if (pendingFrame) return
++    pendingFrame = window.requestAnimationFrame(() => {
++      pendingFrame = 0
++      onScroll()
++    })
++  }
++
++  function mapScrollToToc(scrollPos) {
++    if (!headingMetrics.length) return 0
++
++    const relativeScroll = scrollPos - articleTop
++
++    let index = -1
++    for (let i = 0; i < headingMetrics.length; i++) {
++      if (headingMetrics[i].headingTop > scrollPos) {
++        index = i
++        break
+       }
+-    }, observerOptions)
++    }
+
+-    headings.forEach((heading) => observer.observe(heading))
++    if (index === 0) {
++      const firstMetric = headingMetrics[0]
++      const scrollSpan = Math.max(1, firstMetric.headingTop - articleTop)
++      const ratio = clamp(relativeScroll / scrollSpan, 0, 1)
++      return firstMetric.linkTop * ratio
++    }
+
+-    if (window.location.hash) setActive(window.location.hash)
+-    isInitialized = true
++    if (index === -1) {
++      const lastMetric = headingMetrics[headingMetrics.length - 1]
++      const remainingDoc = Math.max(1, articleBottom - lastMetric.headingTop)
++      const scrollBelowLast = scrollPos - lastMetric.headingTop
++      const ratio = clamp(scrollBelowLast / remainingDoc, 0, 1)
++      const remainingToc = Math.max(lastMetric.linkHeight, tocBody.scrollHeight - lastMetric.linkTop)
++      return lastMetric.linkTop + remainingToc * ratio
++    }
++
++    const previousMetric = headingMetrics[index - 1]
++    const nextMetric = headingMetrics[index]
++    const scrollSpan = Math.max(1, nextMetric.headingTop - previousMetric.headingTop)
++    const ratio = clamp((scrollPos - previousMetric.headingTop) / scrollSpan, 0, 1)
++    return previousMetric.linkTop + (nextMetric.linkTop - previousMetric.linkTop) * ratio
++  }
++
++  function getViewportCenter() {
++    const topInset = getToolbarOffset()
++    return window.scrollY + topInset + (window.innerHeight - topInset) / 2
++  }
++
++  function getActiveMetric() {
++    if (!headingMetrics.length) return null
++
++    const viewportCenter = getViewportCenter()
++    const centeredMetrics = headingMetrics.filter((metric) => centerVisibleHeadings.has(metric.heading.id))
++
++    if (centeredMetrics.length) {
++      const centeredChoice = centeredMetrics.reduce((closest, metric) => {
++        const metricCenter = metric.headingTop + metric.headingHeight / 2
++        if (!closest) return metric
++        const closestCenter = closest.headingTop + closest.headingHeight / 2
++        return Math.abs(metricCenter - viewportCenter) < Math.abs(closestCenter - viewportCenter) ? metric : closest
++      }, null)
++      return holdActiveMetric(centeredChoice, viewportCenter)
++    }
++
++    let fallbackMetric = headingMetrics[0]
++    for (const metric of headingMetrics) {
++      if (metric.headingTop <= viewportCenter) {
++        fallbackMetric = metric
++      } else {
++        break
++      }
++    }
++
++    return holdActiveMetric(fallbackMetric, viewportCenter)
++  }
++
++  function getMetricDistanceFromCenter(metric, viewportCenter) {
++    if (!metric) return Infinity
++    const metricCenter = metric.headingTop + metric.headingHeight / 2
++    return Math.abs(metricCenter - viewportCenter)
++  }
++
++  function holdActiveMetric(nextMetric, viewportCenter) {
++    if (!activeFragment) return nextMetric
++
++    const currentMetric = headingMetrics.find((metric) => metric.id === activeFragment)
++    if (!currentMetric) return nextMetric
++    if (!nextMetric || nextMetric.id === currentMetric.id) return currentMetric
++
++    const activeHoldPx = getNumericTocVar('--toc-active-hold-distance', 28)
++    const currentDistance = getMetricDistanceFromCenter(currentMetric, viewportCenter)
++    const nextDistance = getMetricDistanceFromCenter(nextMetric, viewportCenter)
++    return nextDistance + activeHoldPx < currentDistance ? nextMetric : currentMetric
++  }
++
++  function onScroll() {
++    if (!markerRange || !markerActive) return
++    if (!headingMetrics.length) return
++
++    const scrollY = window.scrollY
++    const topInset = getToolbarOffset()
++
++    const vTop = Math.max(articleTop, scrollY + topInset)
++    const vBottom = Math.min(articleBottom, scrollY + window.innerHeight)
++
++    if (vBottom <= vTop) {
++      markerRange.classList.remove('is-visible')
++      markerActive.classList.remove('is-visible')
++      return
++    }
++
++    const tocTop = mapScrollToToc(vTop)
++    const tocBottom = mapScrollToToc(vBottom)
++
++    markerRange.style.top = tocTop + 'px'
++    markerRange.style.height = Math.max(2, tocBottom - tocTop) + 'px'
++    markerRange.classList.add('is-visible')
++
++    const activeMetric = getActiveMetric()
++    if (activeMetric) {
++      setActive(activeMetric.id)
++      const markerTop = activeMetric.linkTop + activeMetric.linkHeight / 2 - activeMarkerOffset
++      markerActive.style.transform = `translateY(${markerTop}px)`
++      markerActive.classList.add('is-visible')
++    }
+   }
+
+   function setActive(fragment) {
+@@ -97,10 +317,11 @@
+     activeFragment = fragment
+     link.classList.add('is-active')
+
+-    const tocRect = toc.getBoundingClientRect()
++    const tocRect = tocBody.getBoundingClientRect()
+     const linkRect = link.getBoundingClientRect()
+     if (linkRect.top < tocRect.top || linkRect.bottom > tocRect.bottom) {
+-      link.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
++      const nextScrollTop = toc.scrollTop + (linkRect.top - tocRect.top) - (tocRect.height - linkRect.height) / 2
++      toc.scrollTop = Math.max(0, nextScrollTop)
+     }
+   }
+ })()

@@ -1,6 +1,15 @@
-@layer framework, site;
+@layer base, framework, site;
 
 @import url("https://cdn.jsdelivr.net/npm/beercss@3.12.11/dist/cdn/beer.min.css") layer(framework);
+@import url("@fontsource/inter/index.css") layer(base);
+@import url("@fontsource/caveat/index.css") layer(base);
+@import url("@fontsource/rock-salt/index.css") layer(base);
+@import url("@fontsource/special-elite/index.css") layer(base);
+@import url("@fontsource/material-symbols-outlined/index.css") layer(base);
+@import url("@shoelace-style/shoelace/dist/themes/light.css") layer(framework);
+@import url("@shoelace-style/shoelace/dist/themes/dark.css") layer(framework);
+@import url("@fortawesome/fontawesome-free/css/all.min.css") layer(framework);
+@import url("@fortawesome/fontawesome-free/css/v4-shims.min.css") layer(framework);
 
 @layer site {
   /* ============================================
@@ -176,6 +185,7 @@
     block-size: auto;
     max-block-size: calc(100vb - 6rem);
     padding-inline-start: 1.25rem;
+    overflow-inline: visible;
     overflow-block: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
@@ -197,6 +207,15 @@
   }
 
   .article-toc-body {
+    --toc-indicator-axis: calc(-0.6875rem);
+    --toc-center-band-ratio: 0.18;
+    --toc-center-band-min: 96px;
+    --toc-center-band-max: 160px;
+    --toc-active-hold-distance: 28px;
+
+    position: relative;
+    overflow: visible;
+
     & ul {
       display: block;
       margin: 0;
@@ -231,23 +250,65 @@
       }
 
       @media (hover: hover) {
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
           color: var(--primary);
         }
       }
 
       &.is-active {
-        color: var(--primary);
-        font-weight: 600;
+        /* No text highlight per user request */
+      }
+    }
 
-        &::before {
-          position: absolute;
-          background-color: var(--primary);
-          content: "";
-          inset-block: 0.25rem;
-          inset-inline-start: -1.25rem; /* Match .article-toc padding-left */
-          inline-size: 3px;
-        }
+    /* The dynamic indicator elements */
+    & .toc-marker-range,
+    & .toc-marker-active {
+      position: absolute;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity var(--speed2) ease-in-out;
+      pointer-events: none;
+      inset-inline-start: var(--toc-indicator-axis); /* Mid-lane between border and TOC text */
+
+      &.is-visible {
+        opacity: 1;
+      }
+    }
+
+    /* Represents the entire viewport range */
+    & .toc-marker-range {
+      inline-size: 2px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        color-mix(in srgb, var(--primary) 72%, transparent) 18%,
+        color-mix(in srgb, var(--primary) 72%, transparent) 82%,
+        transparent
+      );
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--surface) 85%, transparent);
+    }
+
+    /* Represents the heading closest to the center */
+    & .toc-marker-active {
+      inset-inline-start: calc(var(--toc-indicator-axis) - 3px);
+      inline-size: 8px;
+      block-size: 8px;
+      inset-block-start: 0;
+      background-color: var(--primary);
+      border: 0;
+      border-radius: 999px;
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent),
+        0 0 10px color-mix(in srgb, var(--primary) 45%, transparent);
+      transform: translateY(0);
+      transition:
+        transform 110ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity var(--speed2) ease-in-out;
+      will-change: transform;
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: opacity var(--speed2) ease-in-out;
       }
     }
   }
@@ -405,7 +466,7 @@
           transform-origin: center;
           opacity: 0.28;
           filter: blur(6px);
-          animation: glow-breathe 7.5s ease-in-out infinite;
+          animation: glow-breathe 3.75s ease-in-out infinite;
           will-change: opacity, transform;
 
           @media (prefers-reduced-motion: reduce) {
@@ -650,8 +711,8 @@
       justify-content: center;
 
       & svg {
-        inline-size: 1.25rem;
         block-size: 1.25rem;
+        inline-size: 1.25rem;
       }
     }
 
