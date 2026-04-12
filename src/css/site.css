@@ -575,12 +575,12 @@
       }
 
       &.tldr {
-        --tldr-magenta: #e91e63;
+        --tldr-color: #1976d2; /* Electric Blue */
 
-        background: color-mix(in srgb, var(--tldr-magenta) 8%, var(--surface-container));
+        background: color-mix(in srgb, var(--tldr-color) 8%, var(--surface-container));
 
         &::before {
-          background-color: var(--tldr-magenta);
+          background-color: var(--tldr-color);
           animation: glow-breathe 5s ease-in-out infinite;
 
           @media (prefers-reduced-motion: reduce) {
@@ -593,9 +593,14 @@
         }
 
         & .title {
-          color: var(--tldr-magenta);
+          color: var(--tldr-color);
         }
       }
+    }
+
+    /* Dark mode override for TLDR color */
+    html.dark &.tldr {
+      --tldr-color: #42a5f5; /* Bright Electric Blue */
     }
 
 
@@ -872,7 +877,19 @@
       opacity: 1;
     }
 
-    & .listingblock pre.shiki .highlighted-word,
+    & .listingblock pre.shiki .highlighted-word {
+      position: relative;
+      display: inline-block;
+      padding: 0.02em 0.16em 0.08em;
+      background: transparent !important;
+      border-radius: 0.3rem 0.22rem 0.28rem 0.24rem;
+      box-shadow:
+        inset 0 2px 0 0 color-mix(in srgb, var(--primary) 68%, transparent),
+        inset 2px 0 0 0 color-mix(in srgb, var(--primary) 54%, transparent),
+        inset -1px -2px 0 0 color-mix(in srgb, var(--primary) 72%, transparent);
+      transform: rotate(-1.2deg);
+    }
+
     & .literalblock pre.shiki .highlighted-word {
       background: color-mix(in srgb, var(--primary) 16%, transparent) !important;
       border-radius: 0.2rem;

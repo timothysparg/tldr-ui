@@ -2,7 +2,11 @@
 
 const fs = require('fs')
 const ospath = require('path')
-const { transformerRenderIndentGuides, transformerRenderWhitespace } = require('@shikijs/transformers')
+const {
+  transformerMetaWordHighlight,
+  transformerRenderIndentGuides,
+  transformerRenderWhitespace,
+} = require('@shikijs/transformers')
 const { getDeviconDir, getIconName } = require('./devicon-config')
 const { transformerLineAnnotations, transformerAdocCallouts } = require('./shiki-transformers')
 
@@ -150,15 +154,22 @@ function renderShikiPre(node, lang) {
   const { highlight } = require('./shiki-singleton')
   const source = node.getSource() || ''
   const { source: cleanSource, callouts } = extractCallouts(source)
-  const transformers = buildShikiTransformers(node, callouts)
-  return highlight(cleanSource, lang, { transformers })
+  const shikiOptions = buildShikiOptions(node, callouts)
+  return highlight(cleanSource, lang, shikiOptions)
 }
 
-function buildShikiTransformers(node, callouts) {
+function buildShikiOptions(node, callouts) {
   const transformers = [transformerLineAnnotations(node)]
+  const metaTokens = []
 
   if (callouts.size) {
     transformers.push(transformerAdocCallouts(callouts))
+  }
+
+  const highlightWords = normalizeWordList(node.getAttribute('code.word') || node.getAttribute('shiki-word-highlight'))
+  if (highlightWords.length) {
+    transformers.push(transformerMetaWordHighlight())
+    metaTokens.push(...highlightWords.map((word) => `/${escapeMetaWord(word)}/`))
   }
 
   const whitespace = normalizeWhitespaceMode(
@@ -176,7 +187,7 @@ function buildShikiTransformers(node, callouts) {
     transformers.push(transformerRenderIndentGuides(indent ? { indent } : {}))
   }
 
-  return transformers
+  return metaTokens.length ? { meta: { __raw: metaTokens.join(' ') }, transformers } : { transformers }
 }
 
 /**
@@ -231,6 +242,13 @@ function normalizeAttr(value) {
   return value == null ? '' : String(value).trim()
 }
 
+function normalizeWordList(value) {
+  return normalizeAttr(value)
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)
+}
+
 function normalizeBooleanAttr(value) {
   if (value == null || value === '') return false
   const normalized = String(value).trim().toLowerCase()
@@ -250,6 +268,10 @@ function normalizeIndentSize(value) {
   if (!normalized) return null
   const parsed = Number.parseInt(normalized, 10)
   return Number.isNaN(parsed) || parsed <= 0 ? null : parsed
+}
+
+function escapeMetaWord(value) {
+  return String(value).replace(/[\\/[|{}]/g, '\\$&')
 }
 
 function extractCommands(text) {
