@@ -24,7 +24,6 @@
     "@fontsource/roboto": "~5.2",
     "@fontsource/roboto-mono": "~5.2",
     "@shikijs/transformers": "^4.0.2",
-    "@shoelace-style/shoelace": "^2.20.1",
     "@vscode/gulp-vinyl-zip": "~2.6",
     "autoprefixer": "~10.4",
     "browser-pack-flat": "~3.5",

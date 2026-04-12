@@ -117,21 +117,6 @@ module.exports = (src, dest, preview) => () => {
       waitForStream(toDest(vfs.src('partials/*.hbs', opts))),
     ]
 
-    const shoelaceDir = ospath.dirname(ospath.dirname(require.resolve('@shoelace-style/shoelace/dist/shoelace.js')))
-    const shoelaceAssets = ospath.join(shoelaceDir, 'dist', 'assets')
-    streamPromises.push(
-      waitForStream(
-        toDestBinary(
-          vfs.src('**/*', { base: shoelaceAssets, cwd: shoelaceAssets, encoding: false }).pipe(
-            map((file, enc, next) => {
-              file.path = ospath.join(file.base, 'assets', 'shoelace', file.relative)
-              next(null, file)
-            })
-          )
-        )
-      )
-    )
-
     const fontDir = ospath.join(src, 'font')
     if (fs.pathExistsSync(fontDir)) {
       streamPromises.push(waitForStream(toDestBinary(vfs.src('font/*.{ttf,woff*(2)}', { ...opts, encoding: false }))))

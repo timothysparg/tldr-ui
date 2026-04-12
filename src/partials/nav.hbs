@@ -22,9 +22,8 @@
 
       const setRootThemeClass = mode => {
         const root = document.documentElement;
-        root.classList.remove("light", "dark", "sl-theme-light", "sl-theme-dark");
+        root.classList.remove("light", "dark");
         root.classList.add(mode);
-        root.classList.add("sl-theme-" + mode);
         document.querySelectorAll(`.theme-media.${mode} video`).forEach(v => { v.currentTime = 0; v.play() });
       };
 

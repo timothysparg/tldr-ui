@@ -6,8 +6,6 @@
 @import url("@fontsource/rock-salt/index.css") layer(base);
 @import url("@fontsource/special-elite/index.css") layer(base);
 @import url("@fontsource/material-symbols-outlined/index.css") layer(base);
-@import url("@shoelace-style/shoelace/dist/themes/light.css") layer(framework);
-@import url("@shoelace-style/shoelace/dist/themes/dark.css") layer(framework);
 @import url("@fortawesome/fontawesome-free/css/all.min.css") layer(framework);
 @import url("@fortawesome/fontawesome-free/css/v4-shims.min.css") layer(framework);
 
@@ -757,34 +755,39 @@
       gap: 0.5rem;
       align-items: center;
 
-      & sl-copy-button {
-        display: block;
+      & .code-copy-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         margin: 0;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        min-inline-size: 2.25rem;
+        min-block-size: 2.25rem;
 
-        & [slot='copy-icon'] {
-          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
-          color: var(--on-surface-variant);
-        }
-
-        & [slot='success-icon'] {
-          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
-          color: var(--success);
-        }
-
-        & [slot='error-icon'] {
-          /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
-          color: var(--error);
-        }
+      & .material-symbols-outlined {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+        color: var(--on-surface-variant);
+        line-height: 1;
+        inline-size: 1.5rem;
+        block-size: 1.5rem;
       }
-    }
 
-    & .listingblock .code-header sl-copy-button::part(tooltip__base),
-    & .listingblock .code-header sl-copy-button::part(tooltip__base__popup),
-    & .listingblock .code-header sl-copy-button::part(tooltip__body),
-    & .literalblock .code-header sl-copy-button::part(tooltip__base),
-    & .literalblock .code-header sl-copy-button::part(tooltip__base__popup),
-    & .literalblock .code-header sl-copy-button::part(tooltip__body) {
-      display: none;
+      &[data-state='success'] .material-symbols-outlined {
+        /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+        color: var(--success);
+      }
+
+      &[data-state='error'] .material-symbols-outlined {
+        /* stylelint-disable-next-line csstools/value-no-unknown-custom-properties */
+        color: var(--error);
+      }
+      }
     }
 
     & .listingblock .code-header .code-lang-icon,
