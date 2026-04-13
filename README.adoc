@@ -90,6 +90,44 @@ The AsciiDoc extension will apply Shiki highlighting, add code headers, and down
 
 For complete extension documentation, see link:extensions/README.adoc[].
 
+== Releases
+
+Releases are automated via https://github.com/googleapis/release-please[Release Please] and GitHub Actions (`.github/workflows/release.yml`).
+
+=== How it works
+
+Every push to `main` triggers two jobs:
+
+. *Release Please* — inspects conventional commits since the last release and either opens or updates a release PR that bumps the version in `package.json` and updates `CHANGELOG.md`.
+  When that PR is merged, Release Please creates a versioned GitHub Release and tag (e.g. `v1.5.0`).
+
+. *Bundle* — runs `gulp bundle` and publishes the artifacts (`ui-bundle.zip`, `antora-tldr-ui.js`, `asciidoc-tldr-ui.js`) to a GitHub Release.
+
+=== Release targets
+
+[cols="1,1,1"]
+|===
+|Scenario |Tag |Type
+
+|Normal push to `main` (no release PR merged)
+|`beta`
+|Pre-release (overwritten on each push)
+
+|Release PR merged into `main`
+|`v1.x.x`
+|Full release
+|===
+
+=== Triggering a release
+
+To cut a versioned release:
+
+. Make sure your commits follow the https://www.conventionalcommits.org/[Conventional Commits] format — Release Please uses `feat:`, `fix:`, `refactor:` etc. to determine the version bump.
+. Merge the release PR that Release Please opens on your behalf.
+  This causes the `bundle` job to publish to the versioned tag rather than overwriting `beta`.
+
+The `beta` pre-release is always available at `{url-project}/releases/tag/beta` and always reflects the latest build from `main`.
+
 == Development Quickstart
 
 This section offers a basic tutorial to teach you how to set up the UI project, preview it locally, and bundle it for use with Antora.
