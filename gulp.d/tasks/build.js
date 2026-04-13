@@ -58,6 +58,18 @@ module.exports = (src, dest, preview) => () => {
           return path.join('..', 'font', basename)
         },
       },
+      {
+        filter: (asset) =>
+          asset.absolutePath &&
+          /[\\/]node_modules[\\/](?:@fontsource|@fortawesome)[\\/]/.test(asset.absolutePath) &&
+          /\.(woff2?|ttf)$/.test(asset.absolutePath),
+        url: (asset) => {
+          const basename = ospath.basename(asset.absolutePath)
+          const destpath = ospath.join(dest, 'font', basename)
+          if (!fs.pathExistsSync(destpath)) fs.copySync(asset.absolutePath, destpath)
+          return path.join('..', 'font', basename)
+        },
+      },
     ]),
     postcssVar({ preserve: preview }),
     // NOTE to make vars.css available to all top-level stylesheets, use the next line in place of the previous one
