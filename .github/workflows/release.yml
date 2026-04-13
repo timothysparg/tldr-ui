@@ -44,6 +44,12 @@ jobs:
       - name: Build UI bundle
         run: gulp bundle
 
+      - name: Move beta tag to HEAD
+        if: needs.release-please.outputs.release_created != 'true'
+        run: |
+          git tag -f beta
+          git push origin -f refs/tags/beta
+
       - name: Publish release assets
         uses: softprops/action-gh-release@v2
         with:
