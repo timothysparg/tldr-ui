@@ -59,8 +59,9 @@ function transformTocTree(tree) {
     if (node.tagName === 'ul') {
       const className = node.properties.class || node.properties.className || ''
       const classList = Array.isArray(className) ? className : String(className).split(/\s+/)
-      const levelMatch = classList.find((c) => c.startsWith('sectlevel'))
-      const level = levelMatch ? levelMatch.replace('sectlevel', '') : '1'
+      const levelMatch = classList.find((c) => c && typeof c === 'string' && c.startsWith('sectlevel'))
+      const level = levelMatch ? String(levelMatch).replace('sectlevel', '') : '1'
+
       node.properties.class = `toc-list toc-level-${level}`
       delete node.properties.className
     }

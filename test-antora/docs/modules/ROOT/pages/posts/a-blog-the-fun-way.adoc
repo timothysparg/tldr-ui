@@ -7,29 +7,31 @@
 :sourcedir: ./
 
 To write a blog you must first build a blog? +
-Apparently in my mind this is true, so here we are. 
+Apparently in my mind this is true, so here we are.
 
+[TLDR]
+====
 *_tl;dr_*:  _putting disparate technologies together always takes longer than expected_
+====
 
-
-== Tools 
+== Tools
 - Vs Code
 - Docker
 - Hugo
 - asciidoctor
-- github 
+- github
 - netlify
 
 
-Whilst VS Code and Docker aren't strictly necesary, I've been itching to use the https://code.visualstudio.com/docs/remote/containers[Container Development] feauture of VS Code. +
+Whilst VS Code and Docker aren't strictly necessary, I've been itching to use the https://code.visualstudio.com/docs/remote/containers[Container Development] feature of VS Code. +
 You're going to need to install the https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack[Remote Development extension pack] for this.
 
 
 == Create a repo
-do your thing. 
+do your thing.
 
 ==  Add a Dockerfile
-    
+
 This is pretty standard sauce; using https://github.com/klakegg/docker-hugo[klakegg/docker-hugo] as the base, because the Hugo package provided using `apt-get` is several versions behind which caused issues with the themes. +
 Also I was too lazy to build it from source.
 
@@ -45,8 +47,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN gem install asciidoctor:2.0.1 \
-    asciidoctor-diagram:1.5.18 \  
-    rouge:3.6.0 
+    asciidoctor-diagram:1.5.18 \
+    rouge:3.6.0
  # <1>
 
 COPY ./asciidoctor /usr/local/sbin
@@ -57,7 +59,7 @@ RUN chmod +x /usr/local/sbin/asciidoctor
 
 == Do some unsafe stuff with asciidoctor
 
-Hugo calls asciidoctor with the https://asciidoctor.org/man/asciidoctor/#security-settings[`--safe` parameter] which seems reasonable. 
+Hugo calls asciidoctor with the https://asciidoctor.org/man/asciidoctor/#security-settings[`--safe` parameter] which seems reasonable.
 The unreasonable part is that you can't disable it or you pass custom parameters to it.
 
 https://blog.anoff.io/2019-02-17-hugo-render-asciidoc/[Kudos here] for the original idea, I just tweaked it slightly. +
@@ -76,7 +78,7 @@ done
 
  /usr/local/bin/asciidoctor "$@"
 ----
-WARNING: After I changed the context of the hugo site to not be in a sub-folder, then this wasn't necessary, but it might still come in useful when I want to use diagrams. 
+WARNING: After I changed the context of the hugo site to not be in a sub-folder, then this wasn't necessary, but it might still come in useful when I want to use diagrams.
 
 == Add https://code.visualstudio.com/docs/remote/containers#_devcontainerjson-reference[.devcontainer.json]
 
@@ -88,7 +90,7 @@ This tells VS Code how to instantiate your container, this file only has the `do
 {
 	"dockerFile": "Dockerfile",
 	"extensions": [],
-	"runArgs": [ 
+	"runArgs": [
 		"-v", "${env:HOME}${env:USERPROFILE}/.ssh:/root/.ssh-localhost:ro", // <1>
 		"--name", "hugo_dev" // <2>
 
@@ -111,19 +113,19 @@ docker exec -it hugo_dev  bash -c 'cd /workspaces/tldr ; exec "${SHELL:-sh}"'
 hugo new site tldr
 mv tldr/* . <1>
 rm tldr
-git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder  
+git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder
 ----
 <1> we don't need the sub folder - we aren't doing multiple sites
 
 It's also necessary to update the `theme` value to `hugo-coder`, as mentioned on the https://github.com/luizdepra/hugo-coder/[hugo-coder homepage]
 
-=== Let's go rouge 
+=== Let's go rouge
 
 Hugo doesn't seem to support asciidoctor very well; Code highlighting and admonitions need to be https://rgielen.net/posts/2019/creating-a-blog-with-hugo-and-asciidoctor/[manually added as well].
 
 === Hello netlify
 
-Finally, lets make these ramblings more accessible. + 
+Finally, lets make these ramblings more accessible. +
 I found the following readings useful in getting this blog hosted.
 
 * https://www.netlify.com/docs/build-gotchas/
@@ -155,7 +157,7 @@ My final `netlify.toml` looks as follows
     HUGO_VERSION = "0.147.9"
 ----
 
-Also worth noting that I had to include a `Gemfile` 
+Also worth noting that I had to include a `Gemfile`
 [source,ruby]
 ----
 source 'https://rubygems.org'

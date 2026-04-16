@@ -5,9 +5,9 @@
 This UI ships two separate extension entrypoints:
 
 * An Antora extension that collects article metadata into `site.posts`
-* An AsciiDoc extension that customizes code block rendering and injects static icons at build time
+* An AsciiDoc extension that customizes code block rendering, injects static icons, and enables the native TLDR admonition at build time
 
-They are registered in different playbook sections because Antora extensions and scoped Asciidoctor extensions use different APIs.
+The Antora extension automatically registers and configures the AsciiDoc extension, simplifying your playbook setup.
 
 == Extension Overview
 
@@ -17,11 +17,11 @@ They are registered in different playbook sections because Antora extensions and
 
 |Antora
 |`extensions/antora-tldr-ui.js`
-|Collect pages with `:page-role: article` and expose them as `site.posts`
+|Collect articles into `site.posts` and auto-register the AsciiDoc extension
 
 |AsciiDoc
 |`extensions/asciidoc-tldr-ui.js`
-|Render code blocks during conversion with Shiki, inject code headers, and download required SVG icons into the local build cache
+|Apply Shiki highlighting, inject code headers, download icons, and enable the `[TLDR]` admonition
 |===
 
 == Bundled Artifacts
@@ -31,25 +31,26 @@ They are registered in different playbook sections because Antora extensions and
 * `build/extensions/antora-tldr-ui.js`
 * `build/extensions/asciidoc-tldr-ui.js`
 
-These are the files intended for release assets and external reuse.
+Place *both* files in your project's `extensions/` directory to use them.
 
 == Registering The Extensions
 
-Register the bundled extension outputs in your playbook:
+Register only the main Antora extension; it handles the AsciiDoc setup internally:
 
 [source,yaml]
 ----
 antora:
   extensions:
-    - ../build/extensions/antora-tldr-ui.js
-
-asciidoc:
-  extensions:
-    - require: ../build/extensions/asciidoc-tldr-ui.js
-      direct_icon_urls:
-        pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
-        toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
+    - require: ./extensions/antora-tldr-ui.js
+      shiki:
+        lightTheme: github-light
+        darkTheme: github-dark
+      asciidoc:
+        direct_icon_urls:
+          pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
+          toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
 ----
+
 
 == Antora Extension
 
@@ -119,6 +120,23 @@ When enabled, the extension logs messages like:
 [posts-extension] Injected 15 posts into site.posts
 ----
 
+== TLDR Admonition
+
+The suite includes a native `[TLDR]` block processor that renders a modern, blue-themed summary card.
+
+=== Usage
+
+[source,asciidoc]
+----
+[TLDR]
+====
+A brief, high-impact summary of the content below.
+====
+----
+
+The block is rendered as an `admonition` with the name `tldr`.
+The UI bundle includes specific styling and a custom avatar for this block.
+
 == AsciiDoc Extension
 
 The AsciiDoc extension registers a custom HTML5 converter that:
@@ -128,8 +146,10 @@ The AsciiDoc extension registers a custom HTML5 converter that:
 * applies Shiki syntax highlighting at build time
 * enables Shiki transformer annotations for richer code examples
 * injects `code-header` markup during conversion
+* registers the `TLDR` block processor
 * downloads missing SVG icons into `build/devicons/`
 * fails the build if required icons cannot be downloaded
+
 
 === Shiki Highlighting
 

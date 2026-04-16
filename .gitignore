@@ -5,5 +5,6 @@
 /public/
 /sample/
 /test-antora/build/
+/test-antora/extensions/
 .DS_Store
 .mise/

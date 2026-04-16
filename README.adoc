@@ -47,14 +47,15 @@ This theme includes bundled extensions for:
 
 * collecting blog articles and posts into `site.posts`
 * rendering code blocks with Shiki, code headers, and static icons at build time
+* adding a native `[TLDR]` admonition block for summaries
 
-To enable this functionality, register both bundled extension files in your Antora playbook.
+To enable this functionality, register the Antora extension file in your Antora playbook.
 
 === Quick Start
 
 . Download `antora-tldr-ui.js` and `asciidoc-tldr-ui.js` from the link:{url-project}/releases/latest[latest release]
-. Place them in your documentation project (for example, `extensions/antora-tldr-ui.js` and `extensions/asciidoc-tldr-ui.js`)
-. Register both extensions in your `antora-playbook.yml`:
+. Place *both* files in your documentation project (for example, in an `extensions/` folder)
+. Register the Antora extension in your `antora-playbook.yml`. It will automatically configure the AsciiDoc extension for you:
 +
 [source,yaml]
 ----
@@ -64,13 +65,10 @@ antora:
       shiki:
         lightTheme: github-light
         darkTheme: github-dark
-
-asciidoc:
-  extensions:
-    - require: ./extensions/asciidoc-tldr-ui.js
-      direct_icon_urls:
-        pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
-        toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
+      asciidoc:
+        direct_icon_urls:
+          pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
+          toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
 ----
 
 . Mark your article pages with the required attributes:
@@ -82,11 +80,17 @@ asciidoc:
 :page-date: 2026-01-07
 :description: A short summary of this article
 
+[TLDR]
+====
+A brief, high-impact summary of your article.
+====
+
 Your article content here...
 ----
 
 The Antora extension will automatically collect all pages marked with `page-role: article` and make them available to the theme's article listing features.
-The AsciiDoc extension will apply Shiki highlighting, add code headers, and download any required icon assets into the local build cache.
+It also wires up the AsciiDoc extension to apply Shiki highlighting, add code headers, and enable the TLDR admonition.
+
 
 For complete extension documentation, see link:extensions/README.adoc[].
 

@@ -1,1 +1,0 @@
-../../extensions/posts-extension.js

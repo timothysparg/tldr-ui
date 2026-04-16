@@ -142,6 +142,23 @@
     letter-spacing: 0.01em;
   }
 
+  .material-symbols-outlined {
+    display: inline-block;
+    font-weight: 400;
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-style: normal;
+    line-height: 1;
+    direction: ltr;
+    letter-spacing: normal;
+    white-space: nowrap;
+    text-transform: none;
+    overflow-wrap: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "liga";
+    text-rendering: optimizelegibility;
+  }
+
   body.article article h1 {
     margin-block-start: 0;
   }
@@ -323,6 +340,23 @@
   }
 
   article.article-card {
+    & .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    & .meta-item {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      gap: 0.45rem;
+      align-items: center;
+
+    & > i {
+      line-height: 1;
+    }
+    }
+
     & .ulist.checklist,
     & .ulist.checklist ul.checklist {
       padding-inline-start: 1.25rem;

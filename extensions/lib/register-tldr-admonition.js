@@ -1,8 +1,7 @@
 'use strict'
 
 module.exports = function registerTldrAdmonition(registry) {
-  registry.block(function () {
-    this.named('TLDR')
+  registry.block('TLDR', function () {
     this.onContexts('paragraph', 'example', 'open')
     this.process((parent, reader, attrs) => {
       attrs.name = 'tldr'

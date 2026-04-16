@@ -227,7 +227,7 @@ function collectPosts(previewSrc, createRegistry) {
 
 function createExtensionRegistry(uiExtension, { Asciidoctor, baseUiModel, iconDiscoveryRoots, projectRoot }) {
   const registry = Asciidoctor.Extensions.create()
-  uiExtension.register(registry, {
+  uiExtension(registry, {
     Asciidoctor,
     directIconUrls: baseUiModel.directIconUrls,
     iconDiscoveryRoots,

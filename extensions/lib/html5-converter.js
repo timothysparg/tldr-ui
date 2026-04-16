@@ -10,7 +10,9 @@ const {
 
 class UiHtml5Converter {
   constructor(asciidoctor) {
-    this.baseConverter = asciidoctor.Html5Converter.$new()
+    if (asciidoctor && asciidoctor.Html5Converter) {
+      this.baseConverter = asciidoctor.Html5Converter.$new()
+    }
   }
 
   convert(node, transform) {
@@ -18,19 +20,27 @@ class UiHtml5Converter {
     if (nodeName === 'listing') return this.convertListing(node, transform)
     if (nodeName === 'literal') return this.convertLiteral(node, transform)
     if (nodeName === 'colist') return this.convertColist(node)
-    return this.baseConverter.convert(node, transform)
+
+    if (this.baseConverter) {
+      return this.baseConverter.convert(node, transform)
+    }
+    return ''
   }
 
   convertListing(node, transform) {
-    const title = node.getTitle()
-    const language = getBlockLanguage(node)
-    if (!title && !language) return this.baseConverter.convert(node, transform)
-    return renderListingBlock(node, { title, lang: language })
+    if (node.getStyle() === 'source') {
+      const language = getBlockLanguage(node)
+      const title = node.getTitle()
+      return renderListingBlock(node, { lang: language, title })
+    }
+    return this.baseConverter ? this.baseConverter.convert(node, transform) : ''
   }
 
   convertLiteral(node, transform) {
-    if (!isConsoleLiteral(node)) return this.baseConverter.convert(node, transform)
-    return renderLiteralBlock(node, { console: true, title: node.getTitle() })
+    if (isConsoleLiteral(node)) {
+      return renderLiteralBlock(node, { console: true, title: node.getTitle() })
+    }
+    return this.baseConverter ? this.baseConverter.convert(node, transform) : ''
   }
 
   convertColist(node) {

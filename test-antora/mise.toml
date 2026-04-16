@@ -1,7 +1,31 @@
 [tools]
+"npm:@antora/cli" = "3.1"
+"npm:@antora/site-generator" = "3.1"
 "npm:live-server" = "latest"
 watchexec = "latest"
 
+[tasks.build]
+description = "Build the Antora site"
+depends = ["download-extensions"]
+run = """
+npx antora antora-playbook.yml
+echo '<meta http-equiv="refresh" content="0; url=test/1.0/index.html">' > build/site/index.html
+"""
+
 [tasks.serve]
 description = "Start live-server for Antora site"
-run = "live-server build/site --port=8080 --host=127.0.0.1"
+depends = ["build"]
+run = "live-server build/site --port=8080 --host=127.0.0.1 --wait=1000"
+
+[tasks.dev]
+description = "Watch for changes and rebuild"
+run = "watchexec -e adoc,yml,js -- mise run build"
+
+[tasks."download-extensions"]
+description = "Download TLDR UI extensions"
+outputs = ["extensions/antora-tldr-ui.js", "extensions/asciidoc-tldr-ui.js"]
+run = """
+mkdir -p extensions
+curl -L -o extensions/antora-tldr-ui.js https://github.com/timothysparg/tldr-ui/releases/download/beta/antora-tldr-ui.js
+curl -L -o extensions/asciidoc-tldr-ui.js https://github.com/timothysparg/tldr-ui/releases/download/beta/asciidoc-tldr-ui.js
+"""
