@@ -2,9 +2,9 @@
   'use strict'
 
   const STATE_ICONS = {
-    idle: 'content_copy',
-    success: 'check',
-    error: 'content_copy_off',
+    idle: String.fromCodePoint(0xe14d),
+    success: String.fromCodePoint(0xe5ca),
+    error: String.fromCodePoint(0xe5cd),
   }
 
   const buttons = document.querySelectorAll('.code-copy-button[data-copy-text]')
