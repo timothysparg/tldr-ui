@@ -28,10 +28,10 @@ function getAsciidocOptions(config = {}) {
 /**
  * Antora extension registration function.
  */
-module.exports.register = function (context) {
+module.exports.register = function (context, { config } = {}) {
   if (!context || typeof context.on !== 'function') return
 
-  const config = (context && context.config) || {}
+  config = config || (context && context.config) || {}
   const shikiOptions = config.shiki || {}
 
   context.on('contentClassified', async () => {
