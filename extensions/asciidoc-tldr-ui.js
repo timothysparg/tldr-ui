@@ -73,7 +73,7 @@ module.exports = function (maybeContext, explicitContext = {}) {
     registry.__tldr_registered = true
 
     setDeviconRuntimeConfig(context)
-    ensureDeviconCache({ ...context, extensionFile: __filename })
+    ensureDeviconCache({ ...context, extensionFile: ospath.join(ospath.dirname(__filename), 'asciidoc-tldr-ui.js') })
 
     registry.treeProcessor(function () {
       this.process(function (doc) {
