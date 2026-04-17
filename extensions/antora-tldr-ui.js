@@ -17,20 +17,16 @@ module.exports.register = function (context) {
     await initHighlighter(shikiOptions)
   })
 
-  context.on('asciidocConfigured', ({ asciidocConfig }) => {
+  context.on('beforeProcess', ({ siteAsciiDocConfig }) => {
     const asciidocOptions = config.asciidoc || {}
-    const asciidoctor = context.asciidoctor || this.asciidoctor
-
-    if (asciidoctor) {
-      registerAsciidoctor(asciidoctor, asciidocOptions)
-    } else {
-      asciidocConfig.extensions.push((registry) =>
-        registerAsciidoctor(registry, {
-          ...asciidocOptions,
-          Asciidoctor: require('@asciidoctor/core')(),
-        })
-      )
-    }
+    siteAsciiDocConfig.extensions = [
+      ...(siteAsciiDocConfig.extensions || []),
+      {
+        register(registry) {
+          registerAsciidoctor.call(registry, asciidocOptions)
+        },
+      },
+    ]
   })
 
   registerPostsExtension.call(context, { config })

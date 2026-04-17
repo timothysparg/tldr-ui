@@ -3,12 +3,18 @@
 const ospath = require('path')
 const ensureDeviconCache = require('./lib/ensure-devicon-cache')
 const registerCodeCalloutPreprocessor = require('./lib/register-code-callout-preprocessor')
-const registerHtml5Converter = require('./lib/register-html5-converter')
 const registerTldrAdmonition = require('./lib/register-tldr-admonition')
 const registerTocLevels = require('./lib/register-toc-levels')
 const syncDevicons = require('./lib/sync-devicons')
 const { setDeviconRuntimeConfig } = require('./lib/devicon-config')
 const { processDocument } = require('./lib/document-pipeline')
+const {
+  getBlockLanguage,
+  isConsoleLiteral,
+  renderColistBlock,
+  renderListingBlock,
+  renderLiteralBlock,
+} = require('./lib/code-block-ui')
 
 const uiRoot = ospath.resolve(__dirname, '..')
 
@@ -69,8 +75,46 @@ module.exports = function (maybeContext, explicitContext = {}) {
     setDeviconRuntimeConfig(context)
     ensureDeviconCache({ ...context, extensionFile: __filename })
 
-    // Try to pass the registry itself as a hint to find Asciidoctor
-    registerHtml5Converter.call(registry, context)
+    registry.treeProcessor(function () {
+      this.process(function (doc) {
+        /* global Opal */
+        try {
+          const converter = doc.getConverter()
+          if (!converter || typeof Opal === 'undefined') return doc
+
+          const origListing = converter.$convert_listing && converter.$convert_listing.bind(converter)
+          const origLiteral = converter.$convert_literal && converter.$convert_literal.bind(converter)
+
+          Opal.defs(converter, '$convert_listing', function (node) {
+            if (node.getStyle() === 'source') {
+              const language = getBlockLanguage(node)
+              const title = node.getTitle() || null
+              return renderListingBlock(node, { lang: language, title })
+            }
+            return origListing ? origListing(node) : ''
+          })
+
+          Opal.defs(converter, '$convert_literal', function (node) {
+            if (isConsoleLiteral(node)) {
+              return renderLiteralBlock(node, { console: true, title: node.getTitle() || null })
+            }
+            return origLiteral ? origLiteral(node) : ''
+          })
+
+          Opal.defs(converter, '$convert_colist', function (node) {
+            const self = this
+            const baseConverter = {
+              convert: (block, transform) => {
+                const name = transform || block.getNodeName()
+                return Opal.send(self, `$convert_${name}`, [block])
+              },
+            }
+            return renderColistBlock(node, baseConverter)
+          })
+        } catch {} // eslint-disable-line no-empty
+        return doc
+      })
+    })
 
     registerCodeCalloutPreprocessor(registry)
     registerTldrAdmonition(registry)
