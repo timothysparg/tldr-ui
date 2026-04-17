@@ -74,6 +74,7 @@ antora:
 . The extension stores downloaded code icons under `build/devicons/` relative to the directory where Antora is run.
   Common source block IDs such as `html` and `css` are mapped to the corresponding Devicon slugs automatically.
   For languages without a matching Devicon icon, provide an explicit override in `asciidoc.direct_icon_urls`.
+  The extension also accepts flat fallback keys such as `direct_icon_urls` and `strict_icons` directly on the extension entry if your Antora runtime does not preserve nested `asciidoc:` options.
 
 . Mark your article pages with the required attributes:
 +
