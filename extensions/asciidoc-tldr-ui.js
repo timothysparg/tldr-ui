@@ -16,16 +16,24 @@ const {
   renderLiteralBlock,
 } = require('./lib/code-block-ui')
 
-const uiRoot = ospath.resolve(__dirname, '..')
+const defaultProjectRoot = process.cwd()
 
 function normalizeContext(context = {}) {
   return {
     ...context,
     deviconDir: context.deviconDir || context.devicon_dir,
     directIconUrls: context.directIconUrls || context.direct_icon_urls,
+    strictIcons:
+      typeof context.strictIcons === 'boolean' ? context.strictIcons : normalizeStrictIcons(context.strict_icons),
     iconDiscoveryRoots: context.iconDiscoveryRoots || context.icon_discovery_roots,
-    projectRoot: context.projectRoot || context.project_root || uiRoot,
+    projectRoot: context.projectRoot || context.project_root || defaultProjectRoot,
   }
+}
+
+function normalizeStrictIcons(value) {
+  if (value == null) return false
+  if (typeof value === 'boolean') return value
+  return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase())
 }
 
 // Restore safe require.main guard
@@ -73,7 +81,10 @@ module.exports = function (maybeContext, explicitContext = {}) {
     registry.__tldr_registered = true
 
     setDeviconRuntimeConfig(context)
-    ensureDeviconCache({ ...context, extensionFile: ospath.join(ospath.dirname(__filename), 'asciidoc-tldr-ui.js') })
+    ensureDeviconCache({
+      ...context,
+      extensionFile: ospath.join(ospath.dirname(__filename), 'asciidoc-tldr-ui.js'),
+    })
 
     registry.treeProcessor(function () {
       this.process(function (doc) {

@@ -33,6 +33,7 @@ jobs:
       - name: Build release site
         run: |
           npm ci
+          gulp verify
           gulp preview:build
 
       - name: Configure Pages

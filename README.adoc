@@ -71,6 +71,10 @@ antora:
           toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
 ----
 
+. The extension stores downloaded code icons under `build/devicons/` relative to the directory where Antora is run.
+  Common source block IDs such as `html` and `css` are mapped to the corresponding Devicon slugs automatically.
+  For languages without a matching Devicon icon, provide an explicit override in `asciidoc.direct_icon_urls`.
+
 . Mark your article pages with the required attributes:
 +
 [source,asciidoc]
@@ -90,6 +94,8 @@ Your article content here...
 
 The Antora extension will automatically collect all pages marked with `page-role: article` and make them available to the theme's article listing features.
 It also wires up the AsciiDoc extension to apply Shiki highlighting, add code headers, and enable the TLDR admonition.
+If an icon cannot be downloaded, the build now falls back to the generic code icon instead of aborting.
+Set `strict_icons: true` under `asciidoc:` if you want missing icons to fail the build.
 
 
 For complete extension documentation, see link:extensions/README.adoc[].
@@ -187,6 +193,10 @@ This command installs the dependencies listed in [.path]_package.json_ into the 
 This folder does not get included in the UI bundle and should _not_ be committed to the source control repository.
 
 If you prefer, you can use `npm install`, but `npm ci` is recommended for reproducible installs.
+
+To verify the icon discovery and cache configuration locally, run:
+
+ $ gulp verify
 
 === Preview the UI
 

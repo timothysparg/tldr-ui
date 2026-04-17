@@ -23,7 +23,10 @@ module.exports.register = function (context) {
       ...(siteAsciiDocConfig.extensions || []),
       {
         register(registry) {
-          registerAsciidoctor.call(registry, asciidocOptions)
+          registerAsciidoctor.call(registry, {
+            ...asciidocOptions,
+            projectRoot: asciidocOptions.projectRoot || process.cwd(),
+          })
         },
       },
     ]

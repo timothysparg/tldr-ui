@@ -31,6 +31,10 @@ run = "gulp preview"
 description = "Build and stage UI assets for bundling"
 run = "gulp build"
 
+[tasks.verify]
+description = "Verify devicon discovery, aliases, cache paths, and fallback behavior"
+run = "gulp verify"
+
 [tasks.bundle]
 description = "Clean, lint, build, and package the UI bundle for publishing"
 run = "gulp bundle"

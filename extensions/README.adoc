@@ -148,7 +148,7 @@ The AsciiDoc extension registers a custom HTML5 converter that:
 * injects `code-header` markup during conversion
 * registers the `TLDR` block processor
 * downloads missing SVG icons into `build/devicons/`
-* fails the build if required icons cannot be downloaded
+* falls back to a generic code icon when an icon cannot be downloaded
 
 
 === Shiki Highlighting
@@ -183,19 +183,36 @@ antora:
 
 === Icon Configuration
 
-The converter uses Devicon by default. For languages not available in Devicon, provide direct download URLs in the playbook under `direct_icon_urls`.
+The converter uses Devicon by default. Common AsciiDoc language IDs are normalized before lookup, for example:
+
+* `html` -> `html5`
+* `css` -> `css3`
+* `js` -> `javascript`
+* `ts` -> `typescript`
+* `sh` / `shell` / `shellscript` -> `bash`
+
+For languages not available in Devicon, provide direct download URLs in the playbook under `direct_icon_urls`.
 
 [source,yaml]
 ----
-asciidoc:
+antora:
   extensions:
-    - require: ../build/extensions/asciidoc-tldr-ui.js
-      direct_icon_urls:
-        pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
-        toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
+    - require: ./extensions/antora-tldr-ui.js
+      asciidoc:
+        direct_icon_urls:
+          pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
+          toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
 ----
 
-The downloaded icon cache is stored in `build/devicons/`.
+The downloaded icon cache is stored in `build/devicons/` relative to the current Antora working directory.
+If an icon still cannot be resolved, the rendered code header falls back to the generic code icon and the build continues.
+To make missing icons fatal, set `strict_icons: true` under `asciidoc:`.
+
+=== Icon Verification
+
+Run the local verification script to check discovered languages, icon aliases, cache path resolution, and fallback behavior:
+
+ $ gulp verify
 
 === Supported Block Patterns
 

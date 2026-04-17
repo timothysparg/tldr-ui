@@ -88,4 +88,19 @@ const previewTask = createTask({
   call: series(previewBuildTask, previewServeTask),
 })
 
-module.exports = exportTasks(bundleTask, cleanTask, buildTask, bundlePackTask, previewTask, previewBuildTask, packTask)
+const verifyTask = createTask({
+  name: 'verify',
+  desc: 'Verify devicon discovery, aliases, cache paths, and fallback behavior',
+  call: task.verify(),
+})
+
+module.exports = exportTasks(
+  bundleTask,
+  cleanTask,
+  buildTask,
+  bundlePackTask,
+  previewTask,
+  previewBuildTask,
+  verifyTask,
+  packTask
+)

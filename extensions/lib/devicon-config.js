@@ -6,7 +6,9 @@ const DEVICON_REF = process.env.DEVICON_REF || 'latest'
 const DEVICON_BASE_URL = `https://cdn.jsdelivr.net/gh/devicons/devicon@${DEVICON_REF}/icons`
 
 const ICON_ALIASES = {
+  css: 'css3',
   cpp: 'cplusplus',
+  html: 'html5',
   js: 'javascript',
   shell: 'bash',
   shellscript: 'bash',
