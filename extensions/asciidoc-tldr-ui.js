@@ -40,7 +40,10 @@ function normalizeStrictIcons(value) {
 if (require.main === module && process.argv[2] === '--sync-devicons') {
   const config = normalizeContext(JSON.parse(process.argv[3] || '{}'))
   setDeviconRuntimeConfig(config)
-  syncDevicons(config).catch((err) => {
+  syncDevicons({
+    ...config,
+    log: (message) => console.warn(`[tldr-ui] ${message}`),
+  }).catch((err) => {
     console.error(err.stack || err.message)
     process.exit(1)
   })

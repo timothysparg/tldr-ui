@@ -1,7 +1,7 @@
 'use strict'
 
 const fs = require('fs-extra')
-const fetch = require('make-fetch-happen').defaults({
+const cachedFetch = require('make-fetch-happen').defaults({
   retry: {
     retries: 2,
   },
@@ -28,23 +28,30 @@ module.exports = async function syncDevicons({
     if (!iconName || seen.has(iconName)) continue
     seen.add(iconName)
     const targetPath = ospath.join(resolvedDeviconDir, `${iconName}.svg`)
-    const url = directUrls[iconName] || `${DEVICON_BASE_URL}/${iconName}/${iconName}-original.svg`
+    const directUrl = directUrls[iconName]
+    const url = directUrl || `${DEVICON_BASE_URL}/${iconName}/${iconName}-original.svg`
     try {
-      const response = await fetch(url, {
+      const response = await fetchIcon(url, {
         cachePath: ospath.join(resolvedDeviconDir, '.http-cache'),
-        signal: AbortSignal.timeout(10000),
+        directUrl: Boolean(directUrl),
       })
       if (!response.ok) {
-        log(`skip ${iconName}: ${response.status} ${response.statusText}`)
+        log(`skip ${iconName}: GET ${url} -> ${response.status} ${response.statusText}`)
         continue
       }
       const svg = cleanSvg(await response.text())
       await fs.writeFile(targetPath, svg, 'utf8')
       log(`synced ${iconName}`)
     } catch (err) {
-      log(`skip ${iconName}: ${err.message}`)
+      log(`skip ${iconName}: GET ${url} failed: ${err.message}`)
     }
   }
+}
+
+async function fetchIcon(url, { cachePath, directUrl }) {
+  const options = { signal: AbortSignal.timeout(10000) }
+  if (directUrl && typeof fetch === 'function') return fetch(url, options)
+  return cachedFetch(url, { ...options, cachePath })
 }
 
 function cleanSvg(svg) {
