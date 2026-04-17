@@ -7,6 +7,18 @@ const discoverCodeLanguages = require('./discover-code-languages')
 const { getDeviconDir } = require('./devicon-config')
 
 let ensured = false
+const supportsColor = Boolean(process.stderr && process.stderr.isTTY)
+const ansi = supportsColor
+  ? {
+      bold: '\x1b[1m',
+      reset: '\x1b[0m',
+      yellow: '\x1b[33m',
+    }
+  : {
+      bold: '',
+      reset: '',
+      yellow: '',
+    }
 
 module.exports = function ensureDeviconCache(config = {}) {
   if (ensured) return
@@ -51,11 +63,11 @@ function normalizeIcons(icons) {
 
 function warnMissingIcons(missing, message = null) {
   const lines = [
-    '[tldr-ui] WARNING: some code block icons could not be resolved.',
-    '[tldr-ui] Falling back to the generic code icon for the missing entries below.',
-    `[tldr-ui] Missing icons: ${missing.join(', ')}`,
-    '[tldr-ui] Set `asciidoc.strict_icons: true` to make missing icons fail the build.',
+    `${ansi.yellow}${ansi.bold}[tldr-ui] WARNING${ansi.reset}: some code block icons could not be resolved.`,
+    `${ansi.yellow}[tldr-ui]${ansi.reset} Falling back to the generic code icon for the missing entries below.`,
+    `${ansi.yellow}[tldr-ui]${ansi.reset} Missing icons: ${ansi.bold}${missing.join(', ')}${ansi.reset}`,
+    `${ansi.yellow}[tldr-ui]${ansi.reset} Set ${ansi.bold}asciidoc.strict_icons: true${ansi.reset} to make missing icons fail the build.`,
   ]
-  if (message) lines.splice(3, 0, `[tldr-ui] ${message}`)
+  if (message) lines.splice(3, 0, `${ansi.yellow}[tldr-ui]${ansi.reset} ${message}`)
   console.warn(`\n${lines.join('\n')}\n`)
 }
