@@ -5,7 +5,7 @@ site:
 
 antora:
   extensions:
-    - require: ./extensions/antora-tldr-ui.js
+    - require: ../build/extensions/antora-tldr-ui.js
       shiki:
         lightTheme: github-light
         darkTheme: github-dark

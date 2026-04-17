@@ -1,6 +1,5 @@
 'use strict'
 
-const Asciidoctor = require('@asciidoctor/core')()
 const registerPostsExtension = require('./lib/register-posts-extension')
 const { initHighlighter } = require('./lib/shiki-singleton')
 const registerAsciidoctor = require('./asciidoc-tldr-ui')
@@ -28,7 +27,7 @@ module.exports.register = function (context) {
       asciidocConfig.extensions.push((registry) =>
         registerAsciidoctor(registry, {
           ...asciidocOptions,
-          Asciidoctor,
+          Asciidoctor: require('@asciidoctor/core')(),
         })
       )
     }
