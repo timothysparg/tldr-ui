@@ -1,9 +1,10 @@
 'use strict'
 
 const registerPostsExtension = require('./lib/register-posts-extension')
-const { initHighlighter } = require('./lib/shiki-singleton')
 const registerAsciidoctor = require('./asciidoc-tldr-ui')
 const { getAsciidocOptions } = require('./lib/antora-config')
+
+const { initHighlighter } = registerAsciidoctor
 
 /**
  * Antora extension registration function.
