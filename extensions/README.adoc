@@ -207,7 +207,7 @@ antora:
 The downloaded icon cache is stored in `build/devicons/` relative to the current Antora working directory.
 If an icon still cannot be resolved, the rendered code header falls back to the generic code icon and the build continues.
 To make missing icons fatal, set `strict_icons: true` under `asciidoc:`.
-If your Antora extension runtime does not preserve nested `asciidoc:` config, the Antora extension also accepts flat fallback keys on the extension entry itself, such as `direct_icon_urls`, `strict_icons`, `icon_discovery_roots`, and `project_root`.
+If your Antora extension runtime does not preserve nested `asciidoc:` config, the Antora extension also accepts fallback keys under `data:` or directly on the extension entry itself, such as `direct_icon_urls`, `strict_icons`, `icon_discovery_roots`, and `project_root`.
 
 === Icon Verification
 
