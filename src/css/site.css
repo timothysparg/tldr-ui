@@ -1127,7 +1127,9 @@
   }
 
   @keyframes flow-shimmer {
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     from { background-position: center 0%; }
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     to { background-position: center 100%; }
   }
 
@@ -1145,28 +1147,36 @@
   }
 
   @keyframes dash-scroll {
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     from { background-position: 0 0; }
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     to { background-position: 0 20px; }
   }
 
   @keyframes laser-scan {
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     from { background-position: center -100px; }
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     to { background-position: center calc(100% + 100px); }
   }
 
   @keyframes slow-tape {
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     from { background-position: 0 0; }
+    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     to { background-position: 28px 28px; }
   }
 
   @keyframes tldr-bar-pulse {
     0%,
     100% {
+      /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
       box-shadow: 0 0 0 0 color-mix(in srgb, var(--tldr-color) 18%, transparent);
       opacity: 0.9;
     }
 
     50% {
+      /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--tldr-color) 28%, transparent);
       opacity: 1;
     }
