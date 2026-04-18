@@ -382,10 +382,14 @@
     }
 
     & .admonitionblock {
+      --admonition-first-line-size: 1.5rem;
+      --admonition-icon-size: 3.75rem;
+      --admonition-icon-offset: calc((var(--admonition-first-line-size) - var(--admonition-icon-size)) / 2);
+
       position: relative;
       margin: 1.5rem 0;
-      padding: 0.9rem 1.25rem 0.9rem 1rem;
-      overflow: hidden;
+      padding: 0.25rem 1.25rem 0.5rem 1rem;
+      overflow: visible;
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
 
@@ -397,11 +401,11 @@
 
       &::before {
         position: absolute;
-        inset-block: 0;
-        inset-inline-start: 0;
+        inset-block: 1px;
+        inset-inline-start: 1px;
         z-index: 1;
         inline-size: 6px;
-        border-radius: 0.5rem 0 0 0.5rem;
+        border-radius: calc(0.5rem - 1px) 0 0 calc(0.5rem - 1px);
         content: '';
       }
 
@@ -415,6 +419,7 @@
         flex-wrap: nowrap;
         gap: 1.25rem;
         align-items: flex-start;
+        overflow: visible;
       }
 
       & td {
@@ -428,8 +433,10 @@
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        inline-size: 3.75rem;
-        block-size: 3.75rem;
+        inline-size: var(--admonition-icon-size);
+        block-size: var(--admonition-icon-size);
+        margin-block-start: var(--admonition-icon-offset);
+        overflow: visible;
 
         & i {
           display: block;
@@ -455,13 +462,14 @@
 
       & .content {
         margin: 0;
-        padding-block-start: 0.15rem;
+        padding-block-start: 0.35rem;
 
         & .title {
           display: block;
           margin-block-end: 0.2rem;
           font-weight: 700;
           font-size: 0.85rem;
+          line-height: var(--admonition-first-line-size);
           letter-spacing: 0.05em;
           text-transform: uppercase;
         }
@@ -471,9 +479,9 @@
         background: color-mix(in srgb, var(--primary) 8%, var(--surface-container));
 
         &::before {
-          position: absolute;
-          inset-block: -100%;
           background: linear-gradient(180deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 40%, transparent) 50%, var(--primary) 100%);
+          background-position: center 0%;
+          background-size: 100% 200%;
           animation: flow-shimmer 10s linear infinite;
           will-change: transform;
 
@@ -524,8 +532,6 @@
         background: color-mix(in srgb, var(--secondary) 10%, var(--surface-container));
 
         &::before {
-          position: absolute;
-          inset-block: -20px;
           background: repeating-linear-gradient(
             to bottom,
             var(--secondary),
@@ -533,8 +539,9 @@
             transparent 10px,
             transparent 20px
           );
+          background-position: center 0;
           animation: dash-scroll 4s linear infinite;
-          will-change: transform;
+          will-change: background-position;
 
           @media (prefers-reduced-motion: reduce) {
             animation: none;
@@ -555,15 +562,17 @@
 
         &::after {
           position: absolute;
-          inset-block-start: -100px;
-          inset-inline-start: 0;
           z-index: 2;
-          inline-size: 6px;
-          block-size: 100px;
           background: linear-gradient(180deg, transparent 0%, var(--error) 50%, transparent 100%);
+          background-repeat: no-repeat;
+          background-position: center -100px;
+          background-size: 100% 100px;
           border-radius: 0.5rem 0 0 0.5rem;
           animation: laser-scan 12s linear infinite;
-          will-change: transform;
+          will-change: background-position;
+          inset-block: 0;
+          inset-inline-start: 0;
+          inline-size: 6px;
 
           @media (prefers-reduced-motion: reduce) {
             animation: none;
@@ -582,8 +591,6 @@
         background: color-mix(in srgb, var(--caution-amber) 8%, var(--surface-container));
 
         &::before {
-          position: absolute;
-          inset-block: -28px;
           background: repeating-linear-gradient(
             -45deg,
             var(--caution-amber),
@@ -591,8 +598,9 @@
             var(--caution-dark) 10px,
             var(--caution-dark) 20px
           );
+          background-position: center 0;
           animation: slow-tape 9s linear infinite;
-          will-change: transform;
+          will-change: background-position;
 
           @media (prefers-reduced-motion: reduce) {
             animation: none;
@@ -611,7 +619,8 @@
 
         &::before {
           background-color: var(--tldr-color);
-          animation: glow-breathe 5s ease-in-out infinite;
+          box-shadow: 0 0 0 0 color-mix(in srgb, var(--tldr-color) 35%, transparent);
+          animation: tldr-bar-pulse 5s ease-in-out infinite;
 
           @media (prefers-reduced-motion: reduce) {
             animation: none;
@@ -1116,8 +1125,8 @@
   }
 
   @keyframes flow-shimmer {
-    from { transform: translateY(-33.333%); }
-    to { transform: translateY(33.333%); }
+    from { background-position: center 0%; }
+    to { background-position: center 100%; }
   }
 
   @keyframes glow-breathe {
@@ -1134,17 +1143,30 @@
   }
 
   @keyframes dash-scroll {
-    from { transform: translateY(0); }
-    to { transform: translateY(20px); }
+    from { background-position: center 0; }
+    to { background-position: center 20px; }
   }
 
   @keyframes laser-scan {
-    from { transform: translateY(0); }
-    to { transform: translateY(calc(100% + 200px)); }
+    from { background-position: center -100px; }
+    to { background-position: center calc(100% + 100px); }
   }
 
   @keyframes slow-tape {
-    from { transform: translateY(0); }
-    to { transform: translateY(28px); }
+    from { background-position: center 0; }
+    to { background-position: center 28px; }
+  }
+
+  @keyframes tldr-bar-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--tldr-color) 18%, transparent);
+      opacity: 0.9;
+    }
+
+    50% {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--tldr-color) 28%, transparent);
+      opacity: 1;
+    }
   }
 }

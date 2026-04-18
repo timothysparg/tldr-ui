@@ -81,7 +81,14 @@ with a paragraph and a list:
 
 NOTE: This is a note admonition.
 
-TIP: This is a tip admonition.
+[TIP]
+====
+This is a tip admonition that now spans multiple lines so the avatar alignment can
+be compared against a more typical wrapped block.
+
+The second paragraph makes the spacing feel more realistic and helps verify that
+the icon still anchors to the opening line instead of drifting down the content.
+====
 
 IMPORTANT: This is an important admonition.
 
@@ -91,7 +98,12 @@ CAUTION: This is a caution admonition.
 
 [TLDR]
 ====
-This is a custom TL;DR admonition designed to summarize information blazingly fast!
+This is a custom TL;DR admonition designed to summarize information blazingly fast,
+but this example now spans multiple lines so the avatar alignment against the first
+line of text is easier to judge in the preview.
+
+The second paragraph gives you a better sense of how the icon feels when the body
+extends beyond a short summary and starts behaving more like a small callout block.
 ====
 
 === Code Blocks
