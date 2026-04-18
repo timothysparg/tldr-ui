@@ -620,9 +620,11 @@
         background: color-mix(in srgb, var(--tldr-color) 8%, var(--surface-container));
 
         &::before {
-          background-color: var(--tldr-color);
-          box-shadow: 0 0 0 0 color-mix(in srgb, var(--tldr-color) 35%, transparent);
-          animation: tldr-bar-pulse 5s ease-in-out infinite;
+          background: linear-gradient(180deg, var(--tldr-color) 0%, color-mix(in srgb, var(--tldr-color) 40%, transparent) 50%, var(--tldr-color) 100%);
+          background-position: center 0%;
+          background-size: 100% 200%;
+          animation: flow-shimmer 10s linear infinite;
+          will-change: transform;
 
           @media (prefers-reduced-motion: reduce) {
             animation: none;
@@ -1167,18 +1169,4 @@
     to { background-position: 28px 28px; }
   }
 
-  @keyframes tldr-bar-pulse {
-    0%,
-    100% {
-      /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--tldr-color) 18%, transparent);
-      opacity: 0.9;
-    }
-
-    50% {
-      /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--tldr-color) 28%, transparent);
-      opacity: 1;
-    }
-  }
 }
