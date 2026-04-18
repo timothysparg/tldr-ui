@@ -1,5 +1,72 @@
 # Changelog
 
+## [2.0.0](https://github.com/timothysparg/tldr-ui/compare/v1.4.1...v2.0.0) (2026-04-18)
+
+
+### Features
+
+* add HTML verification with HTMLHint to the verify task ([3650171](https://github.com/timothysparg/tldr-ui/commit/3650171c9cd2cb6ab122bc15643954b43b6427c5))
+* add pkl icon using official pkl-lang.org favicon ([173993c](https://github.com/timothysparg/tldr-ui/commit/173993c5b376ae4cbb5eae84140459ede886e3be))
+* add PKL syntax highlighting via @apple/highlightjs-pkl ([62e7128](https://github.com/timothysparg/tldr-ui/commit/62e7128503bdae7465022bae95206ec277f90a0a))
+* add theme-aware media support via .theme-media role ([ca80d33](https://github.com/timothysparg/tldr-ui/commit/ca80d339416735034a3f40cfb3ce9ec5616426ee))
+* **article:** add footer tagline with Rock Salt font ([50d37e2](https://github.com/timothysparg/tldr-ui/commit/50d37e2bcd0d7925b1d377ff977e529ea465cbef))
+* **build:** self-host all fonts and icons via npm packages ([55ff52e](https://github.com/timothysparg/tldr-ui/commit/55ff52e05dd28d85d5d1240ff63660c78af5598f))
+* **callouts:** move colists and code callouts to build time ([cd340a2](https://github.com/timothysparg/tldr-ui/commit/cd340a2c6813ab6f9525b345c2568bb5bf99b4dd))
+* **clipboard:** move copy payload generation to build time ([9284f25](https://github.com/timothysparg/tldr-ui/commit/9284f25de5a202418c5e86d423d430c53bbf7857))
+* **copy:** replace manual copy button with sl-copy-button web component ([4e58e3a](https://github.com/timothysparg/tldr-ui/commit/4e58e3a928e5d0cecb00045ab9d4b9722c15c399))
+* **extensions:** add bundled antora and asciidoc extensions ([c3aee8b](https://github.com/timothysparg/tldr-ui/commit/c3aee8b61edb6e4fc5674f7630b38e281a1671fb))
+* **extensions:** refine extension registration and fix preview build ([fe85a8e](https://github.com/timothysparg/tldr-ui/commit/fe85a8e7a129983b6f7361a79e8b62913ec82d49))
+* **icons:** discover required devicons at build time ([ade5ce9](https://github.com/timothysparg/tldr-ui/commit/ade5ce9fedd57ca112dca924ecbafd7392afb914))
+* implement native tldr admonition block extension ([b2e130b](https://github.com/timothysparg/tldr-ui/commit/b2e130bb0d788feae32580d95cd9e9561673f06d))
+* modernize admonitions with elevated cards and custom avatars ([c1aafa6](https://github.com/timothysparg/tldr-ui/commit/c1aafa6ac4921eb4eade8df9f078269d630a942f))
+* **preview:** add video support with correct sizing and autoplay ([0e82552](https://github.com/timothysparg/tldr-ui/commit/0e8255255efb13ab419d4f9ed15c77ed123be35d))
+* **shiki:** migrate code blocks to build-time Shiki rendering ([bc2e2e0](https://github.com/timothysparg/tldr-ui/commit/bc2e2e0be2dd30a1d5c766d9401f923d16dc6900))
+* support direct icon URLs for languages not in Devicon ([69c30d3](https://github.com/timothysparg/tldr-ui/commit/69c30d34723739dd1e42fd205ac9420f925ba3b9))
+* **toc:** dynamic TOC depth driven by :toclevels: attribute ([d63e4c8](https://github.com/timothysparg/tldr-ui/commit/d63e4c8a91df8ad2dc9c4eccac8b652e182d511c))
+* **toc:** implement global HAST pipeline for TOC extraction and transformation ([a796851](https://github.com/timothysparg/tldr-ui/commit/a79685179f4b7bce86145353c6d86ef21aa77500))
+* **ui:** add retro CRT bezel to videos and suppress copy button tooltips ([bc399de](https://github.com/timothysparg/tldr-ui/commit/bc399de7295114f6a154d914368305f0c2002705))
+* **ui:** modernize TOC with indentation guides and dynamic scrollspy ([621084b](https://github.com/timothysparg/tldr-ui/commit/621084bacfd2abca5ec4356e2de2bbff719716c3))
+* **verify:** add attr-whitespace HTMLHint rule ([36a0d48](https://github.com/timothysparg/tldr-ui/commit/36a0d48dafa831c2ced3d51e69be2cc7a8cb569e))
+* **verify:** add five additional HTMLHint rules ([7298426](https://github.com/timothysparg/tldr-ui/commit/729842644aa856862a28f4a7020abb64ea3f2da7))
+* **verify:** add four more HTMLHint rules ([eebb9d7](https://github.com/timothysparg/tldr-ui/commit/eebb9d738e3c8920722d4e52a56756016bf72fc1))
+
+
+### Bug Fixes
+
+* adjust admonition icon alignment ([f062f90](https://github.com/timothysparg/tldr-ui/commit/f062f907a4e1d411f26befb2f58c472da198d029))
+* **build:** remove unused vendor js and css paths ([5aa1332](https://github.com/timothysparg/tldr-ui/commit/5aa1332995c76d224657fa60d3b07761ad3701f5))
+* **callouts:** align code and colist markers ([1e57078](https://github.com/timothysparg/tldr-ui/commit/1e57078169053d05b9247d0537967b78bd7d60a5))
+* colorize missing icon warnings ([7d520a9](https://github.com/timothysparg/tldr-ui/commit/7d520a90a5a40c7edf58417f21b1df38c6ae1f43))
+* compute extensionFile relative to bundle dir to fix --sync-devicons in antora bundle ([d24a63a](https://github.com/timothysparg/tldr-ui/commit/d24a63a175f885917de577630bc9aad61f89cfaf)), closes [#50](https://github.com/timothysparg/tldr-ui/issues/50)
+* **css:** optimize admonition animations ([81b0795](https://github.com/timothysparg/tldr-ui/commit/81b079501e986679d1d3f24b44a0e98a83787dc7))
+* enlarge footnote link hit area ([bcd2b53](https://github.com/timothysparg/tldr-ui/commit/bcd2b53cbed4e4fab1506be2d865e35dbff80b96))
+* **extensions:** defer @asciidoctor/core load to avoid Opal global conflict ([039ecbf](https://github.com/timothysparg/tldr-ui/commit/039ecbf542c4707b740997e1e8b2d5ef74ab06d9))
+* make code callouts non-interactive ([bc963fb](https://github.com/timothysparg/tldr-ui/commit/bc963fbfb613a939805e92aacbd3e7dda990b2ea))
+* merge flat and nested asciidoc config ([8b1989e](https://github.com/timothysparg/tldr-ui/commit/8b1989e1e342c6e5dbbb39a8a395cd17118c02c5))
+* preserve paragraphs in tldr admonitions ([22b1da9](https://github.com/timothysparg/tldr-ui/commit/22b1da903986bf1098ea724dcb8df68e1e262f02))
+* read antora extension config from data payload ([c54a9ad](https://github.com/timothysparg/tldr-ui/commit/c54a9ad236cf3c318e7d18b9d4a8d65ca37b2696))
+* read antora extension config from vars ([b9d9ce4](https://github.com/timothysparg/tldr-ui/commit/b9d9ce415221a16f3e7ae1150b831241a7ef4b46))
+* refine code block header ([e0f27a6](https://github.com/timothysparg/tldr-ui/commit/e0f27a619c89daa02f8ecf29182c1cc04aec2668))
+* refine toc scroll indicators ([ade1f71](https://github.com/timothysparg/tldr-ui/commit/ade1f719cf775fc8eda1fd8b4e67fcb3ac89b83a))
+* replace ConverterFactory with treeprocessor to hook Shiki and TLDR admonition into Antora ([be61e7b](https://github.com/timothysparg/tldr-ui/commit/be61e7bb38841b71b91dde462b1371295a01cd0e))
+* replace shoelace copy button ([b5110cb](https://github.com/timothysparg/tldr-ui/commit/b5110cbdbea030d80e03de41a21d0b67f30bd6e7))
+* smooth admonition bar animations ([59478d1](https://github.com/timothysparg/tldr-ui/commit/59478d1ad3d550f2bb50eeb16ac1645b0c41af65))
+* stabilize devicon sync and icon fallback ([eb7204c](https://github.com/timothysparg/tldr-ui/commit/eb7204c9ac1386cffe3ec4bc95b179a0e805ce4e))
+* **ui:** stabilize copy button icon states ([85712cc](https://github.com/timothysparg/tldr-ui/commit/85712cce03d26e966c99ed191528ca16d2bd6925))
+* **ui:** synchronize theme switcher icon and rotation logic ([5ecf23b](https://github.com/timothysparg/tldr-ui/commit/5ecf23b1bdc17ade3bccca2d637b4614ea5534f4))
+* uniquify SVG ids per devicon instance to avoid duplicate id attributes ([4f48712](https://github.com/timothysparg/tldr-ui/commit/4f487126117d80d83443641ffdeaf800f9f78ce0))
+* use native fetch for direct icon urls ([c805e72](https://github.com/timothysparg/tldr-ui/commit/c805e720e4a6733c5c45ba20efb4da34954ccdb2))
+
+
+### Performance Improvements
+
+* **build:** make asciidoc-tldr-ui external in the antora bundle ([516e6d0](https://github.com/timothysparg/tldr-ui/commit/516e6d03095f5863949ad2d972007b4e303af5e1))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([89476ee](https://github.com/timothysparg/tldr-ui/commit/89476ee6714a273fccdfc32bfed9be2dbf0a5d5b))
+
 ## [1.4.1](https://github.com/timothysparg/tldr-ui/compare/v1.4.0...v1.4.1) (2026-01-21)
 
 
