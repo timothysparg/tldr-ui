@@ -42,7 +42,14 @@ function processDocument(html, { removeToc = false } = {}) {
     }
   })
 
-  const transformedHtml = processor.stringify(tree)
+  let transformedHtml = processor.stringify(tree)
+
+  // rehype-parse decodes &#10; to \n in HAST; re-encode newlines in data-copy-text
+  // (double-quoted attribute values never contain literal " — hast-util-to-html encodes it as &#x22;)
+  transformedHtml = transformedHtml.replace(
+    /data-copy-text="([^"]*)"/g,
+    (_, value) => `data-copy-text="${value.replace(/\r\n|\r|\n/g, '&#10;')}"`
+  )
 
   return {
     html: transformedHtml,

@@ -255,7 +255,7 @@ function escHtml(str) {
 }
 
 function escAttr(str) {
-  return escHtml(str)
+  return escHtml(str).replace(/\n/g, '&#10;').replace(/\r/g, '&#13;')
 }
 
 function buildCopyText(node, { console = false } = {}) {

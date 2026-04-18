@@ -9,6 +9,7 @@ const publicDir = ospath.join(__dirname, '..', 'public')
 const config = {
   'alt-require': true,
   'attr-lowercase': true,
+  'attr-whitespace': ['data-copy-text'],
   'attr-no-duplication': true,
   'attr-value-double-quotes': true,
   'button-type-require': true,
