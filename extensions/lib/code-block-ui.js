@@ -11,6 +11,7 @@ const { getDeviconDir, getIconName } = require('./devicon-config')
 const { transformerLineAnnotations, transformerAdocCallouts } = require('./shiki-transformers')
 
 const iconCache = new Map()
+let iconInstanceCounter = 0
 
 function buildCodeHeader({ title = null, lang = null, console = false, copyText = '' } = {}) {
   let metaHtml = ''
@@ -55,7 +56,8 @@ function isConsoleLiteral(node) {
 
 function resolveIcon(lang) {
   const iconName = getIconName(lang)
-  return readCachedDevicon(iconName) || createCodeIcon('#6b7280')
+  const svg = readCachedDevicon(iconName)
+  return svg ? uniquifySvgIds(svg) : createCodeIcon('#6b7280')
 }
 
 function createCodeIcon(color) {
@@ -90,6 +92,28 @@ function cleanSvg(svg) {
     .replace(/<\?xml[^?]*\?>\s*/g, '')
     .replace(/<!DOCTYPE[^>]*>\s*/g, '')
     .trim()
+}
+
+function uniquifySvgIds(svg) {
+  const ids = Array.from(svg.matchAll(/\sid="([^"]+)"/g), (match) => match[1])
+  if (!ids.length) return svg
+
+  const prefix = `icon-${++iconInstanceCounter}-`
+  let result = svg
+
+  for (const id of ids) {
+    const escapedId = escapeRegExp(id)
+    const nextId = `${prefix}${id}`
+    result = result.replace(new RegExp(`([\\s"])id="${escapedId}"`, 'g'), `$1id="${nextId}"`)
+    result = result.replace(new RegExp(`url\\(#${escapedId}\\)`, 'g'), `url(#${nextId})`)
+    result = result.replace(new RegExp(`(["'])#${escapedId}(["'])`, 'g'), `$1#${nextId}$2`)
+  }
+
+  return result
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function renderListingBlock(node, { title = null, lang = null } = {}) {
