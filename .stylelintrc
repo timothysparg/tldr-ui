@@ -6,6 +6,7 @@
     "stylelint-plugin-logical-css/configs/recommended"
   ],
   "plugins": [
+    "@stylistic/stylelint-plugin",
     "@double-great/stylelint-a11y",
     "stylelint-plugin-logical-css",
     "stylelint-plugin-defensive-css",
@@ -17,6 +18,11 @@
     "stylelint-gamut"
   ],
   "rules": {
+    "@stylistic/block-closing-brace-newline-before": "always",
+    "@stylistic/block-opening-brace-space-before": "always",
+    "@stylistic/declaration-block-semicolon-newline-after": "always-multi-line",
+    "@stylistic/selector-list-comma-newline-after": "always-multi-line",
+    "@stylistic/value-list-comma-newline-after": "always-multi-line",
     "comment-empty-line-before": null,
     "no-descending-specificity": null,
     "selector-class-pattern": [
