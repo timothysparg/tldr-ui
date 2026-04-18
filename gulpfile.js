@@ -91,7 +91,7 @@ const previewTask = createTask({
 const verifyTask = createTask({
   name: 'verify',
   desc: 'Verify devicon discovery, aliases, cache paths, and fallback behavior',
-  call: task.verify(),
+  call: series(previewBuildTask, task.verify()),
 })
 
 module.exports = exportTasks(

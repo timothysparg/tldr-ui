@@ -49,6 +49,7 @@
     "gulp-postcss": "~10.0",
     "gulp-uglify": "~3.0",
     "handlebars": "~4.7",
+    "htmlhint": "^1.9.2",
     "js-yaml": "~4.1",
     "make-fetch-happen": "^15.0.5",
     "merge-stream": "~2.0",
