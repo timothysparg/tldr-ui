@@ -12,8 +12,6 @@ const map = (transform = () => {}, flush = undefined) => new Transform({ objectM
 const vfs = require('vinyl-fs')
 const yaml = require('js-yaml')
 
-const { processDocument } = require('../../extensions/lib/document-pipeline')
-
 const ASCIIDOC_ATTRIBUTES = {
   experimental: '',
   icons: 'font',
@@ -86,9 +84,12 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
                 uiModel.page.description = doc.getAttribute('description')
                 uiModel.page.layout = doc.getAttribute('page-layout', 'default')
                 uiModel.page.title = doc.getDocumentTitle()
-                const { html, tocHtml } = processDocument(doc.convert().toString(), { removeToc: true })
+                // The postprocessor (registered by the extension) already strips the inline
+                // TOC, fixes data-copy-text encoding, and sets the page-toc attribute.
+                const html = doc.convert().toString()
                 uiModel.page.contents = Buffer.from(html)
-                uiModel.page.tocHtml = tocHtml
+                const tocJson = doc.getAttribute('page-toc')
+                uiModel.page.attributes.toc = tocJson ? JSON.parse(tocJson) : []
               }
               file.extname = '.html'
               try {

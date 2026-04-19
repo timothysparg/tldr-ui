@@ -18,6 +18,7 @@ module.exports = async function verifyExtensions() {
   assert.strictEqual(typeof asciidocExt, 'function', 'asciidoc-tldr-ui must export a callable function')
   assert.strictEqual(typeof asciidocExt.register, 'function', 'asciidoc-tldr-ui must export .register')
   assert.strictEqual(typeof asciidocExt.initHighlighter, 'function', 'asciidoc-tldr-ui must export .initHighlighter')
+  assert.ok(asciidocExt.tocDataStore instanceof Map, 'asciidoc-tldr-ui must export .tocDataStore as a Map')
 
   // ── antora-tldr-ui export shape ───────────────────────────────────────────
   const antoraExt = require(antoraBundlePath)
@@ -70,5 +71,31 @@ module.exports = async function verifyExtensions() {
   const htmlViaInstance = Asciidoctor.load(adocSource, { ...loadOpts, extension_registry: globalRegistry }).convert()
   assert.ok(htmlViaInstance.includes('code-header'), 'Asciidoctor-instance entry point must produce code-header')
 
+  // ── TOC pipeline: postprocessor strips TOC, stores tocData in shared Map ──
+  const tocRegistry = Asciidoctor.Extensions.create()
+  asciidocExt.call(tocRegistry, {})
+  // toc::[] places the TOC at that point in the body when toc=macro is set
+  const tocDoc = '= Doc\n\ntoc::[]\n\n== Section One\n\nParagraph.\n\n== Section Two\n\nParagraph.'
+  const tocDocObj = Asciidoctor.load(tocDoc, {
+    safe: 'safe',
+    attributes: { toc: 'macro' },
+    extension_registry: tocRegistry,
+  })
+  const renderedWithToc = tocDocObj.convert()
+  assert.ok(!renderedWithToc.includes('id="toc"'), 'postprocessor must strip inline TOC from body HTML')
+  const tocJson = tocDocObj.getAttribute('page-toc')
+  assert.ok(typeof tocJson === 'string', 'postprocessor must set page-toc attribute on doc')
+  const tocItems = JSON.parse(tocJson)
+  assert.strictEqual(tocItems.length, 2, 'page-toc must contain 2 top-level TOC items')
+  assert.strictEqual(tocItems[0].title, 'Section One', 'first TOC item title must match section heading')
+
   console.log('verify-extensions: ok')
+}
+
+if (require.main === module) {
+  module.exports().catch((e) => {
+    console.error('verify-extensions: failed')
+    console.error(e)
+    process.exit(1)
+  })
 }

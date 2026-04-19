@@ -1,0 +1,10 @@
+<ul class="toc-list toc-level-{{level}}">
+  {{#each items}}
+  <li class="toc-item">
+    <a href="{{url}}" class="toc-link"><span class="toc-text">{{title}}</span></a>
+    {{#if children.length}}
+    {{> toc items=children level=(increment ../level)}}
+    {{/if}}
+  </li>
+  {{/each}}
+</ul>

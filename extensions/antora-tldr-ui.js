@@ -31,6 +31,25 @@ module.exports.register = function (context, env) {
     ]
   })
 
+  // Antora reads page.asciidoc.attributes before doc.convert() runs postprocessors, so
+  // doc.setAttribute() in the postprocessor is invisible to the page model. We store
+  // tocData in a shared map during postprocessor execution and inject it here, after
+  // all documents are converted but before composePage builds page.attributes.
+  context.on('documentsConverted', ({ contentCatalog }) => {
+    const { tocDataStore } = registerAsciidoctor
+    contentCatalog.findBy({ family: 'page' }).forEach((page) => {
+      const module = page.src?.module
+      const rel = page.src?.relative
+      if (!module || !rel) return
+      const docfile = `modules/${module}/pages/${rel}`
+      const tocData = tocDataStore.get(docfile)
+      if (!tocData || tocData.length === 0) return
+      if (!page.asciidoc) page.asciidoc = {}
+      if (!page.asciidoc.attributes) page.asciidoc.attributes = {}
+      page.asciidoc.attributes['page-toc'] = JSON.stringify(tocData)
+    })
+  })
+
   registerPostsExtension.call(context, { config })
 }
 

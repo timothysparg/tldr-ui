@@ -136,9 +136,13 @@ module.exports = function (maybeContext, explicitContext = {}) {
 
     registry.postprocessor(function () {
       this.process((doc, output) => {
-        const { tocHtml } = processDocument(output)
-        doc.setAttribute('toc-html', tocHtml)
-        return output
+        const { html, tocData } = processDocument(output, { removeToc: true })
+        doc.setAttribute('page-toc', JSON.stringify(tocData))
+        // Also store in the shared map so Antora's pagesComposed handler can inject it,
+        // since Antora reads page.asciidoc.attributes before doc.convert() runs postprocessors.
+        const docfile = doc.getAttribute('docfile') || ''
+        if (docfile) module.exports.tocDataStore.set(docfile, tocData)
+        return html
       })
     })
   } else if (maybeContext && typeof maybeContext.Extensions === 'object') {
@@ -151,3 +155,4 @@ module.exports = function (maybeContext, explicitContext = {}) {
 
 module.exports.register = module.exports
 module.exports.initHighlighter = (options = {}) => require('./lib/shiki-singleton').initHighlighter(options)
+module.exports.tocDataStore = new Map()

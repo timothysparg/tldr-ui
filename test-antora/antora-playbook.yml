@@ -14,6 +14,10 @@ antora:
           pkl: https://raw.githubusercontent.com/apple/pkl-lang.org/refs/heads/main/src/supplemental-ui/img/favicon.svg
           toml: https://raw.githubusercontent.com/toml-lang/toml/refs/heads/main/logos/toml.svg
 
+asciidoc:
+  attributes:
+    toc: macro
+
 content:
   sources:
     - url: ..
@@ -22,7 +26,7 @@ content:
 
 ui:
   bundle:
-    url: https://github.com/timothysparg/tldr-ui/releases/download/beta/ui-bundle.zip
+    url: ../build/ui-bundle.zip
     snapshot: true
 
 output:

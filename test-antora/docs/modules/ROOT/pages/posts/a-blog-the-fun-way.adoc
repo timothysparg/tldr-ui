@@ -14,6 +14,8 @@ Apparently in my mind this is true, so here we are.
 *_tl;dr_*:  _putting disparate technologies together always takes longer than expected_
 ====
 
+toc::[]
+
 == Tools
 - Vs Code
 - Docker

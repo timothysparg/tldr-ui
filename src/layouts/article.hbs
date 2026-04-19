@@ -61,10 +61,12 @@
           });
         </script>
       </div>
-      {{#if page.tocHtml}}
+      {{#if page.attributes.toc}}
       <article class="s12 m12 l3 article-toc" aria-label="On this page">
         <h5>On this page</h5>
-        <div class="article-toc-body">{{{page.tocHtml}}}</div>
+        <div class="article-toc-body">
+          {{> toc items=(toc page.attributes.toc) level=1}}
+        </div>
       </article>
       {{/if}}
     </div>
