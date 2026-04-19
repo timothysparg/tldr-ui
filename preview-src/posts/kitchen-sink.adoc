@@ -380,3 +380,19 @@ Callout line two // <2>
 === UI Macros
 
 Press kbd:[Ctrl+S] to save, use menu:File[Save] from the menu, or click btn:[OK].
+
+== The Missing Piece
+
+I've recently become quite fond of the https://github.com/jdx[jdx] ecosystem for developer focused tooling. Whilst each tool is a separate project their superpower is that they are all designed to be used together. It's one of those cases where the whole is greater than the sum of it's parts.
+
+In this instance it's the combination of https://github.com/jdx/mise[mise] and https://github.com/jdx/hk[hk] that allowed me to finally stop gnawing. +
+Whist `hk` itself is focused on being a git hook manager, if we utilise the integration with `mise` we can get git hooks that get installed automatically with all the other tools the project requires.
+
+Your quickstart guide boils down to the following 3 commands:
+
+====
+. `git clone <repo>`
+. `mise trust`
+. `mise install`
+====
+
