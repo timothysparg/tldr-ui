@@ -50,62 +50,49 @@ asciidoc:
 
 You can now turn page pagination off by unsetting the `page-pagination` attribute in the document header.
 
-== page-toctitle attribute
+== Table of Contents
 
-By default, the title (i.e., heading) text for the automatic TOC in the right-hand sidebar of the page is `Contents`.
-You can set the `page-toctitle` page attribute in the page header to customize this text for a given page.
+Article pages (pages using `:page-layout: article`) automatically display a sidebar table of contents built from the section headings in the page.
+No configuration is required — any `==` through `======` headings that carry an `id` become TOC entries.
 
-NOTE: Antora does not use the built-in `toctitle` attribute from AsciiDoc.
+=== How it works
 
-.Customize the TOC title for a page
-[,asciidoc]
-----
-= Page Title
-:page-toctitle: Outline
+The Antora extension extracts heading structure from the converted HTML of each page during the build.
+The result is stored as structured data and passed to the `toc.hbs` partial, which renders the sidebar.
+Headings are nested in the sidebar to match their depth in the document (`==` at level 1, `===` at level 2, and so on).
 
-== Section Title
+=== Controlling TOC placement in the document body
 
-Paragraph text.
-----
+By default the extension extracts headings without placing a TOC block in the body.
+If you want an inline TOC to also appear at a specific point within the article body, set `toc: macro` in your playbook and place `toc::[]` in the document where you want it to appear.
 
-You can define this value in the playbook to set it globally.
-
-.Customize the TOC title for all pages
+.Enable inline TOC placement in the playbook
 [,yaml]
 ----
 asciidoc:
   attributes:
-    page-toctitle: Outline
+    toc: macro
 ----
 
-Alternately, you can override the [.path]_toc.hbs_ template if you want to hard-code the value, consult a different attribute, or change the defaut value.
-
-== page-toclevels attribute
-
-By default, the the automatic TOC in the right-hand sidebar of the page shows two levels of headings.
-You can set the `page-toclevels` page attribute in the page header to customize this depth for a given page.
-
-NOTE: Antora does not use the built-in `toclevels` attribute from AsciiDoc.
-
-.Customize the TOC levels for a page
+.Place the TOC in the document body
 [,asciidoc]
 ----
-= Page Title
-:page-toclevels: 1
+= Blog Post Title
+:page-layout: article
 
-== Section Title
+Opening paragraph.
 
-Paragraph text.
+toc::[]
+
+== First Section
+
+Content here.
 ----
 
-You can define this value in the playbook to set it globally.
+When `toc::[]` is present, Asciidoctor generates a `<div id="toc">` block at that location.
+The extension uses that block as the source of TOC data and removes it from the body, so the inline block does not appear twice.
+If `toc::[]` is absent (even with `toc: macro` set), the extension falls back to extracting headings directly from the page HTML.
+Either way the sidebar TOC is populated.
 
-.Customize the TOC title for all pages
-[,yaml]
-----
-asciidoc:
-  attributes:
-    page-toclevels: 1
-----
-
-Alternately, you can override the [.path]_toc.hbs_ template if you want to hard-code the value, consult a different attribute, or change the default value.
+NOTE: The `page-toctitle` and `page-toclevels` attributes from the Antora default UI are not used by this UI bundle.
+The sidebar heading is fixed in the `article.hbs` layout and all heading levels are always included.

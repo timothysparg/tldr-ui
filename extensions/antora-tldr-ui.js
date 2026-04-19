@@ -42,8 +42,12 @@ module.exports.register = function (context, env) {
       const rel = page.src?.relative
       if (!module || !rel) return
       const docfile = `modules/${module}/pages/${rel}`
-      const tocData = tocDataStore.get(docfile)
-      if (!tocData || tocData.length === 0) return
+      const stored = tocDataStore.get(docfile)
+      // stored may be [] (truthy but empty) when toc::[] was absent from the document.
+      // Fall back to extracting headings from the converted HTML so pages that use
+      // :toc: macro without placing toc::[] still get a sidebar TOC.
+      const tocData = stored && stored.length > 0 ? stored : extractTocFromHtml(page.contents?.toString() || '')
+      if (!tocData.length) return
       if (!page.asciidoc) page.asciidoc = {}
       if (!page.asciidoc.attributes) page.asciidoc.attributes = {}
       page.asciidoc.attributes['page-toc'] = JSON.stringify(tocData)
@@ -54,3 +58,31 @@ module.exports.register = function (context, env) {
 }
 
 module.exports.getAsciidocOptions = getAsciidocOptions
+module.exports.extractTocFromHtml = extractTocFromHtml
+
+/**
+ * Extracts a hierarchical TOC from converted HTML by scanning h2–h6 elements that
+ * carry an id attribute. Used as a fallback when toc::[] was not placed in the source
+ * document, so Asciidoctor never emitted a <div id="toc"> block for us to extract.
+ */
+function extractTocFromHtml(html) {
+  const items = []
+  const stack = []
+  const re = /<h([2-6])[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h[2-6]>/gi
+  let match
+  while ((match = re.exec(html)) !== null) {
+    const level = parseInt(match[1], 10)
+    const id = match[2]
+    const title = match[3].replace(/<[^>]+>/g, '').trim()
+    if (!title) continue
+    const item = { url: `#${id}`, title, children: [] }
+    while (stack.length && stack[stack.length - 1].level >= level) stack.pop()
+    if (stack.length === 0) {
+      items.push(item)
+    } else {
+      stack[stack.length - 1].item.children.push(item)
+    }
+    stack.push({ level, item })
+  }
+  return items
+}
