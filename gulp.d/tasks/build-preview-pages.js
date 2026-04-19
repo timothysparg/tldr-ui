@@ -211,13 +211,16 @@ function collectPosts(previewSrc, createRegistry) {
           const rel = path.relative(previewSrc, filePath)
           const url = rel.slice(0, rel.lastIndexOf('.')) + '.html'
           const date = doc.getAttribute('revdate') || doc.getAttribute('date') || doc.getAttribute('page-date')
-          const image = doc.getAttribute('article-card-image')
-          const normalizedImage = normalizePreviewImage(image)
+          const image = normalizePreviewImage(doc.getAttribute('article-card-image'))
+          const imageLight = normalizePreviewImage(doc.getAttribute('article-card-image-light'))
+          const imageDark = normalizePreviewImage(doc.getAttribute('article-card-image-dark'))
           return {
             title: doc.getDocumentTitle(),
             url,
             summary: text.slice(0, 100),
-            image: normalizedImage,
+            image,
+            imageLight,
+            imageDark,
             date: parseDate(date),
           }
         })

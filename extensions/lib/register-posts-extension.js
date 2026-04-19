@@ -32,7 +32,9 @@ module.exports = function registerPostsExtension() {
           summary: summary.slice(0, 100),
           date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
           featured: attrs.featured === 'true' || attrs.featured === true,
-          image: attrs.image || attrs['page-image'] || null,
+          image: attrs['article-card-image'] || attrs.image || attrs['page-image'] || null,
+          imageLight: attrs['article-card-image-light'] || attrs['image-light'] || attrs['page-image-light'] || null,
+          imageDark: attrs['article-card-image-dark'] || attrs['image-dark'] || attrs['page-image-dark'] || null,
         })
       }
     })

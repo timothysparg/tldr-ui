@@ -3,7 +3,7 @@
 const TAG_STRIP = /<[^>]+>/g
 const WS_NORMALIZE = /\s+/g
 
-module.exports = function articles (site, contentCatalog, options) {
+module.exports = function articles(site, contentCatalog, options) {
   const posts = []
   if (!site && !contentCatalog) return posts
   const root = options && options.data && options.data.root
@@ -13,9 +13,11 @@ module.exports = function articles (site, contentCatalog, options) {
   // Preview system or Antora extension populates site.posts directly
   if (site && Array.isArray(site.posts) && site.posts.length) {
     const normalized = site.posts.map((post) => {
-      const imageValue = post.image || post['article-card-image']
+      const images = resolveArticleImages(post, post.page || post, contentCatalog, uiRootPath, siteRootPath)
       return Object.assign({}, post, {
-        image: resolveArticleImage(imageValue, post.page || post, contentCatalog, uiRootPath, siteRootPath),
+        image: images.image,
+        imageLight: images.imageLight,
+        imageDark: images.imageDark,
       })
     })
     return sortPosts(normalized)
@@ -28,17 +30,12 @@ module.exports = function articles (site, contentCatalog, options) {
       const attrs = page.asciidoc?.attributes || {}
       const layout = page.layout || attrs['page-layout'] || attrs.layout
       if (layout !== 'article') return
-      const summary = normalizeSummary(
-        attrs.description ||
-          attrs['page-description'] ||
-          page.asciidoc?.doctitle ||
-          ''
-      )
+      const summary = normalizeSummary(attrs.description || attrs['page-description'] || page.asciidoc?.doctitle || '')
       posts.push({
         title: attrs.navtitle || page.asciidoc?.doctitle || attrs.title || '',
         url: page.pub?.url || '',
         summary: summary.slice(0, 100),
-        image: resolveArticleImage(attrs['article-card-image'], page, contentCatalog, uiRootPath, siteRootPath),
+        ...resolveArticleImages(attrs, page, contentCatalog, uiRootPath, siteRootPath),
         date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
       })
     })
@@ -48,7 +45,9 @@ module.exports = function articles (site, contentCatalog, options) {
   // Antora system: collect from navigation (requires page attributes in nav items)
   const components = Array.isArray(site.components)
     ? site.components
-    : (site.components ? Object.values(site.components) : [])
+    : site.components
+      ? Object.values(site.components)
+      : []
 
   components.forEach((component) => {
     ;(component.versions || []).forEach((version) => {
@@ -66,13 +65,10 @@ module.exports = function articles (site, contentCatalog, options) {
  * @param {Array} items navigation items
  * @param {Array} posts accumulator array for articles
  */
-function collectFromNav (items, posts, contentCatalog, uiRootPath, siteRootPath) {
+function collectFromNav(items, posts, contentCatalog, uiRootPath, siteRootPath) {
   items.forEach((item) => {
     const attrs =
-      (item.asciidoc && item.asciidoc.attributes) ||
-      (item.page && item.page.attributes) ||
-      item.attributes ||
-      {}
+      (item.asciidoc && item.asciidoc.attributes) || (item.page && item.page.attributes) || item.attributes || {}
     const layout = (item.page && item.page.layout) || attrs['page-layout'] || attrs.layout
     if (layout === 'article') {
       const summary = normalizeSummary(
@@ -86,13 +82,7 @@ function collectFromNav (items, posts, contentCatalog, uiRootPath, siteRootPath)
         title: item.content || item.title || attrs.title || '',
         url: item.url,
         summary: summary.slice(0, 100),
-        image: resolveArticleImage(
-          attrs['article-card-image'],
-          item.page || item,
-          contentCatalog,
-          uiRootPath,
-          siteRootPath
-        ),
+        ...resolveArticleImages(attrs, item.page || item, contentCatalog, uiRootPath, siteRootPath),
         date: parseDate(attrs.revdate || attrs.date || attrs['page-date']),
       })
     }
@@ -100,7 +90,40 @@ function collectFromNav (items, posts, contentCatalog, uiRootPath, siteRootPath)
   })
 }
 
-function resolveArticleImage (image, page, contentCatalog, uiRootPath, siteRootPath) {
+function resolveArticleImages(source, page, contentCatalog, uiRootPath, siteRootPath) {
+  const image = resolveArticleImage(
+    getArticleImageValue(source, ['article-card-image', 'image', 'page-image']),
+    page,
+    contentCatalog,
+    uiRootPath,
+    siteRootPath
+  )
+  const imageLight = resolveArticleImage(
+    getArticleImageValue(source, ['article-card-image-light', 'image-light', 'page-image-light']),
+    page,
+    contentCatalog,
+    uiRootPath,
+    siteRootPath
+  )
+  const imageDark = resolveArticleImage(
+    getArticleImageValue(source, ['article-card-image-dark', 'image-dark', 'page-image-dark']),
+    page,
+    contentCatalog,
+    uiRootPath,
+    siteRootPath
+  )
+  return { image, imageLight, imageDark }
+}
+
+function getArticleImageValue(source, keys) {
+  if (!source) return ''
+  for (const key of keys) {
+    if (source[key]) return source[key]
+  }
+  return ''
+}
+
+function resolveArticleImage(image, page, contentCatalog, uiRootPath, siteRootPath) {
   if (!image) return ''
   const value = String(image).trim()
   if (!value) return ''
@@ -126,7 +149,7 @@ function resolveArticleImage (image, page, contentCatalog, uiRootPath, siteRootP
   return resource && resource.pub && resource.pub.url ? resource.pub.url : value
 }
 
-function addImageFamily (ref) {
+function addImageFamily(ref) {
   if (!ref) return ref
   if (ref.includes('$')) return ref
   if (ref.includes(':')) {
@@ -136,7 +159,7 @@ function addImageFamily (ref) {
   return 'image$' + ref
 }
 
-function qualifyResourceId (ref, page) {
+function qualifyResourceId(ref, page) {
   if (!ref || /[@:]/.test(ref)) return ref
   const src = page.src || page
   const component = src.component || src.componentName || src.component
@@ -147,7 +170,7 @@ function qualifyResourceId (ref, page) {
   return `${prefix}${component}:${module}:${ref}`
 }
 
-function joinPath (base, target) {
+function joinPath(base, target) {
   const baseTrimmed = base.endsWith('/') ? base.slice(0, -1) : base
   const targetTrimmed = target.startsWith('/') ? target : '/' + target
   return baseTrimmed + targetTrimmed
@@ -158,7 +181,7 @@ function joinPath (base, target) {
  * @param {string} text raw text
  * @returns {string}
  */
-function normalizeSummary (text) {
+function normalizeSummary(text) {
   if (!text) return ''
   return String(text).replace(TAG_STRIP, ' ').replace(WS_NORMALIZE, ' ').trim()
 }
@@ -168,7 +191,7 @@ function normalizeSummary (text) {
  * @param {string|number|Date} value
  * @returns {Date|null}
  */
-function parseDate (value) {
+function parseDate(value) {
   if (!value) return null
   const parsed = new Date(value)
   return isNaN(parsed) ? null : parsed
@@ -179,10 +202,10 @@ function parseDate (value) {
  * @param {Array<{date: Date|null}>} posts
  * @returns {Array} sorted posts
  */
-function sortPosts (posts) {
+function sortPosts(posts) {
   return posts.sort((a, b) => {
-    const timeA = (a.date instanceof Date && !isNaN(a.date)) ? a.date.getTime() : 0
-    const timeB = (b.date instanceof Date && !isNaN(b.date)) ? b.date.getTime() : 0
+    const timeA = a.date instanceof Date && !isNaN(a.date) ? a.date.getTime() : 0
+    const timeB = b.date instanceof Date && !isNaN(b.date) ? b.date.getTime() : 0
     return timeB - timeA
   })
 }

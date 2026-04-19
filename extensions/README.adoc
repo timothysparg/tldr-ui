@@ -89,6 +89,9 @@ The Antora extension:
 |`:image:` (or `:page-image:`)
 |Thumbnail image path
 
+|`:article-card-image-light:` / `:article-card-image-dark:`
+|Optional theme-specific article card images for the homepage and post listings
+
 |`:navtitle:`
 |Override the page title in listings
 |===
@@ -104,6 +107,8 @@ Author Name
 :description: Learn how to set up your first Antora documentation site
 :featured: true
 :image: _images/antora-logo.svg
+:article-card-image-light: ui:/img/antora-card-light.png
+:article-card-image-dark: ui:/img/antora-card-dark.png
 
 This is your article content...
 ----

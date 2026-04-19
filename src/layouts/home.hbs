@@ -47,6 +47,10 @@
         <div class="s12 m6 l6">
           <article class="round no-elevate no-padding wave" style="position: relative">
             <a href="{{{./url}}}" class="absolute left top right bottom" style="z-index: 1"></a>
+            {{#if (or imageLight imageDark)}}
+            <img class="responsive large theme-media light" src="{{{or imageLight imageDark}}}" alt="{{title}}">
+            <img class="responsive large theme-media dark" src="{{{or imageDark imageLight}}}" alt="{{title}}">
+            {{else}}
             {{#if image}}
             <img class="responsive large" src="{{{image}}}" alt="{{title}}">
             {{else}}
@@ -54,6 +58,7 @@
               src="{{{@root.uiRootPath}}}/img/article-placeholder-light.png" alt="{{title}}">
             <img class="responsive large theme-media dark"
               src="{{{@root.uiRootPath}}}/img/article-placeholder-dark.png" alt="{{title}}">
+            {{/if}}
             {{/if}}
             <div class="large-padding">
               <h6>{{title}}</h6>

@@ -4,12 +4,19 @@
 :page-tags: hugo, docker, netlify
 :icons: font
 :sourcedir: ./
-:article-card-image: ui:/img/a-blog-the-fun-way.png
+:article-card-image-light: ../assets/images/a-blog-the-fun-way-light.png
+:article-card-image-dark: ../assets/images/a-blog-the-fun-way-dark.png
 
 To write a blog you must first build a blog? +
 Apparently in my mind this is true, so here we are.
 
 *_tl;dr_*:  _putting disparate technologies together always takes longer than expected_
+
+[.theme-media.dark]
+image::../assets/images/a-blog-the-fun-way-dark.png[Dark mode illustration for A blog, the fun way]
+
+[.theme-media.light]
+image::../assets/images/a-blog-the-fun-way-light.png[Light mode illustration for A blog, the fun way]
 
 toc::[]
 
