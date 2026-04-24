@@ -5,7 +5,22 @@
         const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
         const resolved = stored === "auto" ? (prefersDark ? "dark" : "light") : stored;
         const root = document.documentElement;
+        const palette = {
+          light: { bg: "#fffbfe", fg: "#1c1b1f" },
+          dark: { bg: "#1c1b1f", fg: "#e6e1e6" },
+        };
+        const prepaint = document.createElement("style");
+        prepaint.id = "theme-prepaint";
+        prepaint.textContent = `
+          :root { color-scheme: ${resolved}; }
+          html, body {
+            background: ${palette[resolved].bg};
+            color: ${palette[resolved].fg};
+          }
+        `;
         root.classList.remove("light", "dark");
         root.classList.add(resolved);
+        root.style.colorScheme = resolved;
+        document.head.appendChild(prepaint);
       })();
     </script>
