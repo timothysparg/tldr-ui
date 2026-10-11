@@ -22,5 +22,6 @@
         root.classList.add(resolved);
         root.style.colorScheme = resolved;
         document.head.appendChild(prepaint);
+        window.addEventListener("DOMContentLoaded", () => prepaint.remove(), { once: true });
       })();
     </script>
