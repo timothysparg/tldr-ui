@@ -20,7 +20,7 @@ HK_MISE = 1
 [hooks]
 postinstall = "hk install --mise"
 
-[prepare.npm]
+[deps.npm]
 auto = true
 
 [tasks.dev]
