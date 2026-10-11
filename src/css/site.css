@@ -1,6 +1,6 @@
 @layer base, framework, site;
 
-@import url("https://cdn.jsdelivr.net/npm/beercss@3.12.11/dist/cdn/beer.min.css") layer(framework);
+@import url("https://cdn.jsdelivr.net/npm/beercss@5.0.3/dist/cdn/beer.min.css") layer(framework);
 @import url("@fontsource/inter/index.css") layer(base);
 @import url("@fontsource/caveat/index.css") layer(base);
 @import url("@fontsource/rock-salt/index.css") layer(base);
@@ -248,7 +248,11 @@
     max-inline-size: 100%;
     block-size: auto;
     max-block-size: calc(100vb - 6rem);
+    padding: 0;
     padding-inline-start: 1.25rem;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
     overflow-inline: visible;
     overflow-block: auto;
     overscroll-behavior: contain;
@@ -284,10 +288,16 @@
       margin: 0;
       padding: 0;
       list-style: none;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
 
       & li {
         margin: 0;
         padding: 0;
+        background: transparent;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       & ul {
@@ -306,6 +316,9 @@
       line-height: 1.3;
       text-decoration: none;
       overflow-wrap: anywhere;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
 
       @media (hover: hover) {
         &:hover,
@@ -706,7 +719,7 @@
 
     & .sidebarblock,
     & .exampleblock {
-      margin: 1rem 0;
+      margin: 1.5rem 0;
       padding: 1rem;
       background: var(--surface-container-low);
       border: 1px solid var(--outline);
@@ -716,6 +729,11 @@
     & .sidebarblock .content,
     & .exampleblock .content {
       margin: 0;
+    }
+
+    & .sidebarblock :is(.olist, .ulist) > :is(ol, ul),
+    & .exampleblock :is(.olist, .ulist) > :is(ol, ul) {
+      padding-inline-start: 1.5rem;
     }
 
     & .sidebarblock {
