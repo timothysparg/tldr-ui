@@ -16,7 +16,7 @@
     "last 3 Safari versions",
     "last 3 iOS versions"
   ],
-  "version": "1.4.1",
+  "version": "2.0.0",
   "dependencies": {
     "@asciidoctor/core": "~3.0",
     "@double-great/stylelint-a11y": "^3.4.9",
