@@ -369,7 +369,7 @@ Callout line one // <1>
 Callout line two // <2>
 ----
 <1> First callout in a colist.
-<2> Second callout in a colist.
+<2> Linked callout: https://example.com[Example]. This must remain aligned with the first callout.
 
 === Thematic and Page Breaks
 

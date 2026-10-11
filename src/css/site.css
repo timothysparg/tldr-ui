@@ -1114,6 +1114,7 @@
       block-size: auto;
       cursor: default;
       min-block-size: 0;
+      padding-inline: 1rem;
       padding-block: 0.25rem;
     }
 
