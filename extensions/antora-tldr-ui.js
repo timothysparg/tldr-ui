@@ -3,6 +3,7 @@
 const registerPostsExtension = require('./lib/register-posts-extension')
 const registerAsciidoctor = require('./asciidoc-tldr-ui')
 const { getAsciidocOptions } = require('./lib/antora-config')
+const { createGithubPrStatusEnricher } = require('./lib/github-pr-statuses')
 
 const { initHighlighter } = registerAsciidoctor
 
@@ -14,18 +15,24 @@ module.exports.register = function (context, env) {
 
   const config = (env && env.config) || (context && context.config) || {}
   const shikiOptions = config.shiki || {}
+  const asciidocOptions = getAsciidocOptions(config, process.cwd())
+  const githubPrStatuses = createGithubPrStatusEnricher(asciidocOptions.githubPrStatuses)
 
-  context.on('contentClassified', async () => {
+  context.on('contentClassified', async ({ contentCatalog }) => {
     await initHighlighter(shikiOptions)
+    const pages = contentCatalog ? contentCatalog.findBy({ family: 'page' }) : []
+    await githubPrStatuses.prepareFromTexts(
+      pages.map((page) => page.contents && page.contents.toString()),
+      { log: (message) => context.getLogger('github-pr-statuses').warn(message) }
+    )
   })
 
   context.on('beforeProcess', ({ siteAsciiDocConfig }) => {
-    const asciidocOptions = getAsciidocOptions(config, process.cwd())
     siteAsciiDocConfig.extensions = [
       ...(siteAsciiDocConfig.extensions || []),
       {
         register(registry) {
-          registerAsciidoctor.call(registry, asciidocOptions)
+          registerAsciidoctor.call(registry, { ...asciidocOptions, githubPrStatuses })
         },
       },
     ]

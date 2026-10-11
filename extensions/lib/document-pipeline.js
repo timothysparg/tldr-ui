@@ -14,7 +14,7 @@ const { visit, EXIT } = require('unist-util-visit')
  * @param {boolean} [options.removeToc=false]
  * @returns {{ html: string, tocData: Array }}
  */
-function processDocument(html, { removeToc = false } = {}) {
+function processDocument(html, { removeToc = false, githubPrStatuses = null } = {}) {
   let tocData = []
   const processor = unified().use(rehypeParse, { fragment: true }).use(rehypeStringify)
 
@@ -43,6 +43,7 @@ function processDocument(html, { removeToc = false } = {}) {
     /data-copy-text="([^"]*)"/g,
     (_, value) => `data-copy-text="${value.replace(/\r\n|\r|\n/g, '&#10;')}"`
   )
+  if (githubPrStatuses) transformedHtml = githubPrStatuses.enrich(transformedHtml)
 
   return {
     html: transformedHtml,

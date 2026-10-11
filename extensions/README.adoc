@@ -214,6 +214,29 @@ If an icon still cannot be resolved, the rendered code header falls back to the 
 To make missing icons fatal, set `strict_icons: true` under `asciidoc:`.
 If your Antora extension runtime does not preserve nested `asciidoc:` config, the Antora extension also accepts fallback keys under `data:` or directly on the extension entry itself, such as `direct_icon_urls`, `strict_icons`, `icon_discovery_roots`, and `project_root`.
 
+=== GitHub pull request statuses
+
+The extension can annotate GitHub pull request links with their current `Merged`, `Open`, `Closed`, or `Draft` status at build time.
+Enable it in the Antora extension configuration:
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: ./extensions/antora-tldr-ui.js
+      asciidoc:
+        github_pr_statuses:
+          enabled: true
+          cache_ttl: 3600
+          token_env: GITHUB_TOKEN
+----
+
+Set the configured token environment variable in CI.
+The token is used only while building and is never included in the published site.
+For public repositories, the extension falls back to unauthenticated requests, but authenticated requests are more reliable.
+Responses are cached in `build/github-pr-statuses/`; a stale cached status is used if GitHub is temporarily unavailable.
+If a status cannot be fetched, the original link is published without a badge.
+
 === Icon Verification
 
 Run the local verification script to check discovered languages, icon aliases, cache path resolution, and fallback behavior:

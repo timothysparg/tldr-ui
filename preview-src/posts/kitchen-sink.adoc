@@ -353,6 +353,13 @@ Inline image: image:../multirepo-ssg.svg[Alt text for inline image, width=24]
 
 === Links and Callouts
 
+==== GitHub pull request statuses
+
+* https://github.com/timothysparg/tldr-ui/pull/42[#42] pass:[<span class="pr-status merged">Merged</span>]
+* https://github.com/timothysparg/tldr-ui/pull/43[#43] pass:[<span class="pr-status open">Open</span>]
+* https://github.com/timothysparg/tldr-ui/pull/44[#44] pass:[<span class="pr-status closed">Closed</span>]
+* https://github.com/timothysparg/tldr-ui/pull/45[#45] pass:[<span class="pr-status draft">Draft</span>]
+
 === mp4
 
 [.theme-media.dark]

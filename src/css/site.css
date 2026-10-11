@@ -71,6 +71,8 @@
     --inverse-on-surface: #f4eff4;
     --inverse-primary: #d0bcff;
     --success: #2da44e;
+    --pr-status-open: #0b57d0;
+    --pr-status-draft: #8c5000;
     --surface-dim: #ded8e1;
     --surface-bright: #fbf8fd;
     --surface-container-lowest: #fff;
@@ -116,6 +118,8 @@
     --inverse-on-surface: #313033;
     --inverse-primary: #6750a4;
     --success: #3fb950;
+    --pr-status-open: #a8c7fa;
+    --pr-status-draft: #ffd08a;
     --surface-dim: #141218;
     --surface-bright: #3b383e;
     --surface-container-lowest: #0f0d13;
@@ -140,6 +144,40 @@
     margin-block: 0.5rem 1rem;
     font-family: var(--font-family-display);
     letter-spacing: 0.01em;
+  }
+
+  .pr-status {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0.1em 0.45em;
+    font-weight: 650;
+    font-size: 0.75em;
+    line-height: 1.2;
+    vertical-align: middle;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+    margin-inline-start: 0.35em;
+
+    &.merged {
+      color: var(--success);
+      background-color: color-mix(in srgb, var(--success) 14%, transparent);
+    }
+
+    &.open {
+      color: var(--pr-status-open);
+      background-color: color-mix(in srgb, var(--pr-status-open) 14%, transparent);
+    }
+
+    &.closed {
+      color: var(--on-surface-variant);
+      background-color: color-mix(in srgb, var(--on-surface-variant) 14%, transparent);
+    }
+
+    &.draft {
+      color: var(--pr-status-draft);
+      background-color: color-mix(in srgb, var(--pr-status-draft) 14%, transparent);
+    }
   }
 
   .material-symbols-outlined {

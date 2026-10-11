@@ -11,6 +11,7 @@ const { Transform } = require('stream')
 const map = (transform = () => {}, flush = undefined) => new Transform({ objectMode: true, transform, flush })
 const vfs = require('vinyl-fs')
 const yaml = require('js-yaml')
+const { createGithubPrStatusEnricher } = require('../../extensions/lib/github-pr-statuses')
 
 const ASCIIDOC_ATTRIBUTES = {
   experimental: '',
@@ -28,14 +29,25 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
         merge(compileLayouts(src), registerPartials(src), registerHelpers(src), copyImages(previewSrc, previewDest))
       ),
     ])
-      .then(([baseUiModel, { layouts }]) =>
-        uiExtension.initHighlighter(baseUiModel.shiki || {}).then(() => [baseUiModel, { layouts }])
-      )
-      .then(([baseUiModel, { layouts }]) => {
+      .then(async ([baseUiModel, { layouts }]) => {
+        await uiExtension.initHighlighter(baseUiModel.shiki || {})
+        const githubPrStatuses = createGithubPrStatusEnricher({
+          ...((baseUiModel.asciidoc &&
+            (baseUiModel.asciidoc.githubPrStatuses || baseUiModel.asciidoc.github_pr_statuses)) ||
+            {}),
+          projectRoot: ospath.join(__dirname, '../..'),
+        })
+        await githubPrStatuses.prepareFromTexts(await readAsciiDocSources(previewSrc), {
+          log: (message) => console.warn(`[tldr-ui] ${message}`),
+        })
+        return [baseUiModel, { layouts }, githubPrStatuses]
+      })
+      .then(([baseUiModel, { layouts }, githubPrStatuses]) => {
         const createRegistry = () =>
           createExtensionRegistry(uiExtension, {
             Asciidoctor,
             baseUiModel,
+            githubPrStatuses,
             iconDiscoveryRoots: [previewSrc],
             projectRoot: ospath.join(__dirname, '../..'),
           })
@@ -108,6 +120,12 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => {
 
 function loadSampleUiModel(src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => yaml.load(contents))
+}
+
+async function readAsciiDocSources(src) {
+  const entries = await fs.readdir(src, { recursive: true })
+  const sources = entries.filter((entry) => entry.endsWith('.adoc'))
+  return Promise.all(sources.map((entry) => fs.readFile(ospath.join(src, entry), 'utf8')))
 }
 
 /**

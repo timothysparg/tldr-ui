@@ -33,11 +33,25 @@ function getAsciidocOptions(config = {}, cwd = process.cwd()) {
     config.projectRoot ||
     config.project_root ||
     cwd
+  const githubPrStatuses = nested.githubPrStatuses || nested.github_pr_statuses || {}
   return {
     ...nested,
     directIconUrls,
     strictIcons,
     iconDiscoveryRoots,
+    githubPrStatuses: normalizeGithubPrStatuses(githubPrStatuses, projectRoot),
+    projectRoot,
+  }
+}
+
+function normalizeGithubPrStatuses(config, projectRoot) {
+  if (config === true) return { enabled: true, projectRoot }
+  if (!config || typeof config !== 'object') return { enabled: false, projectRoot }
+  return {
+    enabled: Boolean(config.enabled),
+    cacheDir: config.cacheDir || config.cache_dir,
+    cacheTtl: config.cacheTtl || config.cache_ttl,
+    tokenEnv: config.tokenEnv || config.token_env,
     projectRoot,
   }
 }

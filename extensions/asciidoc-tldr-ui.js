@@ -26,6 +26,7 @@ function normalizeContext(context = {}) {
     strictIcons:
       typeof context.strictIcons === 'boolean' ? context.strictIcons : normalizeStrictIcons(context.strict_icons),
     iconDiscoveryRoots: context.iconDiscoveryRoots || context.icon_discovery_roots,
+    githubPrStatuses: context.githubPrStatuses || context.github_pr_statuses,
     projectRoot: context.projectRoot || context.project_root || defaultProjectRoot,
   }
 }
@@ -136,7 +137,10 @@ module.exports = function (maybeContext, explicitContext = {}) {
 
     registry.postprocessor(function () {
       this.process((doc, output) => {
-        const { html, tocData } = processDocument(output, { removeToc: true })
+        const { html, tocData } = processDocument(output, {
+          removeToc: true,
+          githubPrStatuses: context.githubPrStatuses,
+        })
         doc.setAttribute('page-toc', JSON.stringify(tocData))
         // Also store in the shared map so Antora's pagesComposed handler can inject it,
         // since Antora reads page.asciidoc.attributes before doc.convert() runs postprocessors.
