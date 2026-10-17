@@ -7,20 +7,20 @@
 
 ## Build, Test, and Development Commands
 - Install deps: `npm ci` (Node 22 via `mise.toml`; run `mise install` if versions diverge).
-- Lint all: `gulp lint` (ESLint + Stylelint).
-- Format JS: `gulp format`.
+- Lint all: `mise run lint` (hk: ESLint, Biome, Stylelint, typos, whitespace, actionlint, and more).
+- Auto-fix/format: `mise run format` (hk fix; Biome formats JS).
 - Stage assets: `gulp build` (writes to `public/_`).
-- Publishable bundle: `gulp bundle` (clean → lint → build → zip to `build/ui-bundle.zip`; logs `--ui-bundle-url=...`).
+- Publishable bundle: `gulp bundle` (clean → build → zip to `build/ui-bundle.zip`; logs `--ui-bundle-url=...`).
 - Preview site: `gulp preview` (builds preview pages then serves on `0.0.0.0:5252`; set `LIVERELOAD=true` for live reload).
 
 ## Coding Style & Naming Conventions
 - `.editorconfig`: 2-space indent, LF, UTF-8, trim trailing whitespace, final newline.
-- JS: JavaScript Standard Style with project rules (arrow params always wrapped, multiline trailing commas, 120-char lines, avoid `substr`). Use CommonJS requires; keep helpers small and reusable.
+- JS: Biome formats (single quotes, no semicolons, no space before function parens); ESLint enforces project rules (arrow params always wrapped, multiline trailing commas, 120-char lines, avoid `substr`). Use CommonJS requires; keep helpers small and reusable.
 - CSS: Stylelint Standard with relaxed comment/descending-specificity checks; favor mobile-first selectors and keep shared variables centralized in `src/css`.
 - Templates: prefer layouts/partials over duplicating markup; keep bundle entry files suffixed `.bundle.js`.
 
 ## Testing & QA
-- No automated tests; baseline checks are `gulp lint` plus manual preview.
+- No automated tests; baseline checks are `mise run lint` plus manual preview.
 - For UI changes, run `gulp preview` and verify navigation, search box alignment, code blocks, and mobile behavior.
 
 ## Commit & Pull Request Guidelines

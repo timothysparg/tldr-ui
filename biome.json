@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.12/schema.json",
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -23,12 +23,10 @@
       "gulp.d/**/*.js",
       "src/helpers/*.js",
       "src/js/*.js",
-      "extensions/**/*.js"
-    ],
-    "experimentalScannerIgnores": [
-      "node_modules",
-      "build",
-      "public"
+      "extensions/**/*.js",
+      "!!**/node_modules",
+      "!!**/build",
+      "!!**/public"
     ]
   }
 }

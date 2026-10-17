@@ -56,7 +56,7 @@ const bundlePackTask = createTask({
 
 const bundleTask = createTask({
   name: 'bundle',
-  desc: 'Clean, lint, build, and bundle the UI for publishing',
+  desc: 'Clean, build, and bundle the UI for publishing',
   call: series(bundleBuildTask, bundlePackTask),
 })
 

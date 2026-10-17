@@ -17,7 +17,7 @@
     },
     "mise": {
       "command": "mise",
-      "args": ["up"] 
+      "args": ["up"]
     }
   }
 }

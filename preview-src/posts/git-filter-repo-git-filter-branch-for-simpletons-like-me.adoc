@@ -4,7 +4,7 @@
 :page-tags: git, filter-repo, fiilter-branch
 :icons: font
 
-Also if you're not a simpleton it has the benefit of being significantly faster, but I digress. 
+Also if you're not a simpleton it has the benefit of being significantly faster, but I digress.
 
 *_tl;dr_*:  _git filter-repo --replace-text <(echo "filter-branch==>filter-repo")_
 
@@ -33,7 +33,7 @@ $> git filter-repo \
 
 ----
 <1> Note how here we are combining the `test` and `java` directories under `foo`. +
-Care should be taken whilst doing this as if the same file exists in both directories, then the one from the `test` directory will be overridden with the file from the `java` directory. 
+Care should be taken whilst doing this as if the same file exists in both directories, then the one from the `test` directory will be overridden with the file from the `java` directory.
 
 And now in a flight of fancy I no longer want jars in my repo
 
@@ -44,7 +44,7 @@ $> git filter-repo \
             --invert-paths
 ----
 
-And as final trick we're going to replace all occurences of apache with BSD.
+And as final trick we're going to replace all occurrences of apache with BSD.
 
 [source,shell]
 ----

@@ -19,6 +19,6 @@ module.exports = (to, from, ctx) => {
   return rel ? (isDir(to) ? rel + '/' : rel) + hash : (isDir(to) ? './' : '../' + path.basename(to)) + hash
 }
 
-function isDir (str) {
+function isDir(str) {
   return str.charAt(str.length - 1) === '/'
 }

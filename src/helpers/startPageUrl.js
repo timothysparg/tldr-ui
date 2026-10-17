@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function startPageUrl (startPage) {
+module.exports = function startPageUrl(startPage) {
   if (!startPage) return 'index.html'
   const spec = String(startPage)
   if (spec.startsWith('/')) return spec

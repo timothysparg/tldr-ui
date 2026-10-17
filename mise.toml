@@ -36,7 +36,7 @@ description = "Verify devicon discovery, aliases, cache paths, and fallback beha
 run = "gulp verify"
 
 [tasks.bundle]
-description = "Clean, lint, build, and package the UI bundle for publishing"
+description = "Clean, build, and package the UI bundle for publishing"
 run = "gulp bundle"
 
 [tasks.preview]
