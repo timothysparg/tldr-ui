@@ -8,6 +8,7 @@ const registerTocLevels = require('./lib/register-toc-levels')
 const syncDevicons = require('./lib/sync-devicons')
 const { setDeviconRuntimeConfig } = require('./lib/devicon-config')
 const { processDocument } = require('./lib/document-pipeline')
+const { addImageAttribution } = require('./lib/image-attribution')
 const {
   getBlockLanguage,
   isConsoleLiteral,
@@ -99,6 +100,7 @@ module.exports = function (maybeContext, explicitContext = {}) {
 
           const origListing = converter.$convert_listing && converter.$convert_listing.bind(converter)
           const origLiteral = converter.$convert_literal && converter.$convert_literal.bind(converter)
+          const origImage = converter.$convert_image && converter.$convert_image.bind(converter)
 
           Opal.defs(converter, '$convert_listing', function (node) {
             if (node.getStyle() === 'source') {
@@ -115,6 +117,10 @@ module.exports = function (maybeContext, explicitContext = {}) {
             }
             return origLiteral ? origLiteral(node) : ''
           })
+
+          Opal.defs(converter, '$convert_image', (node) =>
+            addImageAttribution(origImage ? origImage(node) : '', node.getAttribute('attribution'))
+          )
 
           Opal.defs(converter, '$convert_colist', function (node) {
             const self = this

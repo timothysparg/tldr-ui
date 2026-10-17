@@ -850,6 +850,17 @@
         block-size: auto;
       }
 
+      /* Wraps the image so an attribution link can sit on its corner */
+      & .attributed {
+        position: relative;
+        display: inline-block;
+        max-inline-size: 100%;
+
+        & img {
+          display: block;
+        }
+      }
+
       & .title {
         margin-block-start: 0.4rem;
         color: var(--outline);

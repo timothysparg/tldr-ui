@@ -349,6 +349,9 @@ This is an example block.
 .Block image with caption
 image::../multirepo-ssg.svg[Alt text for block image, width=240]
 
+.Block image with an attribution link
+image::../_images/kitchen-sink.png[Kitchen sink illustration, width=360, attribution=https://example.com/image-source]
+
 Inline image: image:../multirepo-ssg.svg[Alt text for inline image, width=24]
 
 === Links and Callouts
