@@ -144,7 +144,7 @@ The UI bundle includes specific styling and a custom avatar for this block.
 
 == AsciiDoc Extension
 
-The AsciiDoc extension registers a custom HTML5 converter that:
+The AsciiDoc extension registers a tree processor that overrides HTML5 converter methods and:
 
 * customizes `listing` blocks with titles or languages
 * customizes console-style `literal` blocks

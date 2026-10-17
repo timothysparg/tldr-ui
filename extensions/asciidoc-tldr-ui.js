@@ -64,7 +64,7 @@ if (require.main === module && process.argv[2] === '--sync-devicons') {
  *    (as a factory function) or needs to register on a global Asciidoctor instance.
  * 3. Double-Registration Guard: Uses a flag on the registry to prevent redundant
  *    processing, which is critical when auto-registered by the Antora extension.
- * 4. Component Setup: Synchronizes Devicons, registers the custom HTML5 converter,
+ * 4. Component Setup: Synchronizes Devicons, overrides HTML5 converter methods via a tree processor,
  *    and attaches block processors and postprocessors to the registry.
  */
 module.exports = function (maybeContext, explicitContext = {}) {
