@@ -836,6 +836,7 @@
     }
 
     & .imageblock {
+      margin-block: 2rem;
       text-align: center;
 
       & .content {
