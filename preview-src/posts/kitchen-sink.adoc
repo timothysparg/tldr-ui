@@ -321,10 +321,62 @@ The visible `$ ` prompt is not included in the copied value, and the continued c
 
 === Quotes and Verse
 
+==== Quote with author and work
+
 [quote, Ada Lovelace, Notes]
 ____
 That brain of mine is something more than merely mortal, as time will show.
 ____
+
+==== Quote with a linked work
+
+[quote, Grace Hopper, 'https://example.com/interview[Interview, 1986]']
+____
+The most dangerous phrase in the language is "We've always done it this way."
+____
+
+==== Quoted paragraph shorthand
+
+"Simple things should be simple, complex things should be possible."
+-- Alan Kay
+
+==== Excerpt with source only
+
+[quote.excerpt, 'https://en.wikipedia.org/wiki/Semantic_triple[Semantic triple — Wikipedia]']
+____
+A semantic triple, or RDF triple or simply triple, is the atomic data entity in the Resource Description Framework (RDF) data model.
+As its name indicates, a triple is a sequence of three entities that codifies a statement about semantic data in the form of subject–predicate–object expressions.
+____
+
+==== Excerpt with author and work
+
+[quote.excerpt, Fred Brooks, The Mythical Man-Month]
+____
+Adding manpower to a late software project makes it later.
+____
+
+==== Excerpt without attribution
+
+[.excerpt]
+____
+This text is an excerpt from the referenced literature, shown without any attribution line.
+____
+
+==== Nested quote
+
+[quote, Reply author]
+____
+I agree with this:
+
+[quote, Original author]
+______
+Quotes inside quotes render like excerpts, without a second quotation mark.
+______
+
+And here is my reply.
+____
+
+==== Verse
 
 [verse, William Blake, Auguries of Innocence]
 ____

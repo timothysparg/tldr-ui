@@ -870,6 +870,103 @@
       }
     }
 
+    /* Shared attribution line under quotes and verse; the blocks below adjust alignment and size */
+    & .quoteblock .attribution,
+    & .verseblock .attribution {
+      margin-block-start: 0.75rem;
+      color: var(--on-surface-variant);
+      font-size: 0.9375rem;
+      font-style: italic;
+
+      & br {
+        display: none;
+      }
+
+      & cite {
+        display: block;
+        color: var(--outline);
+      }
+    }
+
+    /* Quotes: a hanging quotation mark; excerpts, nested quotes and verse use a left rule instead
+       (as in Asciidoctor's default stylesheet) */
+    & .quoteblock {
+      margin-block: 2rem;
+      margin-inline: 1.5rem 1rem;
+
+      & blockquote {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        font-size: 1.15rem;
+        font-style: italic;
+        line-height: 1.75;
+        border: 0; /* BeerCSS gives every blockquote a left rule */
+
+        &::before {
+          position: absolute;
+          color: var(--primary);
+          font-size: 3rem;
+          font-family: var(--font-family-display);
+          font-style: normal;
+          line-height: 1;
+          content: "\201C";
+          inset-block-start: -0.35rem;
+          inset-inline-start: -1.6rem;
+        }
+
+        & > .paragraph:last-child p {
+          margin-block-end: 0;
+        }
+      }
+
+      & .attribution {
+        text-align: end;
+      }
+
+      &.excerpt,
+      & .quoteblock {
+        margin-inline: 0;
+
+        & blockquote {
+          padding-inline-start: 1rem;
+          font-size: inherit;
+          font-style: normal;
+          line-height: inherit;
+          border-inline-start: 0.25rem solid var(--primary);
+
+          &::before {
+            content: none;
+          }
+        }
+
+        & .attribution {
+          padding-inline-start: 1.25rem;
+          font-size: 0.85rem;
+          text-align: start;
+        }
+      }
+    }
+
+    & .verseblock {
+      margin-block: 2rem;
+
+      & pre {
+        margin: 0;
+        padding-block: 0;
+        padding-inline: 1rem 0;
+        background: none;
+        border: 0; /* replaces BeerCSS's tinted pre box */
+        border-inline-start: 0.25rem solid var(--primary);
+        border-radius: 0;
+      }
+
+      & .attribution {
+        padding-inline-start: 1.25rem;
+        font-size: 0.85rem;
+      }
+    }
+
     & .listingblock,
     & .literalblock {
       margin: 1rem 0;
