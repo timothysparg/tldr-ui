@@ -11,7 +11,7 @@
 
 A normal paragraph with an https://example.com[external link], an <<explicit-anchor,internal anchor>> link, an xref:index.adoc[internal xref], and an xref:missing-page.adoc[unresolved xref].
 
-A paragraph with inline `code` and an inline +literal+ plus a footnote: footnote:[This is a footnote.]
+A paragraph with inline `code`, a linked https://example.com[`@Tool`] annotation, and an inline +literal+ plus a footnote: footnote:[This is a footnote.]
 
 [%lead]
 This is a lead paragraph intended to stand out from normal body text.
