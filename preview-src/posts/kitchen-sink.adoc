@@ -342,7 +342,7 @@ ____
 
 ==== Excerpt with source only
 
-[quote.excerpt, 'https://en.wikipedia.org/wiki/Semantic_triple[Semantic triple — Wikipedia]']
+[quote.excerpt, 'https://en.wikipedia.org/wiki/Semantic_triple[Wikipedia: Semantic triple]']
 ____
 A semantic triple, or RDF triple or simply triple, is the atomic data entity in the Resource Description Framework (RDF) data model.
 As its name indicates, a triple is a sequence of three entities that codifies a statement about semantic data in the form of subject–predicate–object expressions.
