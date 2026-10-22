@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.1.0](https://github.com/timothysparg/tldr-ui/compare/v2.0.0...v2.1.0) (2026-10-22)
+
+
+### Features
+
+* add attribution link option for block images ([1dfc70f](https://github.com/timothysparg/tldr-ui/commit/1dfc70f4aca269d3b7a25f3cceab512770209a76))
+* restyle inline code as tinted text with underlined links ([60d8474](https://github.com/timothysparg/tldr-ui/commit/60d84746e8f8db89504fde10383ea1b62d63d670))
+* style quotes, excerpts and verse ([adaf92c](https://github.com/timothysparg/tldr-ui/commit/adaf92c981663cf8e1c00d2eb37567b7561709f2))
+* support video article cards ([0098530](https://github.com/timothysparg/tldr-ui/commit/0098530661ffe6261d1386a3b1a5484a4c948abe))
+
+
+### Bug Fixes
+
+* add vertical spacing around block images ([5079ba9](https://github.com/timothysparg/tldr-ui/commit/5079ba9eba136d59e39bf3d71217595c95c6cc36))
+* limit theme-media role to theme switching ([b72d8e5](https://github.com/timothysparg/tldr-ui/commit/b72d8e501f19ecff19eb03cad062e4f7e9434d73))
+* update page background when switching themes ([4d6b72f](https://github.com/timothysparg/tldr-ui/commit/4d6b72f11d9b874c80cc79b56785caa3856da6ae))
+
 ## [2.0.0](https://github.com/timothysparg/tldr-ui/compare/v1.4.1...v2.0.0) (2026-10-11)
 
 
