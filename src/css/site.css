@@ -233,6 +233,10 @@
     display: none;
   }
 
+  video.article-card-media {
+    display: block;
+  }
+
   body.article,
   main.responsive,
   .grid {
